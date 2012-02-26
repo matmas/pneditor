@@ -1,6 +1,8 @@
 PNEditor (Petri Net editor)
 ========
 
+Download [latest PNEditor](https://github.com/downloads/matmas/pneditor/pneditor-0.51.jar) (0.51)
+
 ![PNEditor screenshot"](https://github.com/matmas/pneditor/raw/master/screenshot.png "PNEditor")
 
 Features:
