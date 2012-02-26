@@ -30,6 +30,7 @@ import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.pneditor.editor.actions.*;
+import org.pneditor.editor.actions.algorithms.LimitationsAction;
 import org.pneditor.editor.canvas.*;
 import org.pneditor.petrinet.*;
 import org.pneditor.editor.filechooser.EpsFileType;
@@ -468,6 +469,14 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		JMenu subnetMenu = new JMenu("Subnet");
 		subnetMenu.setMnemonic('S');
 		menuBar.add(subnetMenu);
+		
+		//asus 2012 algorithms menu
+		JMenu algorithmsMenu = new JMenu("Algorithms");
+		algorithmsMenu.setMnemonic('A');
+		menuBar.add(algorithmsMenu);
+		
+		//asus 2012 algorithms submenu items
+		algorithmsMenu.add(new LimitationsAction(this));
 
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.add(new AboutAction(this));
