@@ -1,0 +1,4 @@
+# Netbeans specific
+build/
+dist/
+nbproject/private/
