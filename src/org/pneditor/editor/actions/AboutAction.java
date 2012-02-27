@@ -43,7 +43,7 @@ public class AboutAction extends AbstractAction {
 		JOptionPane.showOptionDialog(
 				root.getParentFrame(),
 				root.getAppLongName() + "\n" +
-				"<http://code.google.com/p/pneditor/>\n" +
+				"<http://www.pneditor.org/>\n" +
                                 "\n" +
                                 "Copyright (C) 2008-2010 Martin Riesz <riesz.martin" + "@" +"gmail.com>\n" +
                                 "\n" +
