@@ -24,9 +24,7 @@ import java.util.Set;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import org.pneditor.editor.Root;
-import org.pneditor.petrinet.Marking;
-import org.pneditor.petrinet.PetriNet;
-import org.pneditor.petrinet.Transition;
+import org.pneditor.petrinet.*;
 
 /**
  *
@@ -49,7 +47,7 @@ public class BoundednessAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		isUnboundedness = false;
 		PetriNet petriNet = root.getDocument().petriNet;
 		
