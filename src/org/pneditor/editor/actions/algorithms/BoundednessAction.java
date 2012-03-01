@@ -17,10 +17,7 @@
 package org.pneditor.editor.actions.algorithms;
 
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import org.pneditor.editor.Root;
@@ -34,7 +31,7 @@ public class BoundednessAction extends AbstractAction {
 	
 	private Root root;
 	
-	private HashSet<Marking> checkedMarkings;
+	private Stack<Marking> markingsStack;
 	private boolean isUnboundedness;
 	
 	public BoundednessAction(Root root) {
@@ -52,12 +49,15 @@ public class BoundednessAction extends AbstractAction {
 		PetriNet petriNet = root.getDocument().petriNet;
 		
 		Marking m0 = petriNet.getInitialMarking();
-		checkedMarkings = new HashSet<Marking>();
-		checkedMarkings.add(m0);
+		markingsStack = new Stack<Marking>();
+		markingsStack.push(m0);
 		
 		Set<Transition> executableTransitions = m0.getAllEnabledTransitions();
 		for(Transition t : executableTransitions) {
-			checkBranchBoundedness(m0, t);
+			int branchLength = checkBranchBoundedness(m0, t);
+			for (int i=0; i<branchLength; i++) {
+				markingsStack.pop();
+			}
 		}
 		
 		if (isUnboundedness)
@@ -66,28 +66,34 @@ public class BoundednessAction extends AbstractAction {
 			JOptionPane.showMessageDialog(root.getParentFrame(), "Boundedness PetriNet", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	private void checkBranchBoundedness(Marking marking, Transition transition) {
+	private int checkBranchBoundedness(Marking marking, Transition transition) {
 		
 		if (isUnboundedness)
-			return;
+			return 0;
 		
 		Marking newMarking = new Marking(marking);
 		newMarking.fire(transition);
 		
-		for (Marking oldMarking : checkedMarkings) {
+		for (Marking oldMarking : markingsStack) {
 			if (isOmega(newMarking, oldMarking)) {
 				isUnboundedness = true;
-				return;
+				return 0;
 			}
 		}
 		
-		if (!checkedMarkings.contains(newMarking)) {
-			checkedMarkings.add(newMarking);
+		if (!markingsStack.contains(newMarking)) {
+			markingsStack.push(newMarking);
 			Set<Transition> executableTransitions = newMarking.getAllEnabledTransitions();
 			for (Transition t : executableTransitions) {
-				checkBranchBoundedness(newMarking, t);
+				int branchLength = checkBranchBoundedness(newMarking, t);
+				for (int i = 0; i < branchLength; i++) {
+					markingsStack.pop();
+				}
 			}
+			return 1;
 		}
+		
+		return 0;
 		
 	}
 	
