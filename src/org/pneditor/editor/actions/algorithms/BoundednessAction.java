@@ -99,25 +99,35 @@ public class BoundednessAction extends AbstractAction {
 	
 	private boolean isOmega(Marking newMarking, Marking oldMarking) {
 		
-		Set<Transition> newMarkingTransitins = newMarking.getAllEnabledTransitions();
-		Set<Transition> oldMarkingTransitins = oldMarking.getAllEnabledTransitions();
+		Set<Place> newMarkingPlaces = newMarking.getPetriNet().getRootSubnet().getPlaces();
+		Set<Place> oldMarkingPlaces = oldMarking.getPetriNet().getRootSubnet().getPlaces();
 		
-		if (Arrays.equals(newMarkingTransitins.toArray(), oldMarkingTransitins.toArray()) 
-				&& newMarkingTransitins.size() != 0 
-				&& oldMarkingTransitins.size() != 0) {
-			int newMarkCount = 0;
-			Collection<Integer> values = newMarking.map.values();
-			for (Integer val : values) {
-				newMarkCount += val;
+		boolean isOneSharplyHigher = false;
+		
+		for (Place newMarkingPlace : newMarkingPlaces) {
+			
+			int newTokens = newMarking.getTokens(newMarkingPlace);
+			
+			Place oldMarkingPlace = null;
+			for (Place place : oldMarkingPlaces) {
+				if (place.equals(newMarkingPlace)) {
+					oldMarkingPlace = place;
+					break;
+				}
 			}
-			int oldMarkCount = 0;
-			values = oldMarking.map.values();
-			for (Integer val : values) {
-				oldMarkCount += val;
-			}
-			if (newMarkCount > oldMarkCount)
-				return true;
+			
+			int oldTokens = oldMarking.getTokens(oldMarkingPlace);
+			
+			if (! (newTokens >= oldTokens) )
+				return false;
+			else if (newTokens > oldTokens)
+				isOneSharplyHigher = true;
+			
 		}
+		
+		if (isOneSharplyHigher)
+			return true;
+		
 		
 		return false;
 		
