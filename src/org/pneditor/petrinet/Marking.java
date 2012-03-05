@@ -34,7 +34,7 @@ import org.pneditor.util.CollectionTools;
  */
 public class Marking {
 
-	public Map<Place, Integer> map = new ConcurrentHashMap<Place, Integer>();
+	protected Map<Place, Integer> map = new ConcurrentHashMap<Place, Integer>();
 	private PetriNet petriNet;
 	private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true); //fair
 
