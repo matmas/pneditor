@@ -321,8 +321,12 @@ public class Subnet extends TransitionNode {
 	}
 	
 	public Rectangle getBounds() {
-		Rectangle bounds = new Rectangle();
-		for (Element element : elements) {
+		Rectangle bounds = null;
+        
+        for (Element element : elements) {
+            if (bounds == null) {
+                bounds = new Rectangle(element.getStart().x, element.getStart().y);
+            }
 			bounds.add(element.getStart().x, element.getStart().y);
 			bounds.add(element.getEnd().x, element.getEnd().y);
 			bounds.add(element.getStart().x, element.getEnd().y);
@@ -334,6 +338,9 @@ public class Subnet extends TransitionNode {
 				}
 			}
 		}
+        if (bounds == null) {
+            bounds = new Rectangle();
+        }
 		bounds.width++;
 		bounds.height++;
 		return bounds;
