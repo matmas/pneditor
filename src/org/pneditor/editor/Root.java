@@ -33,6 +33,7 @@ import org.pneditor.util.ListEditor;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public interface Root {
+    public DrawingBoard getDrawingBoard();
 	public UndoManager getUndoManager();
 	public File getCurrentDirectory();
 	public void setCurrentDirectory(File currentDirectory);

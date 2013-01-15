@@ -31,13 +31,25 @@ import javax.swing.*;
 import javax.swing.event.*;
 import org.pneditor.editor.actions.*;
 import org.pneditor.editor.canvas.*;
-import org.pneditor.petrinet.*;
 import org.pneditor.editor.filechooser.EpsFileType;
 import org.pneditor.editor.filechooser.FileType;
 import org.pneditor.editor.filechooser.PflowFileType;
 import org.pneditor.editor.filechooser.PngFileType;
 import org.pneditor.editor.filechooser.ViptoolPnmlFileType;
-import org.pneditor.util.*;
+import org.pneditor.petrinet.Arc;
+import org.pneditor.petrinet.Document;
+import org.pneditor.petrinet.Element;
+import org.pneditor.petrinet.Marking;
+import org.pneditor.petrinet.PlaceNode;
+import org.pneditor.petrinet.ReferencePlace;
+import org.pneditor.petrinet.Role;
+import org.pneditor.petrinet.Subnet;
+import org.pneditor.petrinet.Transition;
+import org.pneditor.petrinet.TransitionNode;
+import org.pneditor.util.CollectionTools;
+import org.pneditor.util.GraphicsTools;
+import org.pneditor.util.ListEditor;
+
 
 /**
  * This class is the main point of the application.
@@ -45,8 +57,8 @@ import org.pneditor.util.*;
  */
 public class RootPflow implements Root, WindowListener, ListSelectionListener, SelectionChangedListener {
 	
-	private static final String APP_NAME = "PNEditor";
-	private static final String APP_VERSION = "0.51";
+    private static final String APP_NAME = "PNEditor";
+	private static final String APP_VERSION = "0.52";
 	
 	public RootPflow() {
 		loadPreferences();
@@ -81,30 +93,36 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	protected UndoAction undo = new UndoAction(this);
 	protected RedoAction redo = new RedoAction(this);
 	protected UndoManager undoManager = new UndoManager(this, undo, redo);
+    @Override
 	public UndoManager getUndoManager() {
 		return undoManager;
 	}
 	
 	// Current directory - per application
 	protected File currentDirectory;
+    @Override
 	public File getCurrentDirectory() {
 		return currentDirectory;
 	}
+    @Override
 	public void setCurrentDirectory(File currentDirectory) {
 		this.currentDirectory = currentDirectory;
 	}
 	
 	// Main frame - per application
 	protected MainFrame mainFrame = new MainFrame(getNewWindowTitle());
+    @Override
 	public Frame getParentFrame() {
 		return mainFrame;
 	}
 	
 	// Document - per tab
 	protected Document document = new Document();
+    @Override
 	public Document getDocument() {
 		return document;
 	}
+    @Override
 	public void setDocument(Document document) {
 		this.document = document;
 		getDocument().petriNet.resetView();
@@ -115,9 +133,11 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	
 	// Clicked element - per tab
 	protected Element clickedElement = null;
+    @Override
 	public Element getClickedElement() {
 		return clickedElement;
 	}
+    @Override
 	public void setClickedElement(Element clickedElement) {
 		this.clickedElement = clickedElement;
 		enableOnlyPossibleActions();
@@ -125,14 +145,17 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	
 	// Selection - per tab
 	protected Selection selection = new Selection();
+    @Override
 	public Selection getSelection() {
 		return selection;
 	}
+    @Override
 	public void selectionChanged() {
 		enableOnlyPossibleActions();
 	}
 	
 	// Selection + clicked element
+    @Override
 	public Set<Element> getSelectedElementsWithClickedElement() {
 		Set<Element> selectedElements = new HashSet<Element>();
 		selectedElements.addAll(getSelection().getElements());
@@ -142,6 +165,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	
 	// List editor - per tab
 	protected ListEditor<Role> roleEditor; //TODO
+    @Override
 	public void valueChanged(ListSelectionEvent e) {
 		enableOnlyPossibleActions();
 		repaintCanvas();
@@ -149,82 +173,100 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	
 	
 	//per tab
+    @Override
 	public void selectTool_Select() {
 		select.setSelected(true);
 		canvas.activeCursor = Cursor.getDefaultCursor();
 		canvas.setCursor(canvas.activeCursor);
 		repaintCanvas();
 	}
+    @Override
 	public boolean isSelectedTool_Select() {
 		return select.isSelected();
 	}
 	
+    @Override
 	public void selectTool_Place() {
 		place.setSelected(true);
 		canvas.activeCursor = GraphicsTools.getCursor("pneditor/canvas/place.gif", new Point(16, 16));
 		canvas.setCursor(canvas.activeCursor);
 		repaintCanvas();
 	}
+    @Override
 	public boolean isSelectedTool_Place() {
 		return place.isSelected();
 	}
 	
+    @Override
 	public void selectTool_Transition() {
 		transition.setSelected(true);
 		canvas.activeCursor = GraphicsTools.getCursor("pneditor/canvas/transition.gif", new Point(16, 16));
 		canvas.setCursor(canvas.activeCursor);
 		repaintCanvas();
 	}
+    @Override
 	public boolean isSelectedTool_Transition() {
 		return transition.isSelected();
 	}
 	
+    @Override
 	public void selectTool_Arc() {
 		arc.setSelected(true);
 		canvas.activeCursor = GraphicsTools.getCursor("pneditor/canvas/arc.gif", new Point(0, 0));
 		canvas.setCursor(canvas.activeCursor);
 		repaintCanvas();
 	}
+    @Override
 	public boolean isSelectedTool_Arc() {
 		return arc.isSelected();
 	}
 	
+    @Override
 	public void selectTool_Token() {
 		token.setSelected(true);
 		canvas.activeCursor = GraphicsTools.getCursor("pneditor/canvas/token_or_fire.gif", new Point(16, 0));
 		canvas.setCursor(canvas.activeCursor);
 		repaintCanvas();
 	}
+    @Override
 	public boolean isSelectedTool_Token() {
 		return token.isSelected();
 	}
 
+    @Override
 	public ListEditor<Role> getRoleEditor() {
 		return roleEditor;
 	}
 
+    @Override
 	public JPopupMenu getPlacePopup() {
 		return placePopup;
 	}
 
+    @Override
 	public JPopupMenu getTransitionPopup() {
 		return transitionPopup;
 	}
 
+    @Override
 	public JPopupMenu getArcEdgePopup() {
 		return arcEdgePopup;
 	}
 
+    @Override
 	public JPopupMenu getSubnetPopup() {
 		return subnetPopup;
 	}
 
+    @Override
 	public JPopupMenu getCanvasPopup() {
 		return canvasPopup;
 	}
 	
 	//per tab
 	protected Canvas canvas = new Canvas(this);
+    protected DrawingBoard drawingBoard = new DrawingBoard(canvas);
+    
 	protected JPopupMenu placePopup;
 	protected JPopupMenu transitionPopup;
 	protected JPopupMenu arcEdgePopup;
@@ -247,20 +289,24 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	protected Action openSubnet;
 	protected Action closeSubnet;
 
+    @Override
 	public void openSubnet() {
 		openSubnet.actionPerformed(null);
 	}
 
+    @Override
 	public void closeSubnet() {
 		closeSubnet.actionPerformed(null);
 	}
 	
+    @Override
 	public void refreshAll() {
 		canvas.repaint();
 		enableOnlyPossibleActions();
 		getRoleEditor().refreshSelected();
 	}
 	
+    @Override
 	public void repaintCanvas() {
 		canvas.repaint();
 	}
@@ -305,12 +351,19 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		setPlaceStatic.setEnabled(isPlaceNode);
 	}
 	
+    @Override
 	public void windowClosed(WindowEvent e) {}
+    @Override
 	public void windowIconified(WindowEvent e) {}
+    @Override
 	public void windowDeiconified(WindowEvent e) {}
+    @Override
 	public void windowActivated(WindowEvent e) {}
+    @Override
 	public void windowDeactivated(WindowEvent e) {}
+    @Override
 	public void windowOpened(WindowEvent e) {}
+    @Override
 	public void windowClosing(WindowEvent e) {
 		quitApplication();
 	}
@@ -318,6 +371,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	/**
 	 * Terminates the application
 	 */
+    @Override
 	public void quitApplication() {
 		if (!this.isModified()) {
 			quitNow();
@@ -559,7 +613,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		splitPane.setDividerSize(6);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setLeftComponent(getRoleEditor());
-		splitPane.setRightComponent(canvas);
+		splitPane.setRightComponent(drawingBoard);
 		splitPane.setDividerLocation(120);
 		
 		mainFrame.add(splitPane, BorderLayout.CENTER);
@@ -628,4 +682,9 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	public String getAppLongName() {
 		return APP_NAME + ", version " + APP_VERSION;
 	}
+
+    @Override
+    public DrawingBoard getDrawingBoard() {
+        return drawingBoard;
+    }
 }

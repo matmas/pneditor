@@ -22,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.Subnet;
 import org.pneditor.petrinet.Transition;
@@ -36,13 +37,11 @@ import org.pneditor.util.GraphicsTools;
  */
 public class RoleFeature implements Feature {
 
-	private Root root;
 	private Canvas canvas;
 	
 	private BufferedImage fullRoleImage, partialRoleImage, mixedRoleImage;
 	
-	public RoleFeature(Root root, Canvas canvas) {
-		this.root = root;
+	public RoleFeature(Canvas canvas) {
 		this.canvas = canvas;
 		fullRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/fullrole.gif");
 		partialRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/partialrole.gif");
@@ -54,15 +53,15 @@ public class RoleFeature implements Feature {
 		Set<TransitionNode> fullyIncluded = null;
 		Set<Subnet> mixedIncluded = new HashSet<Subnet>();
 		
-		for (Role role : root.getRoleEditor().getSelectedElements()) {
+		for (Role role : PNEditor.getRoot().getRoleEditor().getSelectedElements()) {
 			Set<TransitionNode> included = new HashSet<TransitionNode>();
 			
-			for (Transition transition : root.getDocument().petriNet.getCurrentSubnet().getTransitions()) {
+			for (Transition transition : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getTransitions()) {
 				if (role.transitions.contains(transition)) {
 					included.add(transition);
 				}
 			}
-			for (Subnet subnet : root.getDocument().petriNet.getCurrentSubnet().getSubnets()) {
+			for (Subnet subnet : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getSubnets()) {
 				Set<Transition> transitions = subnet.getTransitionsRecursively();
 				if (role.transitions.containsAll(transitions)) {
 					included.add(subnet);

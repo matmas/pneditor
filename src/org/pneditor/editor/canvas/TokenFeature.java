@@ -22,14 +22,15 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import org.pneditor.petrinet.Element;
-import org.pneditor.petrinet.PlaceNode;
 import java.awt.event.MouseEvent;
-import org.pneditor.petrinet.Marking;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.editor.commands.AddTokenCommand;
 import org.pneditor.editor.commands.FireTransitionCommand;
 import org.pneditor.editor.commands.RemoveTokenCommand;
+import org.pneditor.petrinet.Element;
+import org.pneditor.petrinet.Marking;
+import org.pneditor.petrinet.PlaceNode;
 import org.pneditor.petrinet.Transition;
 import org.pneditor.util.GraphicsTools;
 
@@ -39,14 +40,12 @@ import org.pneditor.util.GraphicsTools;
  */
 class TokenFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
 	private Cursor tokenCursor;
 	private Cursor fireCursor;
 	
-	TokenFeature(Root root, Canvas canvas) {
-		this.root = root;
+	TokenFeature(Canvas canvas) {
 		this.canvas = canvas;
 		tokenCursor = GraphicsTools.getCursor("pneditor/canvas/token.gif", new Point(16, 0));
 		fireCursor = GraphicsTools.getCursor("pneditor/canvas/fire.gif", new Point(16, 0));
@@ -56,21 +55,21 @@ class TokenFeature implements Feature {
 		int x = event.getX();
 		int y = event.getY();
 		int mouseButton = event.getButton();
-		Marking initialMarking = root.getCurrentMarking();
+		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
 		
-		if (root.getClickedElement() != null &&
-			root.isSelectedTool_Token()
+		if (PNEditor.getRoot().getClickedElement() != null &&
+			PNEditor.getRoot().isSelectedTool_Token()
 		) {
-			Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+			Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 
 			if (targetElement instanceof PlaceNode) {
 				PlaceNode placeNode = (PlaceNode)targetElement;
 				if (mouseButton == MouseEvent.BUTTON1) {
-					root.getUndoManager().executeCommand(new AddTokenCommand(placeNode, initialMarking));
+					PNEditor.getRoot().getUndoManager().executeCommand(new AddTokenCommand(placeNode, initialMarking));
 				}
 				else if (mouseButton == MouseEvent.BUTTON3) {
 					if (initialMarking.getTokens(placeNode) > 0) {
-						root.getUndoManager().executeCommand(new RemoveTokenCommand(placeNode, initialMarking));
+						PNEditor.getRoot().getUndoManager().executeCommand(new RemoveTokenCommand(placeNode, initialMarking));
 					}
 				}
 			}
@@ -78,7 +77,7 @@ class TokenFeature implements Feature {
 				Transition transition = (Transition)targetElement;
 				if (mouseButton == MouseEvent.BUTTON1) {
 					if (initialMarking.isEnabled(transition)) {
-						root.getUndoManager().executeCommand(new FireTransitionCommand(transition, initialMarking));
+						PNEditor.getRoot().getUndoManager().executeCommand(new FireTransitionCommand(transition, initialMarking));
 					}
 				}
 			}
@@ -86,10 +85,10 @@ class TokenFeature implements Feature {
 	}
 	
 	public void setHoverEffects(int x, int y) {
-		Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
-		Marking initialMarking = root.getCurrentMarking();
+		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
 
-		if (root.isSelectedTool_Token()) {
+		if (PNEditor.getRoot().isSelectedTool_Token()) {
 			if (targetElement instanceof PlaceNode) {
 				canvas.highlightedElements.add(targetElement);
 				targetElement.highlightColor = Colors.pointingColor;
@@ -111,10 +110,10 @@ class TokenFeature implements Feature {
 	}
 
 	public void drawForeground(Graphics g) {
-		Marking initialMarking = root.getCurrentMarking();
+		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
 
-		if (root.isSelectedTool_Token()) {
-			for (Element element : root.getDocument().petriNet.getCurrentSubnet().getElements()) {
+		if (PNEditor.getRoot().isSelectedTool_Token()) {
+			for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
 				if (element instanceof Transition) {
 					Transition transition = (Transition)element;
 					if (initialMarking.isEnabled(transition)) {
@@ -132,9 +131,9 @@ class TokenFeature implements Feature {
 	}
 	
 	public void setCursor(int x, int y) {
-		Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 		
-		if (root.isSelectedTool_Token() &&
+		if (PNEditor.getRoot().isSelectedTool_Token() &&
 			targetElement != null
 		) {
 			if (targetElement instanceof PlaceNode) {

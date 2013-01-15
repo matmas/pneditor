@@ -22,6 +22,7 @@ import org.pneditor.petrinet.Element;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.editor.commands.MoveElementCommand;
 import org.pneditor.editor.commands.MoveElementsCommand;
@@ -33,11 +34,9 @@ import org.pneditor.petrinet.Node;
  */
 class DraggingFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
-	DraggingFeature(Root root, Canvas canvas) {
-		this.root = root;
+	DraggingFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -55,19 +54,19 @@ class DraggingFeature implements Feature {
 		
 		if (!doubleclick) {
 			if (mouseButton == MouseEvent.BUTTON1 &&
-				root.getClickedElement() != null &&
+				PNEditor.getRoot().getClickedElement() != null &&
 				(
-					root.isSelectedTool_Select() ||
-					root.isSelectedTool_Place() ||
-					root.isSelectedTool_Transition()
+					PNEditor.getRoot().isSelectedTool_Select() ||
+					PNEditor.getRoot().isSelectedTool_Place() ||
+					PNEditor.getRoot().isSelectedTool_Transition()
 				) &&
-				root.getClickedElement() instanceof Node
+				PNEditor.getRoot().getClickedElement() instanceof Node
 			) {
-				if (!root.getSelection().contains(root.getClickedElement())) {
-					root.getSelection().clear();
+				if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+					PNEditor.getRoot().getSelection().clear();
 				}
 
-				draggedElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+				draggedElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 				deltaPosition = new Point();
 				prevDragX = x;
 				prevDragY = y;
@@ -96,8 +95,8 @@ class DraggingFeature implements Feature {
 	}
 
 	private void doTheMoving(int mouseX, int mouseY) {
-		if (!root.getSelection().isEmpty()) {
-			for (Element selectedElement : root.getSelection()) {
+		if (!PNEditor.getRoot().getSelection().isEmpty()) {
+			for (Element selectedElement : PNEditor.getRoot().getSelection()) {
 				selectedElement.moveBy(mouseX - prevDragX, mouseY - prevDragY);
 			}
 		}
@@ -108,25 +107,25 @@ class DraggingFeature implements Feature {
 	
 	private void saveTheMoving() {
 		if (!deltaPosition.equals(new Point(0, 0))) {
-			if (!root.getSelection().isEmpty()) {
-				for (Element selectedElement : root.getSelection()) {
+			if (!PNEditor.getRoot().getSelection().isEmpty()) {
+				for (Element selectedElement : PNEditor.getRoot().getSelection()) {
 					selectedElement.moveBy(-deltaPosition.x, -deltaPosition.y); //move back to original positions
 				}
-				root.getUndoManager().executeCommand(new MoveElementsCommand(root.getSelection().getElements(), deltaPosition));
+				PNEditor.getRoot().getUndoManager().executeCommand(new MoveElementsCommand(PNEditor.getRoot().getSelection().getElements(), deltaPosition));
 			}
 			else {
 				draggedElement.moveBy(-deltaPosition.x, -deltaPosition.y);  //move back to original position
-				root.getUndoManager().executeCommand(new MoveElementCommand(draggedElement, deltaPosition));
+				PNEditor.getRoot().getUndoManager().executeCommand(new MoveElementCommand(draggedElement, deltaPosition));
 			}
 		}
 	}
 
 	public void setCursor(int x, int y) {
-		Element element = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		Element element = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 
-		if (root.isSelectedTool_Select() ||
-			root.isSelectedTool_Place() ||
-			root.isSelectedTool_Transition()
+		if (PNEditor.getRoot().isSelectedTool_Select() ||
+			PNEditor.getRoot().isSelectedTool_Place() ||
+			PNEditor.getRoot().isSelectedTool_Transition()
 		) {
 			if (element != null && element instanceof Node) {
 				canvas.alternativeCursor = Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);

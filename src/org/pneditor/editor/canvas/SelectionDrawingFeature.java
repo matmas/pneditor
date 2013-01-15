@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.Element;
 
@@ -30,11 +31,9 @@ import org.pneditor.petrinet.Element;
  */
 class SelectionDrawingFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
-	SelectionDrawingFeature(Root root, Canvas canvas) {
-		this.root = root;
+	SelectionDrawingFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -48,18 +47,18 @@ class SelectionDrawingFeature implements Feature {
 		int mouseButton = event.getButton();
 		
 		if (mouseButton == MouseEvent.BUTTON1 &&
-			root.getClickedElement() == null &&
-			root.isSelectedTool_Select()
+			PNEditor.getRoot().getClickedElement() == null &&
+			PNEditor.getRoot().isSelectedTool_Select()
 		) {
 			selecting = true;
 			visualSelection.setStart(x, y);
 			visualSelection.setEnd(x, y);
 			canvas.repaint();
 			if (event.isShiftDown()) {
-				previousSelection.addAll(root.getSelection().getElements());
+				previousSelection.addAll(PNEditor.getRoot().getSelection().getElements());
 			}
 			else {
-				root.getSelection().clear();
+				PNEditor.getRoot().getSelection().clear();
 				previousSelection.clear();
 			}
 		}
@@ -80,15 +79,15 @@ class SelectionDrawingFeature implements Feature {
 	}
 
 	public void setHoverEffects(int x, int y) {
-		for (Element selectedElement : root.getSelection()) {
+		for (Element selectedElement : PNEditor.getRoot().getSelection()) {
 			canvas.highlightedElements.add(selectedElement);
 			selectedElement.highlightColor = Colors.selectedColor;
 		}
 
 		if (selecting) {
-			root.getSelection().clear();
-			root.getSelection().addAll(previousSelection);
-			for (Element visualElement : root.getDocument().petriNet.getCurrentSubnet().getElements()) {
+			PNEditor.getRoot().getSelection().clear();
+			PNEditor.getRoot().getSelection().addAll(previousSelection);
+			for (Element visualElement : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
 				if (visualSelection.containsPoint(visualElement.getCenter().x, visualElement.getCenter().y)) {
 					addElementToSelection(visualElement);
 				}
@@ -101,7 +100,7 @@ class SelectionDrawingFeature implements Feature {
 		canvas.highlightedElements.add(element);
 		element.highlightColor = Colors.selectedColor;
 
-		root.getSelection().add(element);
+		PNEditor.getRoot().getSelection().add(element);
 	}
 	
 	public void drawForeground(Graphics g) {

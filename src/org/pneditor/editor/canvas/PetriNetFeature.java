@@ -19,7 +19,10 @@ package org.pneditor.editor.canvas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollBar;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.petrinet.DrawingOptions;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.Element;
@@ -30,28 +33,26 @@ import org.pneditor.petrinet.Element;
  */
 public class PetriNetFeature implements Feature {
 
-	private Root root;
 	private Canvas canvas;
 	private DrawingOptions drawingOptions = new DrawingOptions();
 
-	public PetriNetFeature(Root root, Canvas canvas) {
-		this.root = root;
+	public PetriNetFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 
 	public void drawMainLayer(Graphics g) {
-		for (Element element : root.getDocument().petriNet.getCurrentSubnet().getElements()) {
+		for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
 			if (element.highlightColor != null) {
 				Color previousColor = element.getColor();
 
 				element.setColor(element.highlightColor);
-				drawingOptions.setMarking(root.getCurrentMarking());
+				drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
 				element.draw(g, drawingOptions); //TODO
 
 				element.setColor(previousColor);
 			}
 			else {
-				drawingOptions.setMarking(root.getCurrentMarking());
+				drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
 				element.draw(g, drawingOptions); //TODO
 			}
 		}

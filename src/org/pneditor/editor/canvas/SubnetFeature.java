@@ -20,6 +20,7 @@ package org.pneditor.editor.canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.Subnet;
 
@@ -29,11 +30,9 @@ import org.pneditor.petrinet.Subnet;
  */
 public class SubnetFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
-	public SubnetFeature(Root root, Canvas canvas) {
-		this.root = root;
+	public SubnetFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -42,22 +41,22 @@ public class SubnetFeature implements Feature {
 		int y = event.getY();
 		boolean doubleclick = event.getClickCount() == 2;
 		if (doubleclick) {
-			if (root.getClickedElement() instanceof Subnet) {
-				root.openSubnet();
+			if (PNEditor.getRoot().getClickedElement() instanceof Subnet) {
+				PNEditor.getRoot().openSubnet();
 			}
-			else if (root.getClickedElement() == null) {
-				root.closeSubnet();
+			else if (PNEditor.getRoot().getClickedElement() == null) {
+				PNEditor.getRoot().closeSubnet();
 			}
 		}
 	}
 	
 	public void drawForeground(Graphics g) {
-		if (!root.getDocument().petriNet.isCurrentSubnetRoot()) {
+		if (!PNEditor.getRoot().getDocument().petriNet.isCurrentSubnetRoot()) {
 			StringBuilder subnetPath = new StringBuilder("Subnet: ");
-			for (Subnet subnet : root.getDocument().petriNet.getOpenedSubnets()) {
-				if (subnet != root.getDocument().petriNet.getRootSubnet()) {
+			for (Subnet subnet : PNEditor.getRoot().getDocument().petriNet.getOpenedSubnets()) {
+				if (subnet != PNEditor.getRoot().getDocument().petriNet.getRootSubnet()) {
 					subnetPath.append(subnet.getLabel());
-					if (subnet != root.getDocument().petriNet.getCurrentSubnet()) {
+					if (subnet != PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet()) {
 						subnetPath.append(" > ");
 					}
 				}

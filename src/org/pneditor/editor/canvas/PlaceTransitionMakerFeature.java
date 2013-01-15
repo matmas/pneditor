@@ -19,6 +19,7 @@ package org.pneditor.editor.canvas;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.editor.commands.AddPlaceCommand;
 import org.pneditor.editor.commands.AddTransitionCommand;
@@ -30,11 +31,9 @@ import org.pneditor.util.CollectionTools;
  */
 public class PlaceTransitionMakerFeature implements Feature {
 
-	private Root root;
 	private Canvas canvas;
 	
-	public PlaceTransitionMakerFeature(Root root, Canvas canvas) {
-		this.root = root;
+	public PlaceTransitionMakerFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -44,16 +43,16 @@ public class PlaceTransitionMakerFeature implements Feature {
 		int mouseButton = event.getButton();
 		
 		if (mouseButton == MouseEvent.BUTTON1) {
-			if (root.getClickedElement() == null) {
-				if (root.isSelectedTool_Place()) {
-					root.getSelection().clear();
-					root.getUndoManager().executeCommand(new AddPlaceCommand(root.getDocument().petriNet.getCurrentSubnet(), x, y, root.getDocument().petriNet));
-					root.setClickedElement(CollectionTools.getLastElement(root.getDocument().petriNet.getCurrentSubnet().getElements()));
+			if (PNEditor.getRoot().getClickedElement() == null) {
+				if (PNEditor.getRoot().isSelectedTool_Place()) {
+					PNEditor.getRoot().getSelection().clear();
+					PNEditor.getRoot().getUndoManager().executeCommand(new AddPlaceCommand(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet(), x, y, PNEditor.getRoot().getDocument().petriNet));
+					PNEditor.getRoot().setClickedElement(CollectionTools.getLastElement(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()));
 				}
-				else if (root.isSelectedTool_Transition()) {
-					root.getSelection().clear();
-					root.getUndoManager().executeCommand(new AddTransitionCommand(root.getDocument().petriNet.getCurrentSubnet(), x, y, root.getDocument().petriNet));
-					root.setClickedElement(CollectionTools.getLastElement(root.getDocument().petriNet.getCurrentSubnet().getElements()));
+				else if (PNEditor.getRoot().isSelectedTool_Transition()) {
+					PNEditor.getRoot().getSelection().clear();
+					PNEditor.getRoot().getUndoManager().executeCommand(new AddTransitionCommand(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet(), x, y, PNEditor.getRoot().getDocument().petriNet));
+					PNEditor.getRoot().setClickedElement(CollectionTools.getLastElement(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()));
 				}
 			}
 		}

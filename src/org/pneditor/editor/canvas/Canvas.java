@@ -28,7 +28,10 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.pneditor.editor.DrawingBoard;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
+import org.pneditor.util.Point;
 
 /**
  *
@@ -41,39 +44,62 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	public Cursor activeCursor;
 	private List<Feature> features = new ArrayList<Feature>();
 	private Root root;
-	
+    private ScrollingFeature scrollingFeature;
+    private boolean scrollingFeatureInstalled = false;
+    
 	public Canvas(Root root) {
-		this.root = root;
-		
+        this.root = root;
 		setBackground(Color.white);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
 		
-		features.add(new ClickFeature(root, this));
-		features.add(new PanningFeature(root, this));
-		features.add(new DraggingFeature(root, this));
-		features.add(new SelectionDrawingFeature(root, this));
-		features.add(new TokenFeature(root, this));
-		features.add(new EdgeZigzagFeature(root, this));
-		features.add(new RoleFeature(root, this));
-		features.add(new PlaceTransitionMakerFeature(root, this));
-		features.add(new PopupMenuFeature(root, this));
-		features.add(new SubnetFeature(root, this));
-		features.add(new ArcFeature(root, this));
-		features.add(new PetriNetFeature(root, this));
+		features.add(new ClickFeature(this));
+//		features.add(new PanningFeature(this));
+        scrollingFeature = new ScrollingFeature(this);
+        features.add(scrollingFeature);
+		features.add(new DraggingFeature(this));
+		features.add(new SelectionDrawingFeature(this));
+		features.add(new TokenFeature(this));
+		features.add(new EdgeZigzagFeature(this));
+		features.add(new RoleFeature(this));
+		features.add(new PlaceTransitionMakerFeature(this));
+		features.add(new PopupMenuFeature(this));
+		features.add(new SubnetFeature(this));
+		features.add(new ArcFeature(this));
+		features.add(new PetriNetFeature(this));
 	}
-	
+
+    public Root getRoot() {
+        return root;
+    }
+    
 	public int getTranslationX() {
-		return root.getDocument().petriNet.getCurrentSubnet().getViewTranslation().x + getWidth() / 2;
+		return PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getViewTranslation().x + getWidth() / 2;
 	}
 	
 	public int getTranslationY() {
-		return root.getDocument().petriNet.getCurrentSubnet().getViewTranslation().y + getHeight() / 2;
+		return PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getViewTranslation().y + getHeight() / 2;
 	}
+    
+    public Point getViewTranslation() {
+        return new Point(
+                PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getViewTranslation()
+                );
+    }
+    
+    public void setViewTranslation(Point newViewTranslation) {
+        PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().setViewTranslation(newViewTranslation.getPoint());
+    }
 	
 	@Override
 	public void paintComponent(Graphics g) {
+        if (!scrollingFeatureInstalled) {
+            PNEditor.getRoot().getDrawingBoard().getHorizontalScrollBar().addAdjustmentListener(scrollingFeature);
+            PNEditor.getRoot().getDrawingBoard().getVerticalScrollBar().addAdjustmentListener(scrollingFeature);
+            scrollingFeatureInstalled = true;
+        }
+        
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		super.paintComponent(g);
@@ -90,37 +116,31 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
 	public void mouseWheelMoved(MouseWheelEvent e)
     {
 		if (e.getWheelRotation() == 1) {
-			if (root.isSelectedTool_Place())
-				root.selectTool_Transition();
-			else if (root.isSelectedTool_Transition())
-				root.selectTool_Arc();
-			else if (root.isSelectedTool_Arc())
-				root.selectTool_Token();
-			else if (root.isSelectedTool_Token())
-				root.selectTool_Place();
+			if (PNEditor.getRoot().isSelectedTool_Place())
+				PNEditor.getRoot().selectTool_Transition();
+			else if (PNEditor.getRoot().isSelectedTool_Transition())
+				PNEditor.getRoot().selectTool_Arc();
+			else if (PNEditor.getRoot().isSelectedTool_Arc())
+				PNEditor.getRoot().selectTool_Token();
+			else if (PNEditor.getRoot().isSelectedTool_Token())
+				PNEditor.getRoot().selectTool_Place();
 			else
-				root.selectTool_Place();
+				PNEditor.getRoot().selectTool_Place();
 		}
 		else if (e.getWheelRotation() == -1) {
-			if (root.isSelectedTool_Place())
-				root.selectTool_Token();
-			else if (root.isSelectedTool_Transition())
-				root.selectTool_Place();
-			else if (root.isSelectedTool_Arc())
-				root.selectTool_Transition();
-			else if (root.isSelectedTool_Token())
-				root.selectTool_Arc();
+			if (PNEditor.getRoot().isSelectedTool_Place())
+				PNEditor.getRoot().selectTool_Token();
+			else if (PNEditor.getRoot().isSelectedTool_Transition())
+				PNEditor.getRoot().selectTool_Place();
+			else if (PNEditor.getRoot().isSelectedTool_Arc())
+				PNEditor.getRoot().selectTool_Transition();
+			else if (PNEditor.getRoot().isSelectedTool_Token())
+				PNEditor.getRoot().selectTool_Arc();
 			else
-				root.selectTool_Token();
+				PNEditor.getRoot().selectTool_Token();
 		}
 		repaint();
 		setHoverEffects(e.getX(), e.getY());
@@ -142,15 +162,15 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 			event.isPopupTrigger(),
 			event.getButton());
 		
-		root.setClickedElement(root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y));
+		PNEditor.getRoot().setClickedElement(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y));
 		
 		for (Feature f : features) {
 			f.mousePressed(event);
 		}
 		
 		if (event.getButton() == MouseEvent.BUTTON3) {
-			if (root.getClickedElement() == null) { // The user did not click on a shape.
-				root.selectTool_Select();
+			if (PNEditor.getRoot().getClickedElement() == null) { // The user did not click on a shape.
+				PNEditor.getRoot().selectTool_Select();
 			}
 		}
 		

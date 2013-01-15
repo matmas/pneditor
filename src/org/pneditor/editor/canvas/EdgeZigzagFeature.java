@@ -24,6 +24,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.petrinet.Edge;
 import org.pneditor.editor.Root;
 import org.pneditor.editor.commands.SetEdgeZigzagPointCommand;
@@ -36,11 +37,9 @@ import org.pneditor.util.GraphicsTools;
  */
 class EdgeZigzagFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
-	EdgeZigzagFeature(Root root, Canvas canvas) {
-		this.root = root;
+	EdgeZigzagFeature(Canvas canvas) {
 		this.canvas = canvas;
 		visualHandle.color = Colors.pointingColor;
 		visualHandle.setSize(ArcEdge.nearTolerance, ArcEdge.nearTolerance);
@@ -61,20 +60,20 @@ class EdgeZigzagFeature implements Feature {
 		int mouseButton = event.getButton();
 		
 		if (mouseButton == MouseEvent.BUTTON1 &&
-			root.getClickedElement() != null &&
+			PNEditor.getRoot().getClickedElement() != null &&
 			(
-				root.isSelectedTool_Select() ||
-				root.isSelectedTool_Place() ||
-				root.isSelectedTool_Transition() ||
-				root.isSelectedTool_Arc() ||
-				root.isSelectedTool_Token() && !(root.getClickedElement() instanceof PlaceNode)
+				PNEditor.getRoot().isSelectedTool_Select() ||
+				PNEditor.getRoot().isSelectedTool_Place() ||
+				PNEditor.getRoot().isSelectedTool_Transition() ||
+				PNEditor.getRoot().isSelectedTool_Arc() ||
+				PNEditor.getRoot().isSelectedTool_Token() && !(PNEditor.getRoot().getClickedElement() instanceof PlaceNode)
 			) &&
-			root.getClickedElement() instanceof ArcEdge
+			PNEditor.getRoot().getClickedElement() instanceof ArcEdge
 		) {
-			if (!root.getSelection().contains(root.getClickedElement())) {
-				root.getSelection().clear();
+			if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+				PNEditor.getRoot().getSelection().clear();
 			}
-			edge = (Edge)root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+			edge = (Edge)PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 			
 			oldBreakPoints = edge.getBreakPointsCopy();
 			startingMouseLocation = new Point(x, y);
@@ -109,20 +108,20 @@ class EdgeZigzagFeature implements Feature {
 			if (change) {
 				edge.setBreakPoints(oldBreakPoints);
 				Point targetLocation = new Point(x, y);
-				root.getUndoManager().executeCommand(new SetEdgeZigzagPointCommand(edge, startingMouseLocation, targetLocation));
+				PNEditor.getRoot().getUndoManager().executeCommand(new SetEdgeZigzagPointCommand(edge, startingMouseLocation, targetLocation));
 			}
 			started = false;
 		}
 	}
 	
 	public void setHoverEffects(int x, int y) {
-		if (root.isSelectedTool_Select() ||
-			root.isSelectedTool_Place() ||
-			root.isSelectedTool_Transition() ||
-			root.isSelectedTool_Arc() ||
-			root.isSelectedTool_Token()
+		if (PNEditor.getRoot().isSelectedTool_Select() ||
+			PNEditor.getRoot().isSelectedTool_Place() ||
+			PNEditor.getRoot().isSelectedTool_Transition() ||
+			PNEditor.getRoot().isSelectedTool_Arc() ||
+			PNEditor.getRoot().isSelectedTool_Token()
 		) {
-			Element element = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+			Element element = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 			boolean drawHandle = false;
 			if (element instanceof ArcEdge) {
 				ArcEdge anArc = (ArcEdge)element;

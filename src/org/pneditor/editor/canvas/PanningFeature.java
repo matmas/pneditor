@@ -21,6 +21,7 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 
 /**
@@ -29,11 +30,9 @@ import org.pneditor.editor.Root;
  */
 class PanningFeature implements Feature {
 
-	private Root root;
 	private Canvas canvas;
 	
-	PanningFeature(Root root, Canvas canvas) {
-		this.root = root;
+	PanningFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -81,9 +80,9 @@ class PanningFeature implements Feature {
 	}
 
 	private void doThePanning(int mouseX, int mouseY) {
-		Point viewTranslation = root.getDocument().petriNet.getCurrentSubnet().getViewTranslation();
+		Point viewTranslation = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getViewTranslation();
 		viewTranslation.translate(mouseX - prevDragX, mouseY - prevDragY);
-		root.getDocument().petriNet.getCurrentSubnet().setViewTranslation(viewTranslation);
+		PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().setViewTranslation(viewTranslation);
 	}
 
 	public void setCursor(int x, int y) {

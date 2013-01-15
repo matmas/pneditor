@@ -23,7 +23,7 @@ package org.pneditor.editor;
  */
 public class Main {
 	public static void main(String[] args) {
-		new RootPflow();
+		PNEditor.setRoot(new RootPflow());
 //		try {
 //			Document document = new DocumentImporter().readFromFileWithXslt(new File("/home/matmas/original.pnml"), new PnmlFileType().getLoadXslt());
 //			root.setDocument(document);

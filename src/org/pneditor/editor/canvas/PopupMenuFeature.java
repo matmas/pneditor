@@ -20,6 +20,7 @@ package org.pneditor.editor.canvas;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.ArcEdge;
 import org.pneditor.petrinet.PlaceNode;
@@ -32,11 +33,9 @@ import org.pneditor.petrinet.Transition;
  */
 public class PopupMenuFeature implements Feature {
 
-	private Root root;
 	private Canvas canvas;
 
-	public PopupMenuFeature(Root root, Canvas canvas) {
-		this.root = root;
+	public PopupMenuFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -49,45 +48,45 @@ public class PopupMenuFeature implements Feature {
 		int realY = y + canvas.getTranslationY();
 		
 		if (mouseButton == MouseEvent.BUTTON3) {
-			if (root.getClickedElement() != null &&
+			if (PNEditor.getRoot().getClickedElement() != null &&
 				(
-					root.isSelectedTool_Select() ||
-					root.isSelectedTool_Place() ||
-					root.isSelectedTool_Transition() ||
-					root.isSelectedTool_Arc() ||
-					root.isSelectedTool_Token() && !(root.getClickedElement() instanceof PlaceNode)
+					PNEditor.getRoot().isSelectedTool_Select() ||
+					PNEditor.getRoot().isSelectedTool_Place() ||
+					PNEditor.getRoot().isSelectedTool_Transition() ||
+					PNEditor.getRoot().isSelectedTool_Arc() ||
+					PNEditor.getRoot().isSelectedTool_Token() && !(PNEditor.getRoot().getClickedElement() instanceof PlaceNode)
 				)
 			) {
-				if (root.getClickedElement() instanceof PlaceNode) {
-					showPopup(root.getPlacePopup(), realX, realY);
-					if (!root.getSelection().contains(root.getClickedElement())) {
-						root.getSelection().clear();
+				if (PNEditor.getRoot().getClickedElement() instanceof PlaceNode) {
+					showPopup(PNEditor.getRoot().getPlacePopup(), realX, realY);
+					if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+						PNEditor.getRoot().getSelection().clear();
 					}
 				}
-				else if (root.getClickedElement() instanceof Subnet) {
-					showPopup(root.getSubnetPopup(), realX, realY);
-					if (!root.getSelection().contains(root.getClickedElement())) {
-						root.getSelection().clear();
+				else if (PNEditor.getRoot().getClickedElement() instanceof Subnet) {
+					showPopup(PNEditor.getRoot().getSubnetPopup(), realX, realY);
+					if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+						PNEditor.getRoot().getSelection().clear();
 					}
 				}
-				else if (root.getClickedElement() instanceof Transition) {
-					showPopup(root.getTransitionPopup(), realX, realY);
-					if (!root.getSelection().contains(root.getClickedElement())) {
-						root.getSelection().clear();
+				else if (PNEditor.getRoot().getClickedElement() instanceof Transition) {
+					showPopup(PNEditor.getRoot().getTransitionPopup(), realX, realY);
+					if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+						PNEditor.getRoot().getSelection().clear();
 					}
 				}
-				else if (root.getClickedElement() instanceof ArcEdge) {
-					showPopup(root.getArcEdgePopup(), realX, realY);
-					if (!root.getSelection().contains(root.getClickedElement())) {
-						root.getSelection().clear();
+				else if (PNEditor.getRoot().getClickedElement() instanceof ArcEdge) {
+					showPopup(PNEditor.getRoot().getArcEdgePopup(), realX, realY);
+					if (!PNEditor.getRoot().getSelection().contains(PNEditor.getRoot().getClickedElement())) {
+						PNEditor.getRoot().getSelection().clear();
 					}
 				}
 			}
 			
-			if (root.getClickedElement() == null &&
-				root.isSelectedTool_Select()
+			if (PNEditor.getRoot().getClickedElement() == null &&
+				PNEditor.getRoot().isSelectedTool_Select()
 			) {
-				showPopup(root.getCanvasPopup(), realX, realY);
+				showPopup(PNEditor.getRoot().getCanvasPopup(), realX, realY);
 			}
 		}
 	}

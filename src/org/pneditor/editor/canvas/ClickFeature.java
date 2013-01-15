@@ -20,6 +20,7 @@ package org.pneditor.editor.canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.petrinet.Element;
 
@@ -28,19 +29,17 @@ import org.pneditor.petrinet.Element;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 class ClickFeature implements Feature {
-
-	private Root root;
+    
 	private Canvas canvas;
 	
-	ClickFeature(Root root, Canvas canvas) {
-		this.root = root;
+	ClickFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
 	Color previousColor;
 	
 	public void drawBackground(Graphics g) {
-		Element element = root.getClickedElement();
+		Element element = PNEditor.getRoot().getClickedElement();
 		if (element != null) {
 			previousColor = element.getColor();
 			element.setColor(Colors.singleSelectedColor);
@@ -48,7 +47,7 @@ class ClickFeature implements Feature {
 	}
 	
 	public void drawForeground(Graphics g) {
-		Element element = root.getClickedElement();
+		Element element = PNEditor.getRoot().getClickedElement();
 		if (element != null) {
 			element.setColor(previousColor);
 		}

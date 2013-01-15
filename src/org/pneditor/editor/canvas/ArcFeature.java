@@ -21,19 +21,20 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import org.pneditor.petrinet.Arc;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.editor.Root;
 import org.pneditor.editor.commands.AddArcCommand;
+import org.pneditor.editor.commands.AddReferenceArcCommand;
 import org.pneditor.editor.commands.SetArcMultiplicityCommand;
-import org.pneditor.petrinet.TransitionNode;
-import org.pneditor.petrinet.Element;
-import org.pneditor.petrinet.PlaceNode;
+import org.pneditor.petrinet.Arc;
 import org.pneditor.petrinet.ArcEdge;
+import org.pneditor.petrinet.Element;
 import org.pneditor.petrinet.Node;
+import org.pneditor.petrinet.PlaceNode;
 import org.pneditor.petrinet.ReferenceArc;
 import org.pneditor.petrinet.Subnet;
 import org.pneditor.petrinet.Transition;
-import org.pneditor.editor.commands.AddReferenceArcCommand;
+import org.pneditor.petrinet.TransitionNode;
 import org.pneditor.util.CollectionTools;
 
 /**
@@ -42,11 +43,9 @@ import org.pneditor.util.CollectionTools;
  */
 class ArcFeature implements Feature {
 	
-	private Root root;
 	private Canvas canvas;
 	
-	ArcFeature(Root root, Canvas canvas) {
-		this.root = root;
+	ArcFeature(Canvas canvas) {
 		this.canvas = canvas;
 	}
 	
@@ -62,25 +61,25 @@ class ArcFeature implements Feature {
 		int mouseButton = event.getButton();
 		
 		if (mouseButton == MouseEvent.BUTTON1 &&
-			root.isSelectedTool_Arc() &&
-			root.getClickedElement() != null &&
-			root.getClickedElement() instanceof Node &&
+			PNEditor.getRoot().isSelectedTool_Arc() &&
+			PNEditor.getRoot().getClickedElement() != null &&
+			PNEditor.getRoot().getClickedElement() instanceof Node &&
 			!started
 		) {
-			sourceElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+			sourceElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 			connectingArc = new Arc((Node)sourceElement);
 			backgroundElements.add(connectingArc);
 			started = true;
-			currentSubnet = root.getDocument().petriNet.getCurrentSubnet();
+			currentSubnet = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet();
 		}
 	}
 
 	public void mouseDragged(int x, int y) {
-		if (root.getDocument().petriNet.getCurrentSubnet() != currentSubnet) {
+		if (PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet() != currentSubnet) {
 			cancelDragging();
 		}
 		
-		Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 
 		if (started) {
 			if (targetElement != null && (
@@ -95,7 +94,7 @@ class ArcFeature implements Feature {
 				connectingArc.setSource(null);
 				connectingArc.setDestination(null);
 			}
-			root.repaintCanvas();
+			PNEditor.getRoot().repaintCanvas();
 		}
 	}
 	
@@ -104,10 +103,10 @@ class ArcFeature implements Feature {
 	}
 	
 	public void mouseReleased(int x, int y) {
-		if (root.getDocument().petriNet.getCurrentSubnet() != currentSubnet) {
+		if (PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet() != currentSubnet) {
 			cancelDragging();
 		}
-		Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 
 		if (started) {
 			connectingArc.setEnd(x, y);
@@ -128,32 +127,32 @@ class ArcFeature implements Feature {
 							placeNode = (PlaceNode)targetElement;
 						}
 						
-						ArcEdge arcEdge = root.getDocument().petriNet.getCurrentSubnet().getArcEdge(placeNode, transitionNode, placeToTransition);
-						ArcEdge counterArcEdge = root.getDocument().petriNet.getCurrentSubnet().getArcEdge(placeNode, transitionNode, !placeToTransition);
+						ArcEdge arcEdge = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getArcEdge(placeNode, transitionNode, placeToTransition);
+						ArcEdge counterArcEdge = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getArcEdge(placeNode, transitionNode, !placeToTransition);
 						if (counterArcEdge instanceof ReferenceArc) {
 							// never attempt make arc in opposite direction of ReferenceArc
 						}
 						else if (arcEdge == null) {
 							// is there is no arc go ahead
 							if (transitionNode instanceof Transition) {
-								root.getUndoManager().executeCommand(new AddArcCommand(placeNode, (Transition)transitionNode, placeToTransition));
+								PNEditor.getRoot().getUndoManager().executeCommand(new AddArcCommand(placeNode, (Transition)transitionNode, placeToTransition));
 							}
 							else if (transitionNode instanceof Subnet) {
-								root.getUndoManager().executeCommand(new AddReferenceArcCommand(placeNode, (Subnet)transitionNode, root.getDocument().petriNet));
+								PNEditor.getRoot().getUndoManager().executeCommand(new AddReferenceArcCommand(placeNode, (Subnet)transitionNode, PNEditor.getRoot().getDocument().petriNet));
 							}
 							else {
 								throw new RuntimeException("transitionNode not instanceof Transition neither Subnet");
 							}
 							
 							// newly created arcs are always first in subnet
-							root.setClickedElement(CollectionTools.getFirstElement(root.getDocument().petriNet.getCurrentSubnet().getElements()));
+							PNEditor.getRoot().setClickedElement(CollectionTools.getFirstElement(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()));
 						}
 						else if (!(arcEdge instanceof ReferenceArc)) {
 							Arc arc = (Arc)arcEdge;
 							// increase multiplicity
 							// but only if there is no ReferenceArc
-							root.getUndoManager().executeCommand(new SetArcMultiplicityCommand(arc, arc.getMultiplicity() + 1));
-							root.setClickedElement(arcEdge);
+							PNEditor.getRoot().getUndoManager().executeCommand(new SetArcMultiplicityCommand(arc, arc.getMultiplicity() + 1));
+							PNEditor.getRoot().setClickedElement(arcEdge);
 						}
 					}
 				}
@@ -163,13 +162,13 @@ class ArcFeature implements Feature {
 	}
 
 	public void setHoverEffects(int x, int y) {
-		Element targetElement = root.getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
-		if (root.isSelectedTool_Arc()) {
+		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+		if (PNEditor.getRoot().isSelectedTool_Arc()) {
 			if (started) { // Connecting to something...
 				if (targetElement == null) { // Connecting to air
 					canvas.highlightedElements.add(sourceElement);
 					sourceElement.highlightColor = Colors.pointingColor;
-					root.repaintCanvas();
+					PNEditor.getRoot().repaintCanvas();
 				}
 				else { // Connecting to solid element
 					if (
@@ -180,19 +179,19 @@ class ArcFeature implements Feature {
 						canvas.highlightedElements.add(targetElement);
 						sourceElement.highlightColor = Colors.connectingColor;
 						targetElement.highlightColor = Colors.connectingColor;
-						root.repaintCanvas();
+						PNEditor.getRoot().repaintCanvas();
 					}
 					else if (sourceElement == targetElement) {
 						canvas.highlightedElements.add(sourceElement);
 						sourceElement.highlightColor = Colors.pointingColor;
-						root.repaintCanvas();
+						PNEditor.getRoot().repaintCanvas();
 					}
 					else if (targetElement instanceof Node) { // Wrong combination
 						canvas.highlightedElements.add(sourceElement);
 						canvas.highlightedElements.add(targetElement);
 						sourceElement.highlightColor = Colors.disallowedColor;
 						targetElement.highlightColor = Colors.disallowedColor;
-						root.repaintCanvas();
+						PNEditor.getRoot().repaintCanvas();
 					}
 				}
 			}
@@ -200,7 +199,7 @@ class ArcFeature implements Feature {
 				if (targetElement != null) {
 					canvas.highlightedElements.add(targetElement);
 					targetElement.highlightColor = Colors.pointingColor;
-					root.repaintCanvas();
+					PNEditor.getRoot().repaintCanvas();
 				}
 			}
 		}
@@ -220,6 +219,6 @@ class ArcFeature implements Feature {
 		sourceElement = null;
 		backgroundElements.remove(connectingArc);
 		started = false;
-		root.repaintCanvas();
+		PNEditor.getRoot().repaintCanvas();
 	}
 }
