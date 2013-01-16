@@ -21,7 +21,7 @@ package org.pneditor.petrinet;
  * Represents place in Petri net
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class Place extends PlaceNode {
+public class Place extends PlaceNode implements Cloneable {
 	
 	private boolean isStatic = false;
 	

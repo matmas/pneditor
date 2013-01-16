@@ -28,7 +28,7 @@ import org.pneditor.util.GraphicsTools;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class Edge extends Element {
+public abstract class Edge extends Element implements Cloneable {
 	
 	private Node source;
 	private Node destination;

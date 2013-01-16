@@ -17,14 +17,22 @@
 
 package org.pneditor.editor;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
+import org.pneditor.petrinet.Arc;
 import org.pneditor.petrinet.ArcEdge;
 import org.pneditor.petrinet.Element;
 import org.pneditor.petrinet.ElementCloner;
+import org.pneditor.petrinet.Marking;
 import org.pneditor.petrinet.Node;
 import org.pneditor.petrinet.PetriNet;
+import org.pneditor.petrinet.Place;
 import org.pneditor.petrinet.Subnet;
+import org.pneditor.petrinet.Transition;
+import org.pneditor.util.CollectionTools;
 
 /**
  *
@@ -32,58 +40,114 @@ import org.pneditor.petrinet.Subnet;
  */
 public class LocalClipboard {
 
-	private Subnet subnet = new Subnet();
+//	private Subnet subnet = new Subnet();
+//
+//	public LocalClipboard() {
+//	}
+//
+//	public void putClonesIn(Set<Element> elements, PetriNet petriNet) {
+//		subnet.removeElements();
+//		elements = filterOutDisconnectedArcs(elements);
+//		elements = ElementCloner.getClones(elements, petriNet);
+//		subnet.addAll(elements);
+//	}
+//
+//	public Set<Element> pullClonesOut(PetriNet petriNet) {
+//		return ElementCloner.getClones(subnet.getElements(), petriNet);
+//	}
+//
+//	public boolean isEmpty() {
+//		return subnet.getElements().isEmpty();
+//	}
+//
+//	private static Set<Element> filterOutDisconnectedArcs(Set<Element> elements) {
+//		Set<Element> filteredElements = new HashSet<Element>();
+//		Set<Node> nodes = getNodes(elements);
+//		for (Node node : nodes) {
+//			Set<ArcEdge> connectedArcEdges = node.getConnectedArcEdges();
+//			for (ArcEdge connectedArcEdge : connectedArcEdges) {
+//				if (nodes.contains(connectedArcEdge.getPlaceNode()) && nodes.contains(connectedArcEdge.getTransitionNode())) {
+//					filteredElements.add(connectedArcEdge);
+//				}
+//			}
+//		}
+//		filteredElements.addAll(nodes);
+//		return filteredElements;
+//	}
+//
+//	public static Set<Node> getNodes(Set<Element> elements) {
+//		Set<Node> nodes = new HashSet<Node>();
+//		for (Element element : elements) {
+//			if (element instanceof Node) {
+//				nodes.add((Node)element);
+//			}
+//		}
+//		return nodes;
+//	}
+//
+//	public Set<Node> getNodes() {
+//		Set<Node> nodes = new HashSet<Node>();
+//		for (Element element : subnet.getElements()) {
+//			if (element instanceof Node) {
+//				nodes.add((Node)element);
+//			}
+//		}
+//		return nodes;
+//	}
 	
-	public LocalClipboard() {
+	private PetriNet clipboardNet = new PetriNet();
+
+	public void setContents(Set<Element> elements, PetriNet petriNet) {
+		clipboardNet.clear();
+		Map<Element, Element> originalToCloneMap = makeOriginalToCloneMap(elements);
+		copyMarking(originalToCloneMap, petriNet.getInitialMarking(), clipboardNet.getInitialMarking());
+		clipboardNet.getRootSubnet().addAll(new HashSet<Element>(originalToCloneMap.values()));
 	}
 
-	public void putClonesIn(Set<Element> elements, PetriNet petriNet) {
-		subnet.removeElements();
-		elements = filterOutDisconnectedArcs(elements);
-		elements = ElementCloner.getClones(elements, petriNet);
-		subnet.addAll(elements);
-	}
-
-	public Set<Element> pullClonesOut(PetriNet petriNet) {
-		return ElementCloner.getClones(subnet.getElements(), petriNet);
+	public Set<Element> getContents(PetriNet petriNet) {
+		Map<Element, Element> originalToCloneMap = makeOriginalToCloneMap(clipboardNet.getRootSubnet().getElements());
+		copyMarking(originalToCloneMap, clipboardNet.getInitialMarking(), petriNet.getInitialMarking());
+		return new HashSet<Element>(originalToCloneMap.values());
 	}
 
 	public boolean isEmpty() {
-		return subnet.getElements().isEmpty();
+		return clipboardNet.getRootSubnet().getElements().isEmpty();
 	}
 
-	private static Set<Element> filterOutDisconnectedArcs(Set<Element> elements) {
-		Set<Element> filteredElements = new HashSet<Element>();
-		Set<Node> nodes = getNodes(elements);
-		for (Node node : nodes) {
-			Set<ArcEdge> connectedArcEdges = node.getConnectedArcEdges();
-			for (ArcEdge connectedArcEdge : connectedArcEdges) {
-				if (nodes.contains(connectedArcEdge.getPlaceNode()) && nodes.contains(connectedArcEdge.getTransitionNode())) {
-					filteredElements.add(connectedArcEdge);
-				}
-			}
+	// -------------------------------------------------------------------------
+
+	private void copyMarking(Map<Element, Element> originalToCloneMap, Marking sourceMarking, Marking destinationMarking) {
+		for (Place place : CollectionTools.getFilteredByClass(originalToCloneMap.keySet(), Place.class)) {
+			int tokens = sourceMarking.getTokens(place);
+			destinationMarking.setTokens((Place)originalToCloneMap.get(place), tokens);
 		}
-		filteredElements.addAll(nodes);
-		return filteredElements;
 	}
 	
-	public static Set<Node> getNodes(Set<Element> elements) {
-		Set<Node> nodes = new HashSet<Node>();
+	private static Map<Element, Element> makeOriginalToCloneMap(Collection<Element> elements) {
+		Map<Element, Element> clones = new Hashtable<Element, Element>();
+		Set<Arc> connectedArcs = new HashSet<Arc>();
+
 		for (Element element : elements) {
 			if (element instanceof Node) {
-				nodes.add((Node)element);
+				Node node = (Node)element;
+				clones.put(node, node.getClone());
+				connectedArcs.addAll(node.getConnectedArcs());
 			}
 		}
-		return nodes;
-	}
 
-	public Set<Node> getNodes() {
-		Set<Node> nodes = new HashSet<Node>();
-		for (Element element : subnet.getElements()) {
-			if (element instanceof Node) {
-				nodes.add((Node)element);
-			}
-		}
-		return nodes;
+		for (Arc arc : connectedArcs) {
+			if (elements.contains(arc.getPlaceNode()) || elements.contains(arc.getTransition())) {
+				Arc clonedArc = arc.getClone();
+
+				if (elements.contains(arc.getPlaceNode())) {
+					clonedArc.setPlaceNode((Place)clones.get(arc.getPlaceNode()));
+                }
+				if (elements.contains(arc.getTransition())) {
+					clonedArc.setTransitionNode((Transition)clones.get(arc.getTransition()));
+                }
+				clones.put(arc, clonedArc);
+            }
+        }
+		return clones;
 	}
 }

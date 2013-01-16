@@ -28,7 +28,7 @@ import org.pneditor.util.GraphicsTools.VerticalAlignment;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class PlaceNode extends Node {
+public abstract class PlaceNode extends Node implements Cloneable{
 	
 	public Arc getConnectedArc(Transition transition, boolean placeToTransition) {
 		for (Arc arc : getConnectedArcs()) { // TODO: !!! what if the arc is hidden behind ReferenceArc inside Subnet?

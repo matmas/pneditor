@@ -94,9 +94,11 @@ public class CollectionTools {
 	public static <E> Set<E> getFilteredByClass(Collection<?> elements, Class<E> clazz) {
 		Set<E> result = new HashSet<E>();
 		for (Object element : elements) {
-			if (element.getClass() == clazz) {
-				result.add((E)element);
-			}
+			if (element != null) {
+                if (element.getClass() == clazz) {
+                    result.add((E)element);
+                }
+            }
 		}
 		return result;
 	}

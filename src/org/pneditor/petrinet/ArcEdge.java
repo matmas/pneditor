@@ -27,7 +27,7 @@ import org.pneditor.util.GraphicsTools.VerticalAlignment;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class ArcEdge extends Edge {
+public abstract class ArcEdge extends Edge implements Cloneable{
 
 	public ArcEdge() {
 	}

@@ -174,4 +174,14 @@ public abstract class Node extends Element implements Comparable<Node> {
 		}
 //		GraphicsTools.drawString(g, getId(), getCenter().x, getStart().y, HorizontalAlignment.center, VerticalAlignment.bottom);
 	}
+
+	@Override
+	public Node getClone() {
+		Node node = (Node)super.getClone();
+		node.id = this.id;
+
+		node.label = this.label;
+
+		return node;
+    }
 }

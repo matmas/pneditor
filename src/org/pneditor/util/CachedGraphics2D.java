@@ -205,7 +205,7 @@ public class CachedGraphics2D extends Graphics2D {
 
 	@Override
 	public void drawString(final String str, final int x, final int y) {
-		Rectangle stringBounds = getFontMetrics().getStringBounds(str, graphics).getBounds();
+		Rectangle stringBounds = getFontMetrics(currentFont).getStringBounds(str, graphics).getBounds();
 		addRectangleToBounds(x, y - stringBounds.height, stringBounds.width, stringBounds.height);
 		toBeDrawn.add(new Drawable() {
 			public void draw(Graphics2D g) {
@@ -217,6 +217,16 @@ public class CachedGraphics2D extends Graphics2D {
 	@Override
 	public Font getFont() {
 		return currentFont;
+	}
+
+	@Override
+	public void setFont(final Font font) {
+		currentFont = font;
+		toBeDrawn.add(new Drawable() {
+			public void draw(Graphics2D g) {
+				g.setFont(font);
+			}
+		});
 	}
 
 	@Override
@@ -417,11 +427,6 @@ public class CachedGraphics2D extends Graphics2D {
 
 	@Override
 	public void setXORMode(Color c1) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public void setFont(Font font) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

@@ -342,6 +342,16 @@ public class EPSGraphics2D extends Graphics2D {
 		return graphics.getFontMetrics(f);
 	}
 
+	@Override
+	public void setFont(Font font) {
+		cachedGraphics.setFont(font);
+		out.println("/Times-Bold findfont");
+//		System.out.println("/" + font.getFamily() + "-" + font.getStyle() + " findfont");
+		out.println(font.getSize() + (2 * font.getSize() / 12) + " scalefont");
+		out.println("setfont");
+		currentFont = font;
+	}
+
 	//########################// NOT SUPPORTED YET //#########################//
 
 	@Override
@@ -531,11 +541,6 @@ public class EPSGraphics2D extends Graphics2D {
 
 	@Override
 	public void setXORMode(Color c1) {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public void setFont(Font font) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

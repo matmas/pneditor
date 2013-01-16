@@ -27,7 +27,7 @@ import org.pneditor.util.GraphicsTools.VerticalAlignment;
  * Represents a transition in Petri net
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class Transition extends TransitionNode {
+public class Transition extends TransitionNode implements Cloneable {
 
 	@Override
 	public void draw(Graphics g, DrawingOptions drawingOptions) {
@@ -36,5 +36,14 @@ public class Transition extends TransitionNode {
 		g.setColor(color);
 		g.drawRect(getStart().x, getStart().y, getWidth()-1, getHeight()-1);
 		drawLabel(g);
+	}
+
+	@Override
+	protected void drawLabel(Graphics g) {
+		if (getLabel() != null && !getLabel().equals("")) {
+//			GraphicsTools.drawString(g, getLabel(), getCenter().x, getCenter().y, HorizontalAlignment.center, VerticalAlignment.center, new Font("Times", Font.BOLD, 24));
+			GraphicsTools.drawString(g, getLabel(), getCenter().x, getEnd().y, HorizontalAlignment.center, VerticalAlignment.top);
+        }
+//		GraphicsTools.drawString(g, getId(), getCenter().x, getStart().y, HorizontalAlignment.center, VerticalAlignment.bottom);
 	}
 }

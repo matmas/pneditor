@@ -375,6 +375,18 @@ public class Subnet extends TransitionNode {
 		return null;
 	}
 
+	public Node getNodeById(String id) {
+		for (Element element : elements) {
+			if (element instanceof Node) {
+				Node node = (Node)element;
+				if (id.equals(node.getId())) {
+					return node;
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Returns an preview image of the subnet with specified marking.
 	 * Scale image: image.getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH)

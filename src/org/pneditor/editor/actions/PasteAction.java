@@ -47,7 +47,7 @@ public class PasteAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		PetriNet petriNet = root.getDocument().petriNet;
-		Set<Element> pastedElements = root.getClipboard().pullClonesOut(petriNet);
+		Set<Element> pastedElements = root.getClipboard().getContents(petriNet);
 		root.getUndoManager().executeCommand(new PasteCommand(pastedElements, root.getDocument().petriNet.getCurrentSubnet(), petriNet));
 		//TODO: getViewTranslation()
 		root.setClickedElement(null);

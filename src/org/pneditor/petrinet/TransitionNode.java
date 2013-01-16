@@ -24,7 +24,7 @@ import java.util.Set;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class TransitionNode extends Node {
+public abstract class TransitionNode extends Node implements Cloneable{
 	
 	public Set<PlaceNode> getConnectedPlaceNodes() {
 		Set<PlaceNode> connectedPlaceNodes = new HashSet<PlaceNode>();

@@ -43,7 +43,7 @@ public class CutAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		root.getClipboard().putClonesIn(root.getSelectedElementsWithClickedElement(), root.getDocument().petriNet);
+		root.getClipboard().setContents(root.getSelectedElementsWithClickedElement(), root.getDocument().petriNet);
 		root.getUndoManager().executeCommand(new CutCommand(root.getSelectedElementsWithClickedElement()));
 		root.getSelection().clear();
 		root.setClickedElement(null);

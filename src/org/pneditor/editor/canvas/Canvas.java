@@ -42,7 +42,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
 	List<Element> highlightedElements = new ArrayList<Element>();
 	Cursor alternativeCursor;
 	public Cursor activeCursor;
-	private List<Feature> features = new ArrayList<Feature>();
+	public List<Feature> features = new ArrayList<Feature>();
 	private Root root;
     private ScrollingFeature scrollingFeature;
     private boolean scrollingFeatureInstalled = false;

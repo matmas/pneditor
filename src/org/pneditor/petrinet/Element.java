@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class Element implements Serializable {
+public abstract class Element implements Serializable, Cloneable {
 	
 	private Subnet parentSubnet = null;
 	
@@ -141,4 +141,17 @@ public abstract class Element implements Serializable {
 	}
 	
 	abstract public void draw(Graphics g, DrawingOptions drawingOptions);
+
+
+	public Element getClone() {
+		try {
+			Element element = (Element)this.clone();
+			element.start = this.start.getLocation();
+			element.end = this.end.getLocation();
+			element.parentSubnet = this.parentSubnet;
+			return element;
+		} catch (CloneNotSupportedException ex) {
+			throw new RuntimeException();
+}
+	}
 }

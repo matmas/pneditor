@@ -31,7 +31,7 @@ public class DeleteElementsCommand implements Command {
 
 	private Set<Command> deleteAllElements = new HashSet<Command>();
 	
-	public DeleteElementsCommand(Set<Element> elementsToDelete) {
+	public DeleteElementsCommand(Set<? extends Element> elementsToDelete) {
 		for (Element element : elementsToDelete) {
 			deleteAllElements.add(new DeleteElementCommand(element));
 		}
