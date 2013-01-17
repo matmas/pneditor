@@ -61,9 +61,9 @@ public class BoundednessAction extends AbstractAction {
 		}
 		
 		if (isUnboundedness)
-			JOptionPane.showMessageDialog(root.getParentFrame(), "UnBoundedness PetriNet", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is UNbounded ", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
 		else
-			JOptionPane.showMessageDialog(root.getParentFrame(), "Boundedness PetriNet", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is bounded", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private int checkBranchBoundedness(Marking marking, Transition transition) {

@@ -43,9 +43,10 @@ public class AboutAction extends AbstractAction {
 		JOptionPane.showOptionDialog(
 				root.getParentFrame(),
 				root.getAppLongName() + "\n" +
-				"<http://www.pneditor.org/>\n" +
+				"http://www.pneditor.org/\n" +
                                 "\n" +
-                                "Copyright (C) 2008-2013 Martin Riesz <riesz.martin" + "@" +"gmail.com>\n" +
+                                "Contributors:\n" +
+                                "Martin Riesz, Milka Knapereková\n" +
                                 "\n" +
                                 "This program is free software: you can redistribute it and/or modify\n" +
                                 "it under the terms of the GNU General Public License as published by\n" +

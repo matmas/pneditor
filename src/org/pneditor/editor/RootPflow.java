@@ -59,7 +59,7 @@ import org.pneditor.util.ListEditor;
 public class RootPflow implements Root, WindowListener, ListSelectionListener, SelectionChangedListener {
 	
     private static final String APP_NAME = "PNEditor";
-	private static final String APP_VERSION = "0.6";
+	private static final String APP_VERSION = "0.61";
 	
 	public RootPflow() {
 		loadPreferences();
