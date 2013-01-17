@@ -25,6 +25,13 @@ import java.util.ArrayList;
  */
 public class FiringSequence extends ArrayList<Transition> implements Comparable<FiringSequence> {
 	
+	public FiringSequence() {
+	}
+
+	public FiringSequence(FiringSequence firingSequence) {
+		super(firingSequence);
+	}
+
 	public int compareTo(FiringSequence firingSequence) {
 		return this.toString().compareTo(firingSequence.toString());
 	}
