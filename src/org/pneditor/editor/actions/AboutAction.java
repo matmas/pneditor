@@ -45,8 +45,8 @@ public class AboutAction extends AbstractAction {
 				root.getAppLongName() + "\n" +
 				"http://www.pneditor.org/\n" +
                                 "\n" +
-                                "Contributors:\n" +
-                                "Martin Riesz, Milka Knapereková\n" +
+                                "Author: Martin Riesz\n" +
+                                "Contributors: Milka Knapereková\n" +
                                 "\n" +
                                 "This program is free software: you can redistribute it and/or modify\n" +
                                 "it under the terms of the GNU General Public License as published by\n" +
