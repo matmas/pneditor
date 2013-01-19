@@ -24,8 +24,25 @@ package org.pneditor.petrinet;
 
 public class Document {
 	
+    @Deprecated
 	public Roles roles = new Roles();
 	
+    @Deprecated
 	public PetriNet petriNet = new PetriNet();
-	
+
+    public PetriNet getPetriNet() {
+        return petriNet;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setPetriNet(PetriNet petriNet) {
+        this.petriNet = petriNet;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
+    }
 }
