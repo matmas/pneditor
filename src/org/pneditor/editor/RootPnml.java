@@ -36,8 +36,8 @@ import org.pneditor.editor.filechooser.ViptoolPnmlFileType;
  */
 public class RootPnml extends RootPflow implements Root, WindowListener, ListSelectionListener, SelectionChangedListener {
 
-	public RootPnml() {
-		super();
+	public RootPnml(String[] args) {
+		super(args);
 	}
 	
 	@Override

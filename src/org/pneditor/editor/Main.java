@@ -23,24 +23,6 @@ package org.pneditor.editor;
  */
 public class Main {
 	public static void main(String[] args) {
-		PNEditor.setRoot(new RootPflow());
-//		try {
-//			Document document = new DocumentImporter().readFromFileWithXslt(new File("/home/matmas/original.pnml"), new PnmlFileType().getLoadXslt());
-//			root.setDocument(document);
-//			new DocumentExporter(document, root.getDocument().petriNet.getInitialMarking()).writeToFileWithXslt(new File("/home/matmas/new.pnml"), new PnmlFileType().getSaveXslt());
-//			root.setDocument(new Document());
-//			document = new DocumentImporter().readFromFileWithXslt(new File("/home/matmas/new.pnml"), new PnmlFileType().getLoadXslt());
-//			root.setDocument(document);
-//			Thread.sleep(1000);
-//			root.quitApplication();
-//		} catch (InterruptedException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//		} catch (JAXBException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//		} catch (IOException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//		} catch (TransformerException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//		}
+		new RootPflow(args);
 	}
 }

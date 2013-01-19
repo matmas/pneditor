@@ -26,6 +26,8 @@ import java.awt.Point;
 import java.awt.event.*;
 import java.io.File;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -34,6 +36,7 @@ import org.pneditor.editor.actions.algorithms.BoundednessAction;
 import org.pneditor.editor.canvas.*;
 import org.pneditor.editor.filechooser.EpsFileType;
 import org.pneditor.editor.filechooser.FileType;
+import org.pneditor.editor.filechooser.FileTypeException;
 import org.pneditor.editor.filechooser.PflowFileType;
 import org.pneditor.editor.filechooser.PngFileType;
 import org.pneditor.editor.filechooser.ViptoolPnmlFileType;
@@ -59,9 +62,11 @@ import org.pneditor.util.ListEditor;
 public class RootPflow implements Root, WindowListener, ListSelectionListener, SelectionChangedListener {
 	
     private static final String APP_NAME = "PNEditor";
-	private static final String APP_VERSION = "0.61";
-	
-	public RootPflow() {
+	private static final String APP_VERSION = "0.62";
+    
+	public RootPflow(String[] args) {
+        PNEditor.setRoot(this);
+        
 		loadPreferences();
 		selection.setSelectionChangedListener(this);
 		
@@ -76,6 +81,22 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		setupMainFrame();
 		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setupFrameIcons();
+        
+        if (args.length == 1) {
+            String filename = args[0];
+            File file = new File(filename);
+            FileType fileType = FileType.getAcceptingFileType(file, FileType.getAllFileTypes());
+            try {
+                Document document = fileType.load(file);
+                this.setDocument(document);
+                this.setCurrentFile(file); // TODO: make it DRY with OpenFileAction
+                this.setModified(false);
+                this.setCurrentDirectory(file.getParentFile());
+                canvas.repaint();
+            } catch (FileTypeException ex) {
+                Logger.getLogger(RootPflow.class.getName()).log(Level.INFO, null, ex);
+            }
+        }
 	}
 
 	private static final String CURRENT_DIRECTORY = "current_directory";
