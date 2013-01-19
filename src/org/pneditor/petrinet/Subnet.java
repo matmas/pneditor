@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.util.CachedGraphics2D;
 
 /**
@@ -417,4 +418,16 @@ public class Subnet extends TransitionNode {
 		cachedGraphics.applyToGraphics(imageGraphics);
 		return bufferedImage;
 	}
+    
+    @Override
+	public Subnet getClone() {
+		Subnet subnet = (Subnet)super.getClone();
+        subnet.viewTranslation = this.viewTranslation.getLocation();
+
+        subnet.elements = new LinkedList<Element>();
+        for (Element element : this.getElements()) {
+			subnet.addElement(element.getClone());
+		}
+		return subnet;
+    }
 }

@@ -69,10 +69,7 @@ public class Arc extends ArcEdge implements Cloneable{
 	@Override
 	public Arc getClone() {
 		Arc arc = (Arc)super.getClone();
-		arc.setSource(this.getSource());
-		arc.setDestination(this.getDestination());
 		arc.multiplicity = this.multiplicity;
-		arc.setBreakPoints(this.getBreakPointsCopy());
 		return arc;
     }
 }

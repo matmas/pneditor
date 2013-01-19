@@ -20,6 +20,7 @@ package org.pneditor.petrinet;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
+import org.pneditor.editor.PNEditor;
 import org.pneditor.util.GraphicsTools;
 import org.pneditor.util.GraphicsTools.HorizontalAlignment;
 import org.pneditor.util.GraphicsTools.VerticalAlignment;
@@ -178,10 +179,8 @@ public abstract class Node extends Element implements Comparable<Node> {
 	@Override
 	public Node getClone() {
 		Node node = (Node)super.getClone();
-		node.id = this.id;
-
 		node.label = this.label;
-
+        PNEditor.getRoot().getDocument().getPetriNet().getNodeSimpleIdGenerator().setUniqueId(node);
 		return node;
     }
 }

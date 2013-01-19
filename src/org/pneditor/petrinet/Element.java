@@ -152,6 +152,6 @@ public abstract class Element implements Serializable, Cloneable {
 			return element;
 		} catch (CloneNotSupportedException ex) {
 			throw new RuntimeException();
-}
+        }
 	}
 }

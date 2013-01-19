@@ -100,4 +100,13 @@ public abstract class ArcEdge extends Edge implements Cloneable{
 		Point labelPoint = getLabelPoint(arrowTip);
 		GraphicsTools.drawString(g, Integer.toString(multiplicity), labelPoint.x, labelPoint.y, HorizontalAlignment.center, VerticalAlignment.bottom);
 	}
+    
+    @Override
+	public ArcEdge getClone() {
+		ArcEdge arcEdge = (ArcEdge)super.getClone();
+		arcEdge.setSource(this.getSource());
+		arcEdge.setDestination(this.getDestination());
+		arcEdge.setBreakPoints(this.getBreakPointsCopy());
+		return arcEdge;
+    }
 }
