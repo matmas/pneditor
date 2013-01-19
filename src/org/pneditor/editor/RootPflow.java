@@ -305,7 +305,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 	protected Action convertTransitionToSubnet;
 	protected Action replaceSubnet;
 	protected Action saveSubnetAs;
-	protected Action cutAction, copyAction, pasteAction;
+	protected Action cutAction, copyAction, pasteAction, selectAllAction;
 	
 	//per application
 	protected Action openSubnet;
@@ -357,6 +357,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		cutAction.setEnabled(isCutable);
 		copyAction.setEnabled(isCopyable);
 		pasteAction.setEnabled(isPastable);
+        selectAllAction.setEnabled(true);
 		delete.setEnabled(isDeletable);
 		setArcMultiplicity.setEnabled(isArc);
 		setTokens.setEnabled(isPlaceNode);
@@ -461,6 +462,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		cutAction = new CutAction(this);
 		copyAction = new CopyAction(this);
 		pasteAction = new PasteAction(this);
+        selectAllAction = new SelectAllAction();
 		
 		Action selectTool_SelectionAction = new SelectionSelectToolAction(this);
 		Action selectTool_PlaceAction = new PlaceSelectToolAction(this);
@@ -572,6 +574,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		editMenu.add(cutAction);
 		editMenu.add(copyAction);
 		editMenu.add(pasteAction);
+        editMenu.add(selectAllAction);
 		editMenu.add(delete);
 		
 		elementMenu.add(setLabel);
