@@ -326,7 +326,7 @@ public class Subnet extends TransitionNode {
         
         for (Element element : elements) {
             if (bounds == null) {
-                bounds = new Rectangle(element.getStart().x, element.getStart().y);
+                bounds = new Rectangle(element.getStart().x, element.getStart().y, element.getWidth(), getHeight());
             }
 			bounds.add(element.getStart().x, element.getStart().y);
 			bounds.add(element.getEnd().x, element.getEnd().y);
