@@ -176,6 +176,8 @@ public class DocumentImporter {
 		Node destination = (Node)getObjectFromId(xmlArc.destinationId);
 		Arc arc = new Arc(source, destination);
 		arc.setMultiplicity(xmlArc.multiplicity);
+		arc.setInhibitory(xmlArc.inhibitory);
+		arc.setReset(xmlArc.reset);
 		List<Point> breakPoints = new LinkedList<Point>();
 		for (XmlPoint xmlPoint : xmlArc.breakPoints) {
 			breakPoints.add(new Point(xmlPoint.x, xmlPoint.y));
