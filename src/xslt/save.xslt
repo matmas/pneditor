@@ -54,6 +54,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<sourceId><xsl:value-of select="sourceId"/></sourceId>
 			<destinationId><xsl:value-of select="destinationId"/></destinationId>
 			<multiplicity><xsl:value-of select="multiplicity"/></multiplicity>
+			<inhibitory><xsl:value-of select="inhibitory"/></inhibitory>
+			<reset><xsl:value-of select="reset"/></reset>
 			<xsl:for-each select="breakPoint">
 				<breakPoint>
 					<x><xsl:value-of select="x"/></x>
