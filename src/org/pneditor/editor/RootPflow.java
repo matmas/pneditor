@@ -298,7 +298,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 
 	//per application
 	protected JToggleButton select, place, transition, arc, token;
-	protected Action setLabel, setTokens, setArcMultiplicity, delete;
+	protected Action setLabel, setTokens, setArcMultiplicity, setArcInhibitory, setArcReset, delete;
 	protected Action setPlaceStatic;
 	protected Action addSelectedTransitionsToSelectedRoles;
 	protected Action removeSelectedTransitionsFromSelectedRoles;
@@ -353,13 +353,22 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		boolean areTransitions = !selection.getTransitions().isEmpty();
 		boolean roleSelected = !roleEditor.getSelectedElements().isEmpty();
 		boolean isParent = !document.petriNet.isCurrentSubnetRoot();
-
+                boolean isPtoT = false;
+                
+                if(isArc){
+                    Arc test;
+                    test= (Arc)clickedElement;
+                    isPtoT = test.isPlaceToTransition();
+                }
+                
 		cutAction.setEnabled(isCutable);
 		copyAction.setEnabled(isCopyable);
 		pasteAction.setEnabled(isPastable);
         selectAllAction.setEnabled(true);
 		delete.setEnabled(isDeletable);
 		setArcMultiplicity.setEnabled(isArc);
+        setArcInhibitory.setEnabled(isPtoT);
+        setArcReset.setEnabled(isPtoT);
 		setTokens.setEnabled(isPlaceNode);
 		setLabel.setEnabled(isPlaceNode || isTransitionNode);
 		addSelectedTransitionsToSelectedRoles.setEnabled((isTransitionNode || areTransitionNodes) && roleSelected);
@@ -446,12 +455,13 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		Action saveFileAs = new SaveFileAsAction(this, openSaveFiletypes);
 		Action importFile = new ImportAction(this, importFiletypes);
 		Action exportFile = new ExportAction(this, exportFiletypes);
-		Action quit = new QuitAction(this);
-		
+		Action quit = new QuitAction(this);		
 		setLabel = new SetLabelAction(this);
 		setTokens = new SetTokensAction(this);
 		setPlaceStatic = new SetPlaceStaticAction(this);
 		setArcMultiplicity = new SetArcMultiplicityAction(this);
+                setArcInhibitory = new SetArcInhibitoryAction(this);
+                setArcReset = new SetArcResetAction(this);
 		addSelectedTransitionsToSelectedRoles = new AddSelectedTransitionsToSelectedRolesAction(this);
 		removeSelectedTransitionsFromSelectedRoles = new RemoveSelectedTransitionsFromSelectedRolesAction(this);
 		convertTransitionToSubnet = new ConvertTransitionToSubnetAction(this);
@@ -583,6 +593,8 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		elementMenu.add(setPlaceStatic);
 		elementMenu.addSeparator();
 		elementMenu.add(setArcMultiplicity);
+                elementMenu.add(setArcInhibitory);
+                elementMenu.add(setArcReset);
 		
 		rolesMenu.add(addSelectedTransitionsToSelectedRoles);
 		rolesMenu.add(removeSelectedTransitionsFromSelectedRoles);
@@ -640,6 +652,11 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 		
 		arcEdgePopup = new JPopupMenu();
 		arcEdgePopup.add(setArcMultiplicity);
+                //TODO : pridavanie polozky do popup
+                
+                arcEdgePopup.add(setArcInhibitory);                           
+                arcEdgePopup.add(setArcReset);
+                
 		arcEdgePopup.add(delete);
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);

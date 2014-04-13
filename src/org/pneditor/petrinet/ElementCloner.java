@@ -109,6 +109,8 @@ public class ElementCloner {
 		);
 		newArc.setBreakPoints(arc.getBreakPoints());
 		newArc.setMultiplicity(arc.getMultiplicity());
+		newArc.setInhibitory(arc.getInhibitory());
+		newArc.setReset(arc.getReset());
 		return newArc;
 	}
 

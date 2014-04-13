@@ -35,7 +35,10 @@ public class XmlArc {
 	
 	@XmlElement(name="multiplicity")
 	public int multiplicity;
-	
+        
+    @XmlElement(name="inhibitory")
+    public boolean inhibitory;      
+        
 	@XmlElement(name="breakPoint")
 	public List<XmlPoint> breakPoints = new LinkedList<XmlPoint>();
 	
@@ -44,4 +47,7 @@ public class XmlArc {
 	
 	@XmlElement(name="realDestinationId")
 	public String realDestinationId;
+	
+	@XmlElement(name="reset")
+	public boolean reset;
 }
