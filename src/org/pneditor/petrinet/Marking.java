@@ -136,10 +136,21 @@ public class Marking {
 		try {
 			for (Arc arc : transition.getConnectedArcs()) {
 				if (arc.isPlaceToTransition()) {
-					if (getTokens(arc.getPlaceNode()) < arc.getMultiplicity()) {
-						isEnabled = false;
-						break;
-					}
+                    if(arc.getReset()){//reset arc is always fireable
+                    	continue;      //but can be blocked by other arcs 
+                    }else{	
+        	           	if(!arc.getInhibitory()){
+                            if (getTokens(arc.getPlaceNode()) < arc.getMultiplicity()) {  //normal arc
+                               isEnabled = false;
+                               break;
+                            }                                
+                        }else{
+                            if (getTokens(arc.getPlaceNode()) >= arc.getMultiplicity()) {//inhibitory arc
+                               isEnabled = false;
+                               break;
+                            }
+                        }
+					}     
 				}
 			}
 		} finally {
@@ -163,7 +174,13 @@ public class Marking {
 				for (Arc arc : transition.getConnectedArcs()) {
 					if (arc.isPlaceToTransition()) {
                         int tokens = getTokens(arc.getPlaceNode());
-						setTokens(arc.getPlaceNode(), tokens - arc.getMultiplicity());
+						if(!arc.getInhibitory()){					//inhibitory arc doesnt consume tokens
+                            if(arc.getReset()){						//reset arc consumes them all
+                            	setTokens(arc.getPlaceNode(), 0);
+                            }else{
+                            	setTokens(arc.getPlaceNode(), tokens - arc.getMultiplicity());
+                            }							
+						}
 					}
 					else {
 						int tokens = getTokens(arc.getPlaceNode());

@@ -95,13 +95,28 @@ public abstract class ArcEdge extends Edge implements Cloneable{
 		Point lastBreakPoint = getLastBreakPoint();
 		GraphicsTools.drawArrow(g, lastBreakPoint.x, lastBreakPoint.y, arrowTip.x, arrowTip.y);
 	}
+    
+	protected void drawArrowDouble(Graphics g, Point arrowTip) {
+        Point lastBreakPoint = getLastBreakPoint();
+        /*int dx =lastBreakPoint.x - arrowTip.x;
+        int dy =lastBreakPoint.y - arrowTip.y;
+        int px = 8;
+        int py = (int) ((dy/dx) * px);
+        GraphicsTools.drawArrow(g, lastBreakPoint.x, lastBreakPoint.y, arrowTip.x, arrowTip.y);*/
+        GraphicsTools.drawArrowDouble(g, lastBreakPoint.x, lastBreakPoint.y, arrowTip.x, arrowTip.y);
+	}
+	
+        protected void drawCircle(Graphics g, Point arrowTip) {
+                Point lastBreakPoint = getLastBreakPoint();
+                GraphicsTools.drawCircle(g, lastBreakPoint.x, lastBreakPoint.y, arrowTip.x, arrowTip.y);
+        }
 	
 	protected void drawMultiplicityLabel(Graphics g, Point arrowTip, int multiplicity) {
 		Point labelPoint = getLabelPoint(arrowTip);
 		GraphicsTools.drawString(g, Integer.toString(multiplicity), labelPoint.x, labelPoint.y, HorizontalAlignment.center, VerticalAlignment.bottom);
 	}
-    
-    @Override
+	
+	@Override
 	public ArcEdge getClone() {
 		ArcEdge arcEdge = (ArcEdge)super.getClone();
 		arcEdge.setSource(this.getSource());
