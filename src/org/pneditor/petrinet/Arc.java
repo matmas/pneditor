@@ -25,7 +25,7 @@ import java.awt.Point;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class Arc extends ArcEdge {
+public class Arc extends ArcEdge implements Cloneable{
 
 	private int multiplicity = 1;
         private boolean inhibitory = false;
