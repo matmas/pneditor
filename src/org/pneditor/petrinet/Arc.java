@@ -17,6 +17,7 @@
 
 package org.pneditor.petrinet;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -24,10 +25,13 @@ import java.awt.Point;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class Arc extends ArcEdge implements Cloneable{
+public class Arc extends ArcEdge {
 
 	private int multiplicity = 1;
-
+        private boolean inhibitory = false;
+        private boolean reset = false;
+        
+        
 	public Arc(Node sourceNode) {
 		setSource(sourceNode);
 		setStart(sourceNode.getCenter().x, sourceNode.getCenter().y);
@@ -50,13 +54,46 @@ public class Arc extends ArcEdge implements Cloneable{
 	public void setMultiplicity(int multiplicity) {
 		this.multiplicity = multiplicity;
 	}
+        
+        public void setInhibitory(boolean value) {
+                this.inhibitory = value;            
+        }
+        
+        public boolean getInhibitory() {
+                return this.inhibitory;            
+        }
+        
+    	public boolean setReset(boolean value) {
+    		return this.reset = value;
+    	}
+
+    	public boolean getReset() {
+    		 return this.reset;
+    	}
 	
 	@Override
 	public void draw(Graphics g, DrawingOptions drawingOptions) {
+                if(this.inhibitory) 
+                        this.color = Color.MAGENTA;
+                else if(this.reset)
+                        this.color = Color.RED;
+                	else 
+                		this.color = Color.BLACK;
+                
 		g.setColor(color);
 		drawSegmentedLine(g);
-		Point arrowTip = computeArrowTipPoint();
-		drawArrow(g, arrowTip);
+                Point arrowTip = computeArrowTipPoint();
+                if(this.inhibitory){                    
+                	 drawCircle(g, arrowTip);        	
+                }
+                else{
+                	if(this.reset){
+                    	drawArrowDouble(g, arrowTip);
+                    }else{
+                    	drawArrow(g, arrowTip);
+                    } 
+                }
+                
 		if (multiplicity >= 2) {
 			drawMultiplicityLabel(g, arrowTip, multiplicity);
 		}
@@ -65,9 +102,9 @@ public class Arc extends ArcEdge implements Cloneable{
 	public Transition getTransition() {
 		return (Transition)getTransitionNode();
 	}
-
+	
 	@Override
-	public Arc getClone() {
+	public Arc getClone(){
 		Arc arc = (Arc)super.getClone();
 		arc.multiplicity = this.multiplicity;
 		return arc;
