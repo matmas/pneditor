@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.BorderLayout;
@@ -43,76 +42,73 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ReplaceSubnetAction extends AbstractAction {
-	
-	private Root root;
-	
-	public ReplaceSubnetAction(Root root) {
-		this.root = root;
-		String name = "Replace subnet(s)...";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/replacesubnet.gif"));
-		setEnabled(false);
-	}
 
-	private JCheckBox looseMethodCheckBox = new JCheckBox("Use loose method");
+    private Root root;
 
-	public void actionPerformed(ActionEvent e) {
-		if (root.getClickedElement() instanceof Subnet || !root.getSelection().getSubnets().isEmpty()) {
-			FileChooserDialog chooser = new FileChooserDialog();
-			chooser.addChoosableFileFilter(new PflowxFileType());
-			chooser.setAcceptAllFileFilterUsed(false);
-			chooser.setCurrentDirectory(root.getCurrentDirectory());
-			chooser.setDialogTitle("Choose subnet");
+    public ReplaceSubnetAction(Root root) {
+        this.root = root;
+        String name = "Replace subnet(s)...";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/replacesubnet.gif"));
+        setEnabled(false);
+    }
 
-			chooser.getSidebar().add(looseMethodCheckBox, BorderLayout.SOUTH);
-			
-			if (chooser.showDialog(root.getParentFrame(), "Choose") == JFileChooser.APPROVE_OPTION) {
-				File file = chooser.getSelectedFile();
-				try {
-					Subnet storedSubnet = importSubnet(file);
+    private JCheckBox looseMethodCheckBox = new JCheckBox("Use loose method");
 
-					Set<Subnet> selectedSubnets = new HashSet<Subnet>();
-					for (Element element : root.getSelectedElementsWithClickedElement()) {
-						if (element instanceof Subnet) {
-							selectedSubnets.add((Subnet)element);
-						}
-					}
+    public void actionPerformed(ActionEvent e) {
+        if (root.getClickedElement() instanceof Subnet || !root.getSelection().getSubnets().isEmpty()) {
+            FileChooserDialog chooser = new FileChooserDialog();
+            chooser.addChoosableFileFilter(new PflowxFileType());
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.setCurrentDirectory(root.getCurrentDirectory());
+            chooser.setDialogTitle("Choose subnet");
 
-					Set<Subnet> previousSubnets = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
+            chooser.getSidebar().add(looseMethodCheckBox, BorderLayout.SOUTH);
 
-					PetriNet petriNet = root.getDocument().petriNet;
+            if (chooser.showDialog(root.getParentFrame(), "Choose") == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                try {
+                    Subnet storedSubnet = importSubnet(file);
 
-					if (looseMethodCheckBox.isSelected()) {
-						root.getUndoManager().executeCommand(new ReplaceSubnetsLooseMethodCommand(selectedSubnets, storedSubnet, petriNet));
-					}
-					else {
-						root.getUndoManager().executeCommand(new ReplaceSubnetsCommand(selectedSubnets, storedSubnet, petriNet));
-					}
+                    Set<Subnet> selectedSubnets = new HashSet<Subnet>();
+                    for (Element element : root.getSelectedElementsWithClickedElement()) {
+                        if (element instanceof Subnet) {
+                            selectedSubnets.add((Subnet) element);
+                        }
+                    }
 
-					Set<Subnet> createdElements = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
-					createdElements.removeAll(previousSubnets);
+                    Set<Subnet> previousSubnets = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
 
-					root.getSelection().clear();
-					root.getSelection().getElements().addAll(createdElements);
-					root.getSelection().selectionChanged();
+                    PetriNet petriNet = root.getDocument().petriNet;
+
+                    if (looseMethodCheckBox.isSelected()) {
+                        root.getUndoManager().executeCommand(new ReplaceSubnetsLooseMethodCommand(selectedSubnets, storedSubnet, petriNet));
+                    } else {
+                        root.getUndoManager().executeCommand(new ReplaceSubnetsCommand(selectedSubnets, storedSubnet, petriNet));
+                    }
+
+                    Set<Subnet> createdElements = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
+                    createdElements.removeAll(previousSubnets);
+
+                    root.getSelection().clear();
+                    root.getSelection().getElements().addAll(createdElements);
+                    root.getSelection().selectionChanged();
 
 //					root.refreshAll();
-
 //					root.getUndoManager().executeCommand(new ReplaceSubnetCommand(clickedSubnet, storedSubnet));
-					
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-				}
-			}
-			root.setCurrentDirectory(chooser.getCurrentDirectory());
-		}
-	}
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                }
+            }
+            root.setCurrentDirectory(chooser.getCurrentDirectory());
+        }
+    }
 
-	private Subnet importSubnet(File file) throws FileTypeException {
-		Subnet subnet = null;
-		Document document = new PflowxFileType().load(file);
-		subnet = document.petriNet.getRootSubnet();
-		return subnet;
-	}
+    private Subnet importSubnet(File file) throws FileTypeException {
+        Subnet subnet = null;
+        Document document = new PflowxFileType().load(file);
+        subnet = document.petriNet.getRootSubnet();
+        return subnet;
+    }
 }

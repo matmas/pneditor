@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.awt.Color;
@@ -35,89 +34,87 @@ import javax.swing.JPanel;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Preview extends JPanel implements PropertyChangeListener {
-	
-	private ImageIcon thumbnail = null;
-	private File file = null;
-	public final int preferredWidth = 200;
-	public final int preferredHeight = 200;
-	
-	public Preview(JFileChooser fileChooser) {
-		super();
+
+    private ImageIcon thumbnail = null;
+    private File file = null;
+    public final int preferredWidth = 200;
+    public final int preferredHeight = 200;
+
+    public Preview(JFileChooser fileChooser) {
+        super();
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
         fileChooser.addPropertyChangeListener(this);
     }
-	
-	public void propertyChange(PropertyChangeEvent e) {
-		String propertyName = e.getPropertyName();
-		boolean update = false;
-		
-		//If the directory changed, don't show an image.
-		if (JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals(propertyName)) {
-			file = null;
-			update = true;
 
-		//If a file became selected, find out which one.
-		} else if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(propertyName)) {
-			file = (File)e.getNewValue();
-			update = true;
-		}
+    public void propertyChange(PropertyChangeEvent e) {
+        String propertyName = e.getPropertyName();
+        boolean update = false;
 
-		//Update the preview accordingly.
-		if (update) {
-			thumbnail = null;
-			if (isShowing()) {
-				loadImage();
-				repaint();
-			}
-		}
-	}
-	
-	private void loadImage() {
-		if (file == null) {
-			thumbnail = null;
-			return;
-		}
-		FileType fileType = FileType.getAcceptingFileType(file, FileType.getAllFileTypes());
-		if (fileType == null) {
-			thumbnail = null;
-			return;
-		}
-		BufferedImage image = fileType.getPreview(file);
-		if (image == null) {
-			thumbnail = null;
-			return;
-		}
-		if (image.getWidth() > image.getHeight()) {
-			thumbnail = new ImageIcon(image.getScaledInstance(preferredWidth, -1, Image.SCALE_SMOOTH), "");
-		}
-		else {
-			thumbnail = new ImageIcon(image.getScaledInstance(-1, preferredHeight, Image.SCALE_SMOOTH), "");
-		}
-		
-	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		if (thumbnail == null) {
-			loadImage();
-		}
-		if (thumbnail != null) {
-			setBackground(Color.white);
-			super.paintComponent(g);
-			int x = getWidth()/2 - thumbnail.getIconWidth()/2;
-			int y = getHeight()/2 - thumbnail.getIconHeight()/2;
+        //If the directory changed, don't show an image.
+        if (JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals(propertyName)) {
+            file = null;
+            update = true;
 
-			if (y < 0) {
-				y = 0;
-			}
-			if (x < 0) {
-				x = 0;
-			}
-			thumbnail.paintIcon(this, g, x, y);
-		}
-		else {
-			setBackground(SystemColor.control);
-			super.paintComponent(g);
-		}
-	}
+            //If a file became selected, find out which one.
+        } else if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(propertyName)) {
+            file = (File) e.getNewValue();
+            update = true;
+        }
+
+        //Update the preview accordingly.
+        if (update) {
+            thumbnail = null;
+            if (isShowing()) {
+                loadImage();
+                repaint();
+            }
+        }
+    }
+
+    private void loadImage() {
+        if (file == null) {
+            thumbnail = null;
+            return;
+        }
+        FileType fileType = FileType.getAcceptingFileType(file, FileType.getAllFileTypes());
+        if (fileType == null) {
+            thumbnail = null;
+            return;
+        }
+        BufferedImage image = fileType.getPreview(file);
+        if (image == null) {
+            thumbnail = null;
+            return;
+        }
+        if (image.getWidth() > image.getHeight()) {
+            thumbnail = new ImageIcon(image.getScaledInstance(preferredWidth, -1, Image.SCALE_SMOOTH), "");
+        } else {
+            thumbnail = new ImageIcon(image.getScaledInstance(-1, preferredHeight, Image.SCALE_SMOOTH), "");
+        }
+
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        if (thumbnail == null) {
+            loadImage();
+        }
+        if (thumbnail != null) {
+            setBackground(Color.white);
+            super.paintComponent(g);
+            int x = getWidth() / 2 - thumbnail.getIconWidth() / 2;
+            int y = getHeight() / 2 - thumbnail.getIconHeight() / 2;
+
+            if (y < 0) {
+                y = 0;
+            }
+            if (x < 0) {
+                x = 0;
+            }
+            thumbnail.paintIcon(this, g, x, y);
+        } else {
+            setBackground(SystemColor.control);
+            super.paintComponent(g);
+        }
+    }
 }

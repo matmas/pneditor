@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet.xml;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -24,11 +23,11 @@ import javax.xml.bind.annotation.XmlElement;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class XmlPoint {
-	
-	@XmlElement(name="y")
-	public int y;
-	
-	@XmlElement(name="x")
-	public int x;
-	
+
+    @XmlElement(name = "y")
+    public int y;
+
+    @XmlElement(name = "x")
+    public int x;
+
 }

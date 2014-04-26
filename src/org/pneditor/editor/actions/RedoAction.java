@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,21 +28,21 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class RedoAction extends AbstractAction {
-	
-	private Root root;
-	
-	public RedoAction(Root root) {
-		this.root = root;
-		String name = "Redo";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Redo16.gif"));
-		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl Y"));
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		root.getUndoManager().redoNextCommand();
-	}
+    private Root root;
+
+    public RedoAction(Root root) {
+        this.root = root;
+        String name = "Redo";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Redo16.gif"));
+        putValue(MNEMONIC_KEY, KeyEvent.VK_R);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl Y"));
+        setEnabled(false);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        root.getUndoManager().redoNextCommand();
+    }
 }

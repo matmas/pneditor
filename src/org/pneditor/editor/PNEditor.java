@@ -14,23 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor;
 
 /**
  *
-* @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class PNEditor {
-    
+
     private static Root root;
-    
+
     public static void setRoot(Root root) {
         PNEditor.root = root;
     }
-    
+
     public static Root getRoot() {
         return PNEditor.root;
     }
-    
+
 }

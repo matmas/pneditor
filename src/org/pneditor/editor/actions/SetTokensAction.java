@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -33,47 +32,45 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetTokensAction extends AbstractAction {
-	
-	private Root root;
-	
-	public SetTokensAction(Root root) {
-		this.root = root;
-		String name = "Set tokens";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/tokens.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
+
+    private Root root;
+
+    public SetTokensAction(Root root) {
+        this.root = root;
+        String name = "Set tokens";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/tokens.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 //		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("T"));
-		setEnabled(false);
-	}
+        setEnabled(false);
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		Marking initialMarking = root.getDocument().petriNet.getInitialMarking();
-		if (root.getClickedElement() != null) {
-			if (root.getClickedElement() instanceof PlaceNode) {
-				PlaceNode placeNode = (PlaceNode)root.getClickedElement();
-				int tokens = initialMarking.getTokens(placeNode);
+    public void actionPerformed(ActionEvent e) {
+        Marking initialMarking = root.getDocument().petriNet.getInitialMarking();
+        if (root.getClickedElement() != null) {
+            if (root.getClickedElement() instanceof PlaceNode) {
+                PlaceNode placeNode = (PlaceNode) root.getClickedElement();
+                int tokens = initialMarking.getTokens(placeNode);
 
-				String response = JOptionPane.showInputDialog(root.getParentFrame(), "Tokens:", tokens);
-				if (response != null) {
-					try {
-						tokens = Integer.parseInt(response);
-					}
-					catch (NumberFormatException exception) {
-						JOptionPane.showMessageDialog(root.getParentFrame(), exception.getMessage() + " is not a number");
-					}
+                String response = JOptionPane.showInputDialog(root.getParentFrame(), "Tokens:", tokens);
+                if (response != null) {
+                    try {
+                        tokens = Integer.parseInt(response);
+                    } catch (NumberFormatException exception) {
+                        JOptionPane.showMessageDialog(root.getParentFrame(), exception.getMessage() + " is not a number");
+                    }
 
-					if (tokens < 0) {
-						tokens = initialMarking.getTokens(placeNode); // restore old value
-						JOptionPane.showMessageDialog(root.getParentFrame(), "Number of tokens must be non-negative");
-					}
-				}
+                    if (tokens < 0) {
+                        tokens = initialMarking.getTokens(placeNode); // restore old value
+                        JOptionPane.showMessageDialog(root.getParentFrame(), "Number of tokens must be non-negative");
+                    }
+                }
 
-				if (initialMarking.getTokens(placeNode) != tokens) {
-					root.getUndoManager().executeCommand(new SetTokensCommand(placeNode, tokens, initialMarking));
-				}
-			}
-		}
-	}
+                if (initialMarking.getTokens(placeNode) != tokens) {
+                    root.getUndoManager().executeCommand(new SetTokensCommand(placeNode, tokens, initialMarking));
+                }
+            }
+        }
+    }
 }
-	

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.io.File;
@@ -26,17 +25,17 @@ import javax.swing.filechooser.FileView;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class FileIconView extends FileView {
-	
-	@Override
-	public Icon getIcon(File file) {
-		if (file.isDirectory()) {
-			return super.getIcon(file);
-		}
-		FileType fileType = FileType.getAcceptingFileType(file, FileType.getAllFileTypes());
-		if (fileType != null) {
-			return fileType.getIcon();
-		}
-		return super.getIcon(file);
+
+    @Override
+    public Icon getIcon(File file) {
+        if (file.isDirectory()) {
+            return super.getIcon(file);
+        }
+        FileType fileType = FileType.getAcceptingFileType(file, FileType.getAllFileTypes());
+        if (fileType != null) {
+            return fileType.getIcon();
+        }
+        return super.getIcon(file);
 //		if (file.isDirectory()) {
 //			return super.getIcon(file);
 //		}
@@ -56,6 +55,6 @@ public class FileIconView extends FileView {
 //		}
 //		cache.put(file, super.getIcon(file));
 //		return super.getIcon(file);
-	}
-	
+    }
+
 }

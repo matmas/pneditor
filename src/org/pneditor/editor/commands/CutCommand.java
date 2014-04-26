@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.Set;
@@ -26,28 +25,28 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class CutCommand implements Command {
-	
-	private Command deleteElements;
 
-	public CutCommand(Set<Element> elementsToDelete) {
-		deleteElements = new DeleteElementsCommand(elementsToDelete);
-	}
+    private Command deleteElements;
 
-	public void execute() {
-		deleteElements.execute();
-	}
+    public CutCommand(Set<Element> elementsToDelete) {
+        deleteElements = new DeleteElementsCommand(elementsToDelete);
+    }
 
-	public void undo() {
-		deleteElements.undo();
-	}
+    public void execute() {
+        deleteElements.execute();
+    }
 
-	public void redo() {
-		deleteElements.redo();
-	}
+    public void undo() {
+        deleteElements.undo();
+    }
 
-	@Override
-	public String toString() {
-		return "Cut";
-	}
-	
+    public void redo() {
+        deleteElements.redo();
+    }
+
+    @Override
+    public String toString() {
+        return "Cut";
+    }
+
 }

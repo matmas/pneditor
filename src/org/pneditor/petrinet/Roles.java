@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 import org.pneditor.util.ListModel;
 
 /**
  * Represents list of roles associated with the Petri net
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Roles extends ListModel<Role> {
 
-	private int uniqueSuffix = 1;
-	
-	@Override
-	public void addNew() {
-		Role role = new Role();
-		role.id = uniqueSuffix;
-		role.name = "role" + uniqueSuffix++;
-		elements.add(role);
-		fireIntervalAdded(this, elements.indexOf(role), elements.indexOf(role));
-	}
-	
+    private int uniqueSuffix = 1;
+
+    @Override
+    public void addNew() {
+        Role role = new Role();
+        role.id = uniqueSuffix;
+        role.name = "role" + uniqueSuffix++;
+        elements.add(role);
+        fireIntervalAdded(this, elements.indexOf(role), elements.indexOf(role));
+    }
+
 }

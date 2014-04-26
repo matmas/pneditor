@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashMap;
@@ -32,39 +31,39 @@ import org.pneditor.util.Command;
  */
 public class AddTransitionsToRolesCommand implements Command {
 
-	private Set<Transition> transitions;
-	private List<Role> roles;
-	private Map<Role, Set<Transition>> oldRoleTransitions;
+    private Set<Transition> transitions;
+    private List<Role> roles;
+    private Map<Role, Set<Transition>> oldRoleTransitions;
 
-	public AddTransitionsToRolesCommand(Set<Transition> transitions, List<Role> roles) {
-		this.transitions = transitions;
-		this.roles = roles;
-	}
-	
-	public void execute() {
-		oldRoleTransitions = new HashMap<Role, Set<Transition>>();
-		for (Role role : roles) {
-			oldRoleTransitions.put(role, new HashSet<Transition>(role.transitions));
-		}
-		redo();
-	}
+    public AddTransitionsToRolesCommand(Set<Transition> transitions, List<Role> roles) {
+        this.transitions = transitions;
+        this.roles = roles;
+    }
 
-	public void undo() {
-		for (Role role : roles) {
-			role.transitions.clear();
-			role.transitions.addAll(oldRoleTransitions.get(role));
-		}
-	}
+    public void execute() {
+        oldRoleTransitions = new HashMap<Role, Set<Transition>>();
+        for (Role role : roles) {
+            oldRoleTransitions.put(role, new HashSet<Transition>(role.transitions));
+        }
+        redo();
+    }
 
-	public void redo() {
-		for (Role role : roles) {
-			role.transitions.addAll(transitions);
-		}
-	}
+    public void undo() {
+        for (Role role : roles) {
+            role.transitions.clear();
+            role.transitions.addAll(oldRoleTransitions.get(role));
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Add transition to role(s)";
-	}
-	
+    public void redo() {
+        for (Role role : roles) {
+            role.transitions.addAll(transitions);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Add transition to role(s)";
+    }
+
 }

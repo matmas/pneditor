@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 /**
@@ -23,13 +22,13 @@ package org.pneditor.petrinet;
  */
 public class DrawingOptions {
 
-	private Marking marking;
-	
-	public Marking getMarking() {
-		return marking;
-	}
+    private Marking marking;
 
-	public void setMarking(Marking marking) {
-		this.marking = marking;
-	}
+    public Marking getMarking() {
+        return marking;
+    }
+
+    public void setMarking(Marking marking) {
+        this.marking = marking;
+    }
 }

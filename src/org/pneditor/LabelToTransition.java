@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor;
 
 import org.pneditor.petrinet.Transition;
@@ -27,25 +26,25 @@ import org.pneditor.petrinet.PetriNet;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class LabelToTransition {
-	
-	private Map<String, Transition> map = new HashMap<String, Transition>();
-	private PetriNet petriNet;
 
-	public LabelToTransition(PetriNet petriNet) {
-		this.petriNet = petriNet;
-	}
-	
-	public Transition getTransition(String label) {
-		if (label.equals(null)) {
-			return null;
-		}
-		if (map.containsKey(label)) {
-			return map.get(label);
-		}
-		Transition transition = new Transition();
-		transition.setLabel(label);
-		petriNet.getNodeSimpleIdGenerator().setUniqueId(transition);
-		map.put(label, transition);
-		return transition;
-	}
+    private Map<String, Transition> map = new HashMap<String, Transition>();
+    private PetriNet petriNet;
+
+    public LabelToTransition(PetriNet petriNet) {
+        this.petriNet = petriNet;
+    }
+
+    public Transition getTransition(String label) {
+        if (label.equals(null)) {
+            return null;
+        }
+        if (map.containsKey(label)) {
+            return map.get(label);
+        }
+        Transition transition = new Transition();
+        transition.setLabel(label);
+        petriNet.getNodeSimpleIdGenerator().setUniqueId(transition);
+        map.put(label, transition);
+        return transition;
+    }
 }

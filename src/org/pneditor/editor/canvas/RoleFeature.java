@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import java.awt.Graphics;
@@ -37,68 +36,82 @@ import org.pneditor.util.GraphicsTools;
  */
 public class RoleFeature implements Feature {
 
-	private Canvas canvas;
-	
-	private BufferedImage fullRoleImage, partialRoleImage, mixedRoleImage;
-	
-	public RoleFeature(Canvas canvas) {
-		this.canvas = canvas;
-		fullRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/fullrole.gif");
-		partialRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/partialrole.gif");
-		mixedRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/mixedrole.gif");
-	}
-	
-	public void drawForeground(Graphics g) {
-		Set<TransitionNode> partiallyIncluded = new HashSet<TransitionNode>();
-		Set<TransitionNode> fullyIncluded = null;
-		Set<Subnet> mixedIncluded = new HashSet<Subnet>();
-		
-		for (Role role : PNEditor.getRoot().getRoleEditor().getSelectedElements()) {
-			Set<TransitionNode> included = new HashSet<TransitionNode>();
-			
-			for (Transition transition : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getTransitions()) {
-				if (role.transitions.contains(transition)) {
-					included.add(transition);
-				}
-			}
-			for (Subnet subnet : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getSubnets()) {
-				Set<Transition> transitions = subnet.getTransitionsRecursively();
-				if (role.transitions.containsAll(transitions)) {
-					included.add(subnet);
-				}
-				else if (CollectionTools.containsAtLeastOne(role.transitions, transitions)) {
-					mixedIncluded.add(subnet);
-				}
-			}
-			
-			if (fullyIncluded == null) {
-				fullyIncluded = new HashSet<TransitionNode>();
-				fullyIncluded.addAll(included);
-			}
-			partiallyIncluded.addAll(included);
-			fullyIncluded.retainAll(included);
-		}
-		
-		if (fullyIncluded != null) {
-			partiallyIncluded.removeAll(fullyIncluded);
-			for (TransitionNode transition : partiallyIncluded) {
-				GraphicsTools.drawImageCentered(g, partialRoleImage, transition.getStart().x + transition.getWidth() / 2, transition.getStart().y + transition.getHeight() / 2);
-			}
-			for (TransitionNode transition : fullyIncluded) {
-				GraphicsTools.drawImageCentered(g, fullRoleImage, transition.getStart().x + transition.getWidth() / 2, transition.getStart().y + transition.getHeight() / 2);
-			}
-		}
-		for (Subnet subnet : mixedIncluded) {
-			GraphicsTools.drawImageCentered(g, mixedRoleImage, subnet.getStart().x + subnet.getWidth() / 2, subnet.getStart().y + subnet.getHeight() / 2);
-		}
-	}
-	
-	public void mousePressed(MouseEvent event) {}
-	public void mouseDragged(int x, int y) {}
-	public void mouseReleased(int x, int y) {}
-	public void setHoverEffects(int x, int y) {}
-	public void drawBackground(Graphics g) {}
-	public void setCursor(int x, int y) {}
-	public void drawMainLayer(Graphics g) {}
-	public void mouseMoved(int x, int y) {}
+    private Canvas canvas;
+
+    private BufferedImage fullRoleImage, partialRoleImage, mixedRoleImage;
+
+    public RoleFeature(Canvas canvas) {
+        this.canvas = canvas;
+        fullRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/fullrole.gif");
+        partialRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/partialrole.gif");
+        mixedRoleImage = GraphicsTools.getBufferedImage("pneditor/canvas/mixedrole.gif");
+    }
+
+    public void drawForeground(Graphics g) {
+        Set<TransitionNode> partiallyIncluded = new HashSet<TransitionNode>();
+        Set<TransitionNode> fullyIncluded = null;
+        Set<Subnet> mixedIncluded = new HashSet<Subnet>();
+
+        for (Role role : PNEditor.getRoot().getRoleEditor().getSelectedElements()) {
+            Set<TransitionNode> included = new HashSet<TransitionNode>();
+
+            for (Transition transition : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getTransitions()) {
+                if (role.transitions.contains(transition)) {
+                    included.add(transition);
+                }
+            }
+            for (Subnet subnet : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getSubnets()) {
+                Set<Transition> transitions = subnet.getTransitionsRecursively();
+                if (role.transitions.containsAll(transitions)) {
+                    included.add(subnet);
+                } else if (CollectionTools.containsAtLeastOne(role.transitions, transitions)) {
+                    mixedIncluded.add(subnet);
+                }
+            }
+
+            if (fullyIncluded == null) {
+                fullyIncluded = new HashSet<TransitionNode>();
+                fullyIncluded.addAll(included);
+            }
+            partiallyIncluded.addAll(included);
+            fullyIncluded.retainAll(included);
+        }
+
+        if (fullyIncluded != null) {
+            partiallyIncluded.removeAll(fullyIncluded);
+            for (TransitionNode transition : partiallyIncluded) {
+                GraphicsTools.drawImageCentered(g, partialRoleImage, transition.getStart().x + transition.getWidth() / 2, transition.getStart().y + transition.getHeight() / 2);
+            }
+            for (TransitionNode transition : fullyIncluded) {
+                GraphicsTools.drawImageCentered(g, fullRoleImage, transition.getStart().x + transition.getWidth() / 2, transition.getStart().y + transition.getHeight() / 2);
+            }
+        }
+        for (Subnet subnet : mixedIncluded) {
+            GraphicsTools.drawImageCentered(g, mixedRoleImage, subnet.getStart().x + subnet.getWidth() / 2, subnet.getStart().y + subnet.getHeight() / 2);
+        }
+    }
+
+    public void mousePressed(MouseEvent event) {
+    }
+
+    public void mouseDragged(int x, int y) {
+    }
+
+    public void mouseReleased(int x, int y) {
+    }
+
+    public void setHoverEffects(int x, int y) {
+    }
+
+    public void drawBackground(Graphics g) {
+    }
+
+    public void setCursor(int x, int y) {
+    }
+
+    public void drawMainLayer(Graphics g) {
+    }
+
+    public void mouseMoved(int x, int y) {
+    }
 }

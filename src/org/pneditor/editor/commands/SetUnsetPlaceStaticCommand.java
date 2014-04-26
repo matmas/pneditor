@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.PlaceNode;
@@ -25,32 +24,31 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetUnsetPlaceStaticCommand implements Command {
-	
-	private PlaceNode placeNode;
 
-	public SetUnsetPlaceStaticCommand(PlaceNode placeNode) {
-		this.placeNode = placeNode;
-	}
-	
-	public void execute() {
-		if (placeNode.isStatic()) {
-			placeNode.setStatic(false);
-		}
-		else {
-			placeNode.setStatic(true);
-		}
-	}
+    private PlaceNode placeNode;
 
-	public void undo() {
-		execute();
-	}
+    public SetUnsetPlaceStaticCommand(PlaceNode placeNode) {
+        this.placeNode = placeNode;
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void execute() {
+        if (placeNode.isStatic()) {
+            placeNode.setStatic(false);
+        } else {
+            placeNode.setStatic(true);
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Set/unset place node static";
-	}
+    public void undo() {
+        execute();
+    }
+
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Set/unset place node static";
+    }
 }

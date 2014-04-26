@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet.xml;
 
 import java.util.HashMap;
@@ -25,58 +24,58 @@ import java.util.Map;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class IdToXmlObject {
-	
-	private XmlDocument xmlDocument;
-	
-	public IdToXmlObject(XmlDocument xmlDocument) {
-		this.xmlDocument = xmlDocument;
-	}
-	
-	private Map<String, Object> map = new HashMap<String, Object>();
-	
-	public Object getXmlObject(String id) {
-		if (id.equals(null)) {
-			return null;
-		}
-		if (id.equals("")) {
-			return null;
-		}
-		if (map.containsKey(id)) {
-			return map.get(id);
-		}
-		Object xmlObject = getXmlObjectFromXmlSubnet(id, xmlDocument.rootSubnet);
-		if (xmlObject != null) {
-			map.put(id, xmlObject);
-		}
-		return xmlObject;
-	}
-	
-	private Object getXmlObjectFromXmlSubnet(String id, XmlSubnet xmlSubnet) {
-		for (XmlPlace xmlPlace : xmlSubnet.places) {
-			if (xmlPlace.id.equals(id)) {
-				return xmlPlace;
-			}
-		}
-		for (XmlTransition xmlTransition : xmlSubnet.transitions) {
-			if (xmlTransition.id.equals(id)) {
-				return xmlTransition;
-			}
-		}
-		for (XmlReferencePlace xmlReference : xmlSubnet.referencePlaces) {
-			if (xmlReference.id.equals(id)) {
-				return xmlReference;
-			}
-		}
-		for (XmlSubnet xmlSubSubnet : xmlSubnet.subnets) {
-			if (xmlSubSubnet.id.equals(id)) {
-				return xmlSubSubnet;
-			}
-			Object xmlObject = getXmlObjectFromXmlSubnet(id, xmlSubSubnet);
-			if (xmlObject != null) {
-				return xmlObject;
-			}
-		}
-		return null;
-	}
-	
+
+    private XmlDocument xmlDocument;
+
+    public IdToXmlObject(XmlDocument xmlDocument) {
+        this.xmlDocument = xmlDocument;
+    }
+
+    private Map<String, Object> map = new HashMap<String, Object>();
+
+    public Object getXmlObject(String id) {
+        if (id.equals(null)) {
+            return null;
+        }
+        if (id.equals("")) {
+            return null;
+        }
+        if (map.containsKey(id)) {
+            return map.get(id);
+        }
+        Object xmlObject = getXmlObjectFromXmlSubnet(id, xmlDocument.rootSubnet);
+        if (xmlObject != null) {
+            map.put(id, xmlObject);
+        }
+        return xmlObject;
+    }
+
+    private Object getXmlObjectFromXmlSubnet(String id, XmlSubnet xmlSubnet) {
+        for (XmlPlace xmlPlace : xmlSubnet.places) {
+            if (xmlPlace.id.equals(id)) {
+                return xmlPlace;
+            }
+        }
+        for (XmlTransition xmlTransition : xmlSubnet.transitions) {
+            if (xmlTransition.id.equals(id)) {
+                return xmlTransition;
+            }
+        }
+        for (XmlReferencePlace xmlReference : xmlSubnet.referencePlaces) {
+            if (xmlReference.id.equals(id)) {
+                return xmlReference;
+            }
+        }
+        for (XmlSubnet xmlSubSubnet : xmlSubnet.subnets) {
+            if (xmlSubSubnet.id.equals(id)) {
+                return xmlSubSubnet;
+            }
+            Object xmlObject = getXmlObjectFromXmlSubnet(id, xmlSubSubnet);
+            if (xmlObject != null) {
+                return xmlObject;
+            }
+        }
+        return null;
+    }
+
 }

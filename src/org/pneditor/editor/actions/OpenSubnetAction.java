@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,27 +29,27 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class OpenSubnetAction extends AbstractAction {
-	
-	private Root root;
-	
-	public OpenSubnetAction(Root root) {
-		this.root = root;
-		String name = "Open subnet";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/opensubnet.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_O);
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		Element clickedElement = root.getClickedElement();
-		if (clickedElement != null) {
-			if (clickedElement instanceof Subnet) {
-				root.getDocument().petriNet.openSubnet((Subnet)clickedElement);
-				root.setClickedElement(null);
-				root.refreshAll();
-			}
-		}
-	}
+    private Root root;
+
+    public OpenSubnetAction(Root root) {
+        this.root = root;
+        String name = "Open subnet";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/opensubnet.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_O);
+        setEnabled(false);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        Element clickedElement = root.getClickedElement();
+        if (clickedElement != null) {
+            if (clickedElement instanceof Subnet) {
+                root.getDocument().petriNet.openSubnet((Subnet) clickedElement);
+                root.setClickedElement(null);
+                root.refreshAll();
+            }
+        }
+    }
 }

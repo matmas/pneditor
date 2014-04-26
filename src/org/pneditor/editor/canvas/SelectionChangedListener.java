@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 /**
@@ -22,5 +21,6 @@ package org.pneditor.editor.canvas;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public interface SelectionChangedListener {
-	public void selectionChanged();
+
+    public void selectionChanged();
 }

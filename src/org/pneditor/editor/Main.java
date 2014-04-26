@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor;
 
 /**
@@ -22,7 +21,8 @@ package org.pneditor.editor;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Main {
-	public static void main(String[] args) {
-		new RootPflow(args);
-	}
+
+    public static void main(String[] args) {
+        new RootPflow(args);
+    }
 }

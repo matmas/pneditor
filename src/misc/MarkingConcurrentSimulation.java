@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package misc;
 
 import java.io.File;
@@ -36,53 +35,53 @@ import org.pneditor.petrinet.xml.DocumentImporter;
 public class MarkingConcurrentSimulation {
 
     public static void main(String[] args) throws InterruptedException {
-		System.out.print("Testing...");
-		try {
-			Document document = new DocumentImporter().readFromFile(new File("src/misc/MarkingConcurrentSimulation.pflow"));
-			PetriNet petriNet = document.petriNet;
-			for (int i = 0; i < 1000; i++) {
-				doTest(petriNet);
-			}
-		} catch (JAXBException ex) {
-			Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (FileNotFoundException ex) {
-			Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IOException ex) {
-			Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		while (Thread.activeCount() > 1) {
-			Thread.sleep(100);
-		}
-		System.out.println("FINISHED");
+        System.out.print("Testing...");
+        try {
+            Document document = new DocumentImporter().readFromFile(new File("src/misc/MarkingConcurrentSimulation.pflow"));
+            PetriNet petriNet = document.petriNet;
+            for (int i = 0; i < 1000; i++) {
+                doTest(petriNet);
+            }
+        } catch (JAXBException ex) {
+            Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while (Thread.activeCount() > 1) {
+            Thread.sleep(100);
+        }
+        System.out.println("FINISHED");
     }
 
-	private static void doTest(final PetriNet petriNet) throws InterruptedException {
-		final Marking marking = petriNet.getInitialMarking();
-		new Thread(new Runnable(){
-			public void run() {
+    private static void doTest(final PetriNet petriNet) throws InterruptedException {
+        final Marking marking = petriNet.getInitialMarking();
+        new Thread(new Runnable() {
+            public void run() {
 //				System.out.println("running co-thread");
-				for (int i = 0; i < 100; i++) {
-					try {
-						if (!marking.isEnabledByAnyTransition()) {
-							System.out.println("all transitions disabled");
-							System.out.println(marking);
-							return;
-						}
-						marking.fireRandomTransition();
-						for (Place place : petriNet.getRootSubnet().getPlacesRecursively()) {
-							if (marking.getTokens(place) < 0) {
-								System.out.println("negative place");
-								System.out.println(marking);
-								return;
-							}
-						}
-						Thread.sleep(50);
-					} catch (InterruptedException ex) {
-						Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
-					}
-				}
+                for (int i = 0; i < 100; i++) {
+                    try {
+                        if (!marking.isEnabledByAnyTransition()) {
+                            System.out.println("all transitions disabled");
+                            System.out.println(marking);
+                            return;
+                        }
+                        marking.fireRandomTransition();
+                        for (Place place : petriNet.getRootSubnet().getPlacesRecursively()) {
+                            if (marking.getTokens(place) < 0) {
+                                System.out.println("negative place");
+                                System.out.println(marking);
+                                return;
+                            }
+                        }
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
 //				System.out.println("finished co-thread");
-			}
-		}).start();
-	}
+            }
+        }).start();
+    }
 }

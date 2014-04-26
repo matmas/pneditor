@@ -14,19 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.util;
 
 import javax.swing.JScrollBar;
 
 /**
  *
-* @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ScrollBar extends JScrollBar {
 
     private int offset = 0;
-    
+
     public ScrollBar(int orientation, int value, int extent, int min, int max) {
         super(orientation, value, extent, min, max);
     }
@@ -37,13 +36,12 @@ public class ScrollBar extends JScrollBar {
         if (minimum < 0) {
             offset = minimum;
             minimum = 0;
-        }
-        else {
+        } else {
             offset = 0;
         }
-        
+
         super.setMinimum(minimum);
-        this. setValue(getValue() + oldOffset - offset);
+        this.setValue(getValue() + oldOffset - offset);
     }
 
     @Override
@@ -51,6 +49,4 @@ public class ScrollBar extends JScrollBar {
         super.setMaximum(maximum - offset);
     }
 
-    
-    
 }

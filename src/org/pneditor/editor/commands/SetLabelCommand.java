@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Node;
@@ -22,35 +21,36 @@ import org.pneditor.util.Command;
 
 /**
  * Set label to clicked element
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetLabelCommand implements Command {
 
-	private Node node;
-	private String newLabel;
-	private String oldLabel;
-	
-	public SetLabelCommand(Node node, String newLabel) {
-		this.node = node;
-		this.newLabel = newLabel;
-	}
+    private Node node;
+    private String newLabel;
+    private String oldLabel;
 
-	public void execute() {
-		this.oldLabel = node.getLabel();
-		node.setLabel(newLabel);
-	}
+    public SetLabelCommand(Node node, String newLabel) {
+        this.node = node;
+        this.newLabel = newLabel;
+    }
 
-	public void undo() {
-		node.setLabel(oldLabel);
-	}
+    public void execute() {
+        this.oldLabel = node.getLabel();
+        node.setLabel(newLabel);
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void undo() {
+        node.setLabel(oldLabel);
+    }
 
-	@Override
-	public String toString() {
-		return "Set label to " + newLabel;
-	}
-	
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Set label to " + newLabel;
+    }
+
 }

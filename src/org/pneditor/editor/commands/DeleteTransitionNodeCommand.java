@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashSet;
@@ -30,49 +29,47 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class DeleteTransitionNodeCommand implements Command {
-	
-	private TransitionNode transitionNode;
-	private Set<Command> deleteAllArcEdges = new HashSet<Command>();
-	
-	public DeleteTransitionNodeCommand(TransitionNode transitionNode) {
-		this.transitionNode = transitionNode;
-		Set<ArcEdge> connectedArcs = new HashSet<ArcEdge>(transitionNode.getConnectedArcEdges());
-		for (ArcEdge arcEdge : connectedArcs) { //TODO: create new class DeleteArcEdgeCommand (use also DeletePlaceNodeCommand)
-			if (arcEdge instanceof Arc) {
-				deleteAllArcEdges.add(new DeleteArcCommand((Arc)arcEdge));
-			}
-			else if (arcEdge instanceof ReferenceArc) {
-				deleteAllArcEdges.add(new DeleteReferenceArcCommand((ReferenceArc)arcEdge));
-			}
-			else {
-				throw new RuntimeException("arcEdge not instanceof Arc neither ReferenceArc");
-			}
-		}
-	}
-	
-	public void execute() {
-		for (Command deleteArc : deleteAllArcEdges) {
-			deleteArc.execute();
-		}
-		transitionNode.getParentSubnet().removeElement(transitionNode);
-	}
 
-	public void undo() {
-		for (Command deleteArc : deleteAllArcEdges) {
-			deleteArc.undo();
-		}
-		transitionNode.getParentSubnet().addElement(transitionNode);
-	}
+    private TransitionNode transitionNode;
+    private Set<Command> deleteAllArcEdges = new HashSet<Command>();
 
-	public void redo() {
-		for (Command deleteArc : deleteAllArcEdges) {
-			deleteArc.redo();
-		}
-		transitionNode.getParentSubnet().removeElement(transitionNode);
-	}
+    public DeleteTransitionNodeCommand(TransitionNode transitionNode) {
+        this.transitionNode = transitionNode;
+        Set<ArcEdge> connectedArcs = new HashSet<ArcEdge>(transitionNode.getConnectedArcEdges());
+        for (ArcEdge arcEdge : connectedArcs) { //TODO: create new class DeleteArcEdgeCommand (use also DeletePlaceNodeCommand)
+            if (arcEdge instanceof Arc) {
+                deleteAllArcEdges.add(new DeleteArcCommand((Arc) arcEdge));
+            } else if (arcEdge instanceof ReferenceArc) {
+                deleteAllArcEdges.add(new DeleteReferenceArcCommand((ReferenceArc) arcEdge));
+            } else {
+                throw new RuntimeException("arcEdge not instanceof Arc neither ReferenceArc");
+            }
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Delete transition node";
-	}
+    public void execute() {
+        for (Command deleteArc : deleteAllArcEdges) {
+            deleteArc.execute();
+        }
+        transitionNode.getParentSubnet().removeElement(transitionNode);
+    }
+
+    public void undo() {
+        for (Command deleteArc : deleteAllArcEdges) {
+            deleteArc.undo();
+        }
+        transitionNode.getParentSubnet().addElement(transitionNode);
+    }
+
+    public void redo() {
+        for (Command deleteArc : deleteAllArcEdges) {
+            deleteArc.redo();
+        }
+        transitionNode.getParentSubnet().removeElement(transitionNode);
+    }
+
+    @Override
+    public String toString() {
+        return "Delete transition node";
+    }
 }

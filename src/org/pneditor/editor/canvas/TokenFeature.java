@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import java.awt.BasicStroke;
@@ -39,118 +38,118 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 class TokenFeature implements Feature {
-	
-	private Canvas canvas;
-	
-	private Cursor tokenCursor;
-	private Cursor fireCursor;
-	
-	TokenFeature(Canvas canvas) {
-		this.canvas = canvas;
-		tokenCursor = GraphicsTools.getCursor("pneditor/canvas/token.gif", new Point(16, 0));
-		fireCursor = GraphicsTools.getCursor("pneditor/canvas/fire.gif", new Point(16, 0));
-	}
-	
-	public void mousePressed(MouseEvent event) {
-		int x = event.getX();
-		int y = event.getY();
-		int mouseButton = event.getButton();
-		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
-		
-		if (PNEditor.getRoot().getClickedElement() != null &&
-			PNEditor.getRoot().isSelectedTool_Token()
-		) {
-			Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
 
-			if (targetElement instanceof PlaceNode) {
-				PlaceNode placeNode = (PlaceNode)targetElement;
-				if (mouseButton == MouseEvent.BUTTON1) {
-					PNEditor.getRoot().getUndoManager().executeCommand(new AddTokenCommand(placeNode, initialMarking));
-				}
-				else if (mouseButton == MouseEvent.BUTTON3) {
-					if (initialMarking.getTokens(placeNode) > 0) {
-						PNEditor.getRoot().getUndoManager().executeCommand(new RemoveTokenCommand(placeNode, initialMarking));
-					}
-				}
-			}
-			else if (targetElement instanceof Transition) {
-				Transition transition = (Transition)targetElement;
-				if (mouseButton == MouseEvent.BUTTON1) {
-					if (initialMarking.isEnabled(transition)) {
-						PNEditor.getRoot().getUndoManager().executeCommand(new FireTransitionCommand(transition, initialMarking));
-					}
-				}
-			}
-		}
-	}
-	
-	public void setHoverEffects(int x, int y) {
-		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
-		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
+    private Canvas canvas;
 
-		if (PNEditor.getRoot().isSelectedTool_Token()) {
-			if (targetElement instanceof PlaceNode) {
-				canvas.highlightedElements.add(targetElement);
-				targetElement.highlightColor = Colors.pointingColor;
-				canvas.repaint();
-			}
-			else if (targetElement instanceof Transition) {
-				if (initialMarking.isEnabled((Transition)targetElement)) {
-					canvas.highlightedElements.add(targetElement);
-					targetElement.highlightColor = Colors.permittedColor;
-					canvas.repaint();
-				}
-				else {
-					canvas.highlightedElements.add(targetElement);
-					targetElement.highlightColor = Colors.disallowedColor;
-					canvas.repaint();
-				}
-			}
-		}
-	}
+    private Cursor tokenCursor;
+    private Cursor fireCursor;
 
-	public void drawForeground(Graphics g) {
-		Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
+    TokenFeature(Canvas canvas) {
+        this.canvas = canvas;
+        tokenCursor = GraphicsTools.getCursor("pneditor/canvas/token.gif", new Point(16, 0));
+        fireCursor = GraphicsTools.getCursor("pneditor/canvas/fire.gif", new Point(16, 0));
+    }
 
-		if (PNEditor.getRoot().isSelectedTool_Token()) {
-			for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
-				if (element instanceof Transition) {
-					Transition transition = (Transition)element;
-					if (initialMarking.isEnabled(transition)) {
-						g.setColor(Colors.permittedColor);
-					}
-					else {
-						g.setColor(Colors.disallowedColor);
-					}
-					((Graphics2D)g).setStroke(new BasicStroke(2f));
-					g.drawRect(transition.getStart().x+1, transition.getStart().y+1, transition.getWidth()-3, transition.getHeight()-3);
-					((Graphics2D)g).setStroke(new BasicStroke(1f));
-				}
-			}
-		}
-	}
-	
-	public void setCursor(int x, int y) {
-		Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
-		
-		if (PNEditor.getRoot().isSelectedTool_Token() &&
-			targetElement != null
-		) {
-			if (targetElement instanceof PlaceNode) {
-				
-				canvas.alternativeCursor = tokenCursor;
-			}
-			else if (targetElement instanceof Transition) {
-				canvas.alternativeCursor = fireCursor;
-			}
-		}
-		
-		
-	}
-	
-	public void drawBackground(Graphics g) {}
-	public void mouseDragged(int x, int y) {}
-	public void mouseReleased(int x, int y) {}
-	public void drawMainLayer(Graphics g) {}
-	public void mouseMoved(int x, int y) {}
+    public void mousePressed(MouseEvent event) {
+        int x = event.getX();
+        int y = event.getY();
+        int mouseButton = event.getButton();
+        Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
+
+        if (PNEditor.getRoot().getClickedElement() != null
+                && PNEditor.getRoot().isSelectedTool_Token()) {
+            Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+
+            if (targetElement instanceof PlaceNode) {
+                PlaceNode placeNode = (PlaceNode) targetElement;
+                if (mouseButton == MouseEvent.BUTTON1) {
+                    PNEditor.getRoot().getUndoManager().executeCommand(new AddTokenCommand(placeNode, initialMarking));
+                } else if (mouseButton == MouseEvent.BUTTON3) {
+                    if (initialMarking.getTokens(placeNode) > 0) {
+                        PNEditor.getRoot().getUndoManager().executeCommand(new RemoveTokenCommand(placeNode, initialMarking));
+                    }
+                }
+            } else if (targetElement instanceof Transition) {
+                Transition transition = (Transition) targetElement;
+                if (mouseButton == MouseEvent.BUTTON1) {
+                    if (initialMarking.isEnabled(transition)) {
+                        PNEditor.getRoot().getUndoManager().executeCommand(new FireTransitionCommand(transition, initialMarking));
+                    }
+                }
+            }
+        }
+    }
+
+    public void setHoverEffects(int x, int y) {
+        Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+        Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
+
+        if (PNEditor.getRoot().isSelectedTool_Token()) {
+            if (targetElement instanceof PlaceNode) {
+                canvas.highlightedElements.add(targetElement);
+                targetElement.highlightColor = Colors.pointingColor;
+                canvas.repaint();
+            } else if (targetElement instanceof Transition) {
+                if (initialMarking.isEnabled((Transition) targetElement)) {
+                    canvas.highlightedElements.add(targetElement);
+                    targetElement.highlightColor = Colors.permittedColor;
+                    canvas.repaint();
+                } else {
+                    canvas.highlightedElements.add(targetElement);
+                    targetElement.highlightColor = Colors.disallowedColor;
+                    canvas.repaint();
+                }
+            }
+        }
+    }
+
+    public void drawForeground(Graphics g) {
+        Marking initialMarking = PNEditor.getRoot().getCurrentMarking();
+
+        if (PNEditor.getRoot().isSelectedTool_Token()) {
+            for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
+                if (element instanceof Transition) {
+                    Transition transition = (Transition) element;
+                    if (initialMarking.isEnabled(transition)) {
+                        g.setColor(Colors.permittedColor);
+                    } else {
+                        g.setColor(Colors.disallowedColor);
+                    }
+                    ((Graphics2D) g).setStroke(new BasicStroke(2f));
+                    g.drawRect(transition.getStart().x + 1, transition.getStart().y + 1, transition.getWidth() - 3, transition.getHeight() - 3);
+                    ((Graphics2D) g).setStroke(new BasicStroke(1f));
+                }
+            }
+        }
+    }
+
+    public void setCursor(int x, int y) {
+        Element targetElement = PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElementByXY(x, y);
+
+        if (PNEditor.getRoot().isSelectedTool_Token()
+                && targetElement != null) {
+            if (targetElement instanceof PlaceNode) {
+
+                canvas.alternativeCursor = tokenCursor;
+            } else if (targetElement instanceof Transition) {
+                canvas.alternativeCursor = fireCursor;
+            }
+        }
+
+    }
+
+    public void drawBackground(Graphics g) {
+    }
+
+    public void mouseDragged(int x, int y) {
+    }
+
+    public void mouseReleased(int x, int y) {
+    }
+
+    public void drawMainLayer(Graphics g) {
+    }
+
+    public void mouseMoved(int x, int y) {
+    }
 }

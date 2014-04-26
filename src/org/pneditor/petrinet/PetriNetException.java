@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 /**
@@ -22,9 +21,9 @@ package org.pneditor.petrinet;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class PetriNetException extends Exception {
-	
-	public PetriNetException(String message) {
-		super(message);
-	}
-	
+
+    public PetriNetException(String message) {
+        super(message);
+    }
+
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.io.File;
@@ -36,70 +35,66 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ViptoolPnmlFileType extends FileType {
-	
-	@Override
-	public String getName() {
-		return "PNML Viptool dialect";
-	}
 
-	@Override
-	public String getExtension() {
-		return "pnml";
-	}
+    @Override
+    public String getName() {
+        return "PNML Viptool dialect";
+    }
 
-	@Override
-	public Icon getIcon() {
-		final Icon icon = GraphicsTools.getIcon("pneditor/filechooser/pnml.gif");
-		return icon;
-	}
+    @Override
+    public String getExtension() {
+        return "pnml";
+    }
 
-	@Override
-	public void save(Document document, File file) throws FileTypeException {
-		try {
-			final InputStream xslt = getClass().getResourceAsStream("/xslt/pnml-export.xslt");
-			PetriNet petriNet = document.petriNet;
-			Marking initialMarking = petriNet.getInitialMarking();
-			new DocumentExporter(document, initialMarking).writeToFileWithXslt(file, xslt);
-		} catch (FileNotFoundException ex) {
-			throw new FileTypeException(ex.getMessage());
-		} catch (JAXBException ex) {
-			if ( !file.exists()) {
-				throw new FileTypeException("File not found.");
-			}
-			else if ( !file.canRead()) {
-				throw new FileTypeException("File can not be read.");
-			}
-			else {
-				throw new FileTypeException("Selected file is not compatible.");
-			}
-		} catch (IOException ex) {
-			throw new FileTypeException(ex.getMessage());
-		} catch (TransformerException ex) {
-			throw new FileTypeException(ex.getMessage());
-		}
-	}
+    @Override
+    public Icon getIcon() {
+        final Icon icon = GraphicsTools.getIcon("pneditor/filechooser/pnml.gif");
+        return icon;
+    }
 
-	@Override
-	public Document load(File file) throws FileTypeException {
-		try {
-			final InputStream xslt = getClass().getResourceAsStream("/xslt/pnml-import.xslt");
-			Document document = new DocumentImporter().readFromFileWithXslt(file, xslt);
-			document.petriNet.getRootSubnet().setViewTranslationToCenterRecursively();
-			return document;
-		} catch (JAXBException ex) {
-			if ( !file.exists()) {
-				throw new FileTypeException("File not found.");
-			}
-			else if ( !file.canRead()) {
-				throw new FileTypeException("File can not be read.");
-			}
-			else {
-				throw new FileTypeException("Selected file is not compatible.");
-			}
-		} catch (IOException ex) {
-			throw new FileTypeException(ex.getMessage());
-		} catch (TransformerException ex) {
-			throw new FileTypeException(ex.getMessage());
-		}
-	}
+    @Override
+    public void save(Document document, File file) throws FileTypeException {
+        try {
+            final InputStream xslt = getClass().getResourceAsStream("/xslt/pnml-export.xslt");
+            PetriNet petriNet = document.petriNet;
+            Marking initialMarking = petriNet.getInitialMarking();
+            new DocumentExporter(document, initialMarking).writeToFileWithXslt(file, xslt);
+        } catch (FileNotFoundException ex) {
+            throw new FileTypeException(ex.getMessage());
+        } catch (JAXBException ex) {
+            if (!file.exists()) {
+                throw new FileTypeException("File not found.");
+            } else if (!file.canRead()) {
+                throw new FileTypeException("File can not be read.");
+            } else {
+                throw new FileTypeException("Selected file is not compatible.");
+            }
+        } catch (IOException ex) {
+            throw new FileTypeException(ex.getMessage());
+        } catch (TransformerException ex) {
+            throw new FileTypeException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public Document load(File file) throws FileTypeException {
+        try {
+            final InputStream xslt = getClass().getResourceAsStream("/xslt/pnml-import.xslt");
+            Document document = new DocumentImporter().readFromFileWithXslt(file, xslt);
+            document.petriNet.getRootSubnet().setViewTranslationToCenterRecursively();
+            return document;
+        } catch (JAXBException ex) {
+            if (!file.exists()) {
+                throw new FileTypeException("File not found.");
+            } else if (!file.canRead()) {
+                throw new FileTypeException("File can not be read.");
+            } else {
+                throw new FileTypeException("Selected file is not compatible.");
+            }
+        } catch (IOException ex) {
+            throw new FileTypeException(ex.getMessage());
+        } catch (TransformerException ex) {
+            throw new FileTypeException(ex.getMessage());
+        }
+    }
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet.xml;
 
 import java.util.LinkedList;
@@ -27,20 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-
-@XmlRootElement(name="document")
+@XmlRootElement(name = "document")
 public class XmlDocument {
-	
-	@XmlElement(name="subnet")
-	public XmlSubnet rootSubnet;
 
-	@XmlElementWrapper(name="roles")
-	@XmlElement(name="role")
-	public List<XmlRole> roles = new LinkedList<XmlRole>();
-	
-	@XmlElement(name="left")
-	public int left;
-	
-	@XmlElement(name="top")
-	public int top;
+    @XmlElement(name = "subnet")
+    public XmlSubnet rootSubnet;
+
+    @XmlElementWrapper(name = "roles")
+    @XmlElement(name = "role")
+    public List<XmlRole> roles = new LinkedList<XmlRole>();
+
+    @XmlElement(name = "left")
+    public int left;
+
+    @XmlElement(name = "top")
+    public int top;
 }

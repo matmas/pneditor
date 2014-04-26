@@ -22,33 +22,35 @@ import org.pneditor.util.GraphicsTools;
  *
  * @author Amodez
  */
-public class SetArcInhibitoryAction extends AbstractAction{
+public class SetArcInhibitoryAction extends AbstractAction {
 
     private Root root;
-	
-	public SetArcInhibitoryAction(Root root) {
-		this.root = root;
-		String name = "Change arc inhibitory";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/converttransitiontosubnet.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("M"));
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (root.getClickedElement() != null) {
-			if (root.getClickedElement() instanceof Arc) {
-				Arc arc = (Arc)root.getClickedElement();
-				boolean isInhib = !arc.getInhibitory();
+    public SetArcInhibitoryAction(Root root) {
+        this.root = root;
+        String name = "Change arc inhibitory";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/converttransitiontosubnet.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_I);
+//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("M"));
+        setEnabled(false);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (root.getClickedElement() != null) {
+            if (root.getClickedElement() instanceof Arc) {
+                Arc arc = (Arc) root.getClickedElement();
+                boolean isInhib = !arc.getInhibitory();
 				//String response = JOptionPane.showInputDialog(root.getParentFrame(), "Multiplicity:", multiplicity);
-				//arc.setInhibitory(!isInhib);
-				root.getUndoManager().executeCommand(new SetArcInhibitCommand(arc, isInhib));
-				
-				//ak to bola resetovacia hrana odresetni ju
-				if(arc.getReset()){root.getUndoManager().executeCommand(new SetArcResetCommand(arc, false));}
-			}
-		}
-	}
+                //arc.setInhibitory(!isInhib);
+                root.getUndoManager().executeCommand(new SetArcInhibitCommand(arc, isInhib));
+
+                //ak to bola resetovacia hrana odresetni ju
+                if (arc.getReset()) {
+                    root.getUndoManager().executeCommand(new SetArcResetCommand(arc, false));
+                }
+            }
+        }
+    }
 }

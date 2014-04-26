@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 import java.util.HashSet;
@@ -25,29 +24,27 @@ import java.util.Set;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Role {
-	
-	public int id;
 
-	public String name;
-	
-	public Set<Transition> transitions = new HashSet<Transition>();
-	
-	public boolean createCase;
-	
-	public boolean destroyCase;
+    public int id;
 
-	@Override
-	public String toString() {
-		String suffix = "";
-		if (createCase && destroyCase) {
-			suffix = " C,D";
-		}
-		else if (createCase) {
-			suffix = " C";
-		}
-		else if (destroyCase) {
-			suffix = " D";
-		}
-		return name + " (" + transitions.size() + ")" + suffix;
-	}
+    public String name;
+
+    public Set<Transition> transitions = new HashSet<Transition>();
+
+    public boolean createCase;
+
+    public boolean destroyCase;
+
+    @Override
+    public String toString() {
+        String suffix = "";
+        if (createCase && destroyCase) {
+            suffix = " C,D";
+        } else if (createCase) {
+            suffix = " C";
+        } else if (destroyCase) {
+            suffix = " D";
+        }
+        return name + " (" + transitions.size() + ")" + suffix;
+    }
 }

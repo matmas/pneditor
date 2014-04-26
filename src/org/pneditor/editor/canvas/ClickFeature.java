@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import java.awt.Color;
@@ -29,36 +28,48 @@ import org.pneditor.petrinet.Element;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 class ClickFeature implements Feature {
-    
-	private Canvas canvas;
-	
-	ClickFeature(Canvas canvas) {
-		this.canvas = canvas;
-	}
-	
-	Color previousColor;
-	
-	public void drawBackground(Graphics g) {
-		Element element = PNEditor.getRoot().getClickedElement();
-		if (element != null) {
-			previousColor = element.getColor();
-			element.setColor(Colors.singleSelectedColor);
-		}
-	}
-	
-	public void drawForeground(Graphics g) {
-		Element element = PNEditor.getRoot().getClickedElement();
-		if (element != null) {
-			element.setColor(previousColor);
-		}
-	}
-	
-	public void setHoverEffects(int x, int y) {}
-	
-public void mousePressed(MouseEvent event) {}
-	public void mouseDragged(int x, int y) {}
-	public void mouseReleased(int x, int y) {}
-	public void setCursor(int x, int y) {}
-	public void drawMainLayer(Graphics g) {}
-	public void mouseMoved(int x, int y) {}
+
+    private Canvas canvas;
+
+    ClickFeature(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    Color previousColor;
+
+    public void drawBackground(Graphics g) {
+        Element element = PNEditor.getRoot().getClickedElement();
+        if (element != null) {
+            previousColor = element.getColor();
+            element.setColor(Colors.singleSelectedColor);
+        }
+    }
+
+    public void drawForeground(Graphics g) {
+        Element element = PNEditor.getRoot().getClickedElement();
+        if (element != null) {
+            element.setColor(previousColor);
+        }
+    }
+
+    public void setHoverEffects(int x, int y) {
+    }
+
+    public void mousePressed(MouseEvent event) {
+    }
+
+    public void mouseDragged(int x, int y) {
+    }
+
+    public void mouseReleased(int x, int y) {
+    }
+
+    public void setCursor(int x, int y) {
+    }
+
+    public void drawMainLayer(Graphics g) {
+    }
+
+    public void mouseMoved(int x, int y) {
+    }
 }

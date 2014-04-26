@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.io.File;
@@ -27,39 +26,36 @@ import javax.swing.filechooser.FileFilter;
  */
 public class FileChooserDialog extends JFileChooser {
 
-	private Sidebar sidebar = new Sidebar(this);
+    private Sidebar sidebar = new Sidebar(this);
 
-	public FileChooserDialog() {
-		setFileView(new FileIconView());
-		setAccessory(sidebar);
-	}
-	
-	@Override
-	public File getSelectedFile() {
-		File file = super.getSelectedFile();
-		if (file == null) {
-			return null;
-		}
-		else if (file.exists() && getFileFilter().getDescription().equals("All Files")) {
-			return file;
-		}
-		else if (getFileFilter().accept(file)) {
-			return file;
-		}
-		else {
-			return new File(file.getAbsolutePath() + "." + ((FileType)getFileFilter()).getExtension());
-		}
-	}
+    public FileChooserDialog() {
+        setFileView(new FileIconView());
+        setAccessory(sidebar);
+    }
 
-	@Override
-	public void addChoosableFileFilter(FileFilter filter) {
-		super.addChoosableFileFilter(filter);
-		if (getChoosableFileFilters().length > 1) { // first filter is always "All files"
-			setFileFilter(getChoosableFileFilters()[1]);
-		}
-	}
+    @Override
+    public File getSelectedFile() {
+        File file = super.getSelectedFile();
+        if (file == null) {
+            return null;
+        } else if (file.exists() && getFileFilter().getDescription().equals("All Files")) {
+            return file;
+        } else if (getFileFilter().accept(file)) {
+            return file;
+        } else {
+            return new File(file.getAbsolutePath() + "." + ((FileType) getFileFilter()).getExtension());
+        }
+    }
 
-	public Sidebar getSidebar() {
-		return sidebar;
-	}
+    @Override
+    public void addChoosableFileFilter(FileFilter filter) {
+        super.addChoosableFileFilter(filter);
+        if (getChoosableFileFilters().length > 1) { // first filter is always "All files"
+            setFileFilter(getChoosableFileFilters()[1]);
+        }
+    }
+
+    public Sidebar getSidebar() {
+        return sidebar;
+    }
 }

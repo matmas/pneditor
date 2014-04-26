@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import org.pneditor.petrinet.Element;
@@ -27,12 +26,12 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 class VisualSelection extends Element {
-	
-	@Override
-	public void draw(Graphics g, DrawingOptions drawingOptions) {
-		g.setColor(color);
-		GraphicsTools.setDashedStroke(g);
-		g.drawRect(Math.min(getStart().x, getEnd().x), Math.min(getStart().y, getEnd().y),getWidth(), getHeight());
-		GraphicsTools.setDefaultStroke(g);
-	}
+
+    @Override
+    public void draw(Graphics g, DrawingOptions drawingOptions) {
+        g.setColor(color);
+        GraphicsTools.setDashedStroke(g);
+        g.drawRect(Math.min(getStart().x, getEnd().x), Math.min(getStart().y, getEnd().y), getWidth(), getHeight());
+        GraphicsTools.setDefaultStroke(g);
+    }
 }

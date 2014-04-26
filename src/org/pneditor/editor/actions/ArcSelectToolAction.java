@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,21 +28,20 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ArcSelectToolAction extends AbstractAction {
-	
-	private Root root;
-	
-	public ArcSelectToolAction(Root root) {
-		this.root = root;
-		String name = "Arc";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/arc.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("A"));
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		root.selectTool_Arc();
-	}
+    private Root root;
+
+    public ArcSelectToolAction(Root root) {
+        this.root = root;
+        String name = "Arc";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/arc.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
+//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("A"));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        root.selectTool_Arc();
+    }
 }
-	

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,23 +28,23 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetPlaceStaticAction extends AbstractAction {
-	
-	private Root root;
-	
-	public SetPlaceStaticAction(Root root) {
-		this.root = root;
-		String name = "Set/unset place static";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/staticplace.gif"));
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (root.getClickedElement() instanceof PlaceNode) {
-			PlaceNode placeNode = (PlaceNode)root.getClickedElement();
-			root.getUndoManager().executeCommand(new SetUnsetPlaceStaticCommand(placeNode));
-		}
-	}
+    private Root root;
+
+    public SetPlaceStaticAction(Root root) {
+        this.root = root;
+        String name = "Set/unset place static";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/staticplace.gif"));
+        setEnabled(false);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (root.getClickedElement() instanceof PlaceNode) {
+            PlaceNode placeNode = (PlaceNode) root.getClickedElement();
+            root.getUndoManager().executeCommand(new SetUnsetPlaceStaticCommand(placeNode));
+        }
+    }
 
 }

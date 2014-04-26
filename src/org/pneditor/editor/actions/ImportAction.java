@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -35,50 +34,49 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ImportAction extends AbstractAction {
-	
-	private Root root;
-	private List<FileType> fileTypes;
-	
-	public ImportAction(Root root, List<FileType> fileTypes) {
-		this.root = root;
-		this.fileTypes = fileTypes;
-		String name = "Import...";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/import.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		if (!root.isModified() || JOptionPane.showOptionDialog(
-				root.getParentFrame(),
-				"Any unsaved changes will be lost. Continue?",
-				"Import...",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"Import...", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-		) {
-			FileChooserDialog chooser = new FileChooserDialog();
 
-			for (FileType fileType : fileTypes) {
-				chooser.addChoosableFileFilter(fileType);
-			}
-			chooser.setAcceptAllFileFilterUsed(false);
-			chooser.setCurrentDirectory(root.getCurrentDirectory());
+    private Root root;
+    private List<FileType> fileTypes;
 
-			if (chooser.showDialog(root.getParentFrame(), "Import") == JFileChooser.APPROVE_OPTION) {
-				File file = chooser.getSelectedFile();
-				FileType chosenFileType = (FileType)chooser.getFileFilter();
-				try {
-					Document document = chosenFileType.load(file);
-					root.setDocument(document);
-				} catch (FileTypeException ex) {
-					JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-				}
-				root.setCurrentFile(null);
-				root.setCurrentDirectory(chooser.getCurrentDirectory());
-			}
-		}
-	}
+    public ImportAction(Root root, List<FileType> fileTypes) {
+        this.root = root;
+        this.fileTypes = fileTypes;
+        String name = "Import...";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/import.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (!root.isModified() || JOptionPane.showOptionDialog(
+                root.getParentFrame(),
+                "Any unsaved changes will be lost. Continue?",
+                "Import...",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                new String[]{"Import...", "Cancel"},
+                "Cancel") == JOptionPane.YES_OPTION) {
+            FileChooserDialog chooser = new FileChooserDialog();
+
+            for (FileType fileType : fileTypes) {
+                chooser.addChoosableFileFilter(fileType);
+            }
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.setCurrentDirectory(root.getCurrentDirectory());
+
+            if (chooser.showDialog(root.getParentFrame(), "Import") == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                FileType chosenFileType = (FileType) chooser.getFileFilter();
+                try {
+                    Document document = chosenFileType.load(file);
+                    root.setDocument(document);
+                } catch (FileTypeException ex) {
+                    JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                }
+                root.setCurrentFile(null);
+                root.setCurrentDirectory(chooser.getCurrentDirectory());
+            }
+        }
+    }
 }

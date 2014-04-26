@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.util;
 
 import java.io.File;
@@ -30,30 +29,32 @@ import javax.xml.transform.stream.StreamSource;
 
 /**
  * Contains XSLT related functions.
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Xslt {
-	
-	/**
-	 * Transforms one XML file to another XML using a XSLT transformation
-	 * @param fileToTransform XML source file to transform from
-	 * @param xslt XSLT file to transform with
-	 * @param output XML destination file to store the result
-	 * @return output file
-	 * @throws java.io.IOException
-	 * @throws javax.xml.transform.TransformerException
-	 */
-	public static File transformXml(File fileToTransform, InputStream xslt, File output) throws IOException, TransformerException {
-		Source xmlSource = new StreamSource(fileToTransform);
-		Source xsltSource = new StreamSource(xslt); //or DOMSource or SAXSource
+
+    /**
+     * Transforms one XML file to another XML using a XSLT transformation
+     *
+     * @param fileToTransform XML source file to transform from
+     * @param xslt XSLT file to transform with
+     * @param output XML destination file to store the result
+     * @return output file
+     * @throws java.io.IOException
+     * @throws javax.xml.transform.TransformerException
+     */
+    public static File transformXml(File fileToTransform, InputStream xslt, File output) throws IOException, TransformerException {
+        Source xmlSource = new StreamSource(fileToTransform);
+        Source xsltSource = new StreamSource(xslt); //or DOMSource or SAXSource
 //		Source xmlSource = new SAXSource(new InputSource(fileToTransform.toString()));
 //		Source xsltSource = new SAXSource(new InputSource(xslt)); //or DOMSource or SAXSource
-		Result result = new StreamResult(output);
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer(xsltSource);
-		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-		transformer.transform(xmlSource, result);
-		return output;
-	}
-	
+        Result result = new StreamResult(output);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer(xsltSource);
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        transformer.transform(xmlSource, result);
+        return output;
+    }
+
 }

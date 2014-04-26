@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -36,53 +35,53 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SaveSubnetAsAction extends AbstractAction {
-	
-	private Root root;
-	
-	public SaveSubnetAsAction(Root root) {
-		this.root = root;
-		String name = "Save subnet as...";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/savesubnetas.gif"));
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (root.getClickedElement() instanceof Subnet) {
-			Subnet subnet = (Subnet)root.getClickedElement();
-			
-			FileChooserDialog chooser = new FileChooserDialog();
-			
-			String subnetLabel = subnet.getLabel();
-			if (subnetLabel != null && !subnetLabel.equals("")) {
-				chooser.setSelectedFile(new File(chooser.getCurrentDirectory().getAbsolutePath() + "/" + subnetLabel));
-			}
-			
-			chooser.addChoosableFileFilter(new PflowxFileType());
-			chooser.setAcceptAllFileFilterUsed(false);
-			chooser.setCurrentDirectory(root.getCurrentDirectory());
-			chooser.setDialogTitle("Save subnet as...");
+    private Root root;
 
-			if (chooser.showSaveDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
-				File file = chooser.getSelectedFile();
-				
-				if (!file.exists() || JOptionPane.showConfirmDialog(root.getParentFrame(), "Selected file exists. Overwrite?") == JOptionPane.YES_OPTION) {
-					try {
-						exportSubnet(subnet, file);
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-					}
-				}
-			}
-			root.setCurrentDirectory(chooser.getCurrentDirectory());
-		}
-	}
+    public SaveSubnetAsAction(Root root) {
+        this.root = root;
+        String name = "Save subnet as...";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/savesubnetas.gif"));
+        setEnabled(false);
+    }
 
-	private void exportSubnet(Subnet subnet, File file) throws FileTypeException {
-		Document document = new Document();
-		PetriNet petriNet = document.petriNet;
-		petriNet.setRootSubnet(subnet);
-		new PflowxFileType().save(document, file);
-	}
+    public void actionPerformed(ActionEvent e) {
+        if (root.getClickedElement() instanceof Subnet) {
+            Subnet subnet = (Subnet) root.getClickedElement();
+
+            FileChooserDialog chooser = new FileChooserDialog();
+
+            String subnetLabel = subnet.getLabel();
+            if (subnetLabel != null && !subnetLabel.equals("")) {
+                chooser.setSelectedFile(new File(chooser.getCurrentDirectory().getAbsolutePath() + "/" + subnetLabel));
+            }
+
+            chooser.addChoosableFileFilter(new PflowxFileType());
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.setCurrentDirectory(root.getCurrentDirectory());
+            chooser.setDialogTitle("Save subnet as...");
+
+            if (chooser.showSaveDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+
+                if (!file.exists() || JOptionPane.showConfirmDialog(root.getParentFrame(), "Selected file exists. Overwrite?") == JOptionPane.YES_OPTION) {
+                    try {
+                        exportSubnet(subnet, file);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                    }
+                }
+            }
+            root.setCurrentDirectory(chooser.getCurrentDirectory());
+        }
+    }
+
+    private void exportSubnet(Subnet subnet, File file) throws FileTypeException {
+        Document document = new Document();
+        PetriNet petriNet = document.petriNet;
+        petriNet.setRootSubnet(subnet);
+        new PflowxFileType().save(document, file);
+    }
 }

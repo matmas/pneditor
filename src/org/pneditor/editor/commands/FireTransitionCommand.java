@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Marking;
@@ -26,34 +25,34 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class FireTransitionCommand implements Command {
-	
-	private Transition transition;
-	private Marking marking;
 
-	public FireTransitionCommand(Transition transition, Marking marking) {
-		this.transition = transition;
-		this.marking = marking;
-	}
+    private Transition transition;
+    private Marking marking;
 
-	public void execute() {
-		if (marking.isEnabled(transition)) {
-			marking.fire(transition);
-		}
-	}
+    public FireTransitionCommand(Transition transition, Marking marking) {
+        this.transition = transition;
+        this.marking = marking;
+    }
 
-	public void undo() {
-		if (marking.canBeUnfired(transition)) {
-			marking.undoFire(transition);
-		}
-	}
+    public void execute() {
+        if (marking.isEnabled(transition)) {
+            marking.fire(transition);
+        }
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void undo() {
+        if (marking.canBeUnfired(transition)) {
+            marking.undoFire(transition);
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Fire transition";
-	}
-	
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Fire transition";
+    }
+
 }

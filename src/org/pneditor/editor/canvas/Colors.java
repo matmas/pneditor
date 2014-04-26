@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import java.awt.Color;
@@ -24,11 +23,12 @@ import java.awt.Color;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Colors {
-	public static final Color connectingColor = Color.green;
-	public static final Color disallowedColor = Color.red;
-	public static final Color permittedColor = Color.green;
-	public static final Color selectedColor = Color.lightGray;
-	public static final Color singleSelectedColor = Color.gray;
-	public static final Color pointingColor = Color.blue;
-	public static final Color subnetColor = new Color(0xb8, 0xcf, 0xe5);
+
+    public static final Color connectingColor = Color.green;
+    public static final Color disallowedColor = Color.red;
+    public static final Color permittedColor = Color.green;
+    public static final Color selectedColor = Color.lightGray;
+    public static final Color singleSelectedColor = Color.gray;
+    public static final Color pointingColor = Color.blue;
+    public static final Color subnetColor = new Color(0xb8, 0xcf, 0xe5);
 }

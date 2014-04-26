@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet.xml;
 
 import java.util.HashMap;
@@ -25,17 +24,16 @@ import java.util.Map;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class IdFromObject {
-	
-	private int id = 0;
-	private Map<Object, Integer> map = new HashMap<Object, Integer>();
-	
-	public String getId(Object object) {
-		if (map.containsKey(object)) {
-			return map.get(object).toString();
-		}
-		else {
-			map.put(object, id);
-			return Integer.toString(id++);
-		}
-	}
+
+    private int id = 0;
+    private Map<Object, Integer> map = new HashMap<Object, Integer>();
+
+    public String getId(Object object) {
+        if (map.containsKey(object)) {
+            return map.get(object).toString();
+        } else {
+            map.put(object, id);
+            return Integer.toString(id++);
+        }
+    }
 }

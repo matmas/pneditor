@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor;
 
 import javax.swing.JFrame;
@@ -26,17 +25,17 @@ import javax.swing.UIManager;
  */
 public class MainFrame extends JFrame {
 
-	public MainFrame(String title) {
-		super(title);
-		UIManager.getDefaults().put("ToolTip.hideAccelerator", Boolean.TRUE);
-		UIManager.put("swing.boldMetal", Boolean.FALSE);
-		String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-		if (lookAndFeel.equals("javax.swing.plaf.metal.MetalLookAndFeel")) {
+    public MainFrame(String title) {
+        super(title);
+        UIManager.getDefaults().put("ToolTip.hideAccelerator", Boolean.TRUE);
+        UIManager.put("swing.boldMetal", Boolean.FALSE);
+        String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+        if (lookAndFeel.equals("javax.swing.plaf.metal.MetalLookAndFeel")) {
 //			lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
-		}
-		try {
-			UIManager.setLookAndFeel(lookAndFeel);
-		} catch (Exception ex) {
-		}
-	}
+        }
+        try {
+            UIManager.setLookAndFeel(lookAndFeel);
+        } catch (Exception ex) {
+        }
+    }
 }

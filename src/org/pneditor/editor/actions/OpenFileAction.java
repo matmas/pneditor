@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -36,55 +35,54 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class OpenFileAction extends AbstractAction {
-	
-	private Root root;
-	private List<FileType> fileTypes;
-	
-	public OpenFileAction(Root root, List<FileType> fileTypes) {
-		this.root = root;
-		this.fileTypes = fileTypes;
-		String name = "Open...";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Open16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_O);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (!root.isModified() || JOptionPane.showOptionDialog(
-				root.getParentFrame(),
-				"Any unsaved changes will be lost. Continue?",
-				"Open file...",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"Open...", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-		) {
-			FileChooserDialog chooser = new FileChooserDialog();
+    private Root root;
+    private List<FileType> fileTypes;
 
-			for (FileType fileType : fileTypes) {
-				chooser.addChoosableFileFilter(fileType);
-			}
-			chooser.setAcceptAllFileFilterUsed(false);
-			chooser.setCurrentDirectory(root.getCurrentDirectory());
+    public OpenFileAction(Root root, List<FileType> fileTypes) {
+        this.root = root;
+        this.fileTypes = fileTypes;
+        String name = "Open...";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Open16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_O);
+    }
 
-			if (chooser.showOpenDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
+    public void actionPerformed(ActionEvent e) {
+        if (!root.isModified() || JOptionPane.showOptionDialog(
+                root.getParentFrame(),
+                "Any unsaved changes will be lost. Continue?",
+                "Open file...",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                new String[]{"Open...", "Cancel"},
+                "Cancel") == JOptionPane.YES_OPTION) {
+            FileChooserDialog chooser = new FileChooserDialog();
 
-				File file = chooser.getSelectedFile();
-				FileType chosenFileType = (FileType)chooser.getFileFilter();
+            for (FileType fileType : fileTypes) {
+                chooser.addChoosableFileFilter(fileType);
+            }
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.setCurrentDirectory(root.getCurrentDirectory());
 
-				try {
-					Document document = chosenFileType.load(file);
-					root.setDocument(document);
-					root.setCurrentFile(file);
-					root.setModified(false);
-				} catch (FileTypeException ex) {
-					JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-				}
+            if (chooser.showOpenDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
 
-			}
-			root.setCurrentDirectory(chooser.getCurrentDirectory());
-		}
-	}
+                File file = chooser.getSelectedFile();
+                FileType chosenFileType = (FileType) chooser.getFileFilter();
+
+                try {
+                    Document document = chosenFileType.load(file);
+                    root.setDocument(document);
+                    root.setCurrentFile(file);
+                    root.setModified(false);
+                } catch (FileTypeException ex) {
+                    JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                }
+
+            }
+            root.setCurrentDirectory(chooser.getCurrentDirectory());
+        }
+    }
 }

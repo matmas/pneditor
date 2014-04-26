@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 import java.awt.Color;
@@ -25,88 +24,87 @@ import java.awt.Point;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class Arc extends ArcEdge implements Cloneable{
+public class Arc extends ArcEdge implements Cloneable {
 
-	private int multiplicity = 1;
-        private boolean inhibitory = false;
-        private boolean reset = false;
-        
-        
-	public Arc(Node sourceNode) {
-		setSource(sourceNode);
-		setStart(sourceNode.getCenter().x, sourceNode.getCenter().y);
-		setEnd(sourceNode.getCenter().x, sourceNode.getCenter().y);
-	}
+    private int multiplicity = 1;
+    private boolean inhibitory = false;
+    private boolean reset = false;
 
-	public Arc(Node source, Node destination) {
-		setSource(source);
-		setDestination(destination);
-	}
+    public Arc(Node sourceNode) {
+        setSource(sourceNode);
+        setStart(sourceNode.getCenter().x, sourceNode.getCenter().y);
+        setEnd(sourceNode.getCenter().x, sourceNode.getCenter().y);
+    }
 
-	public Arc(PlaceNode placeNode, Transition transition, boolean placeToTransition) {
-		super(placeNode, transition, placeToTransition);
-	}
+    public Arc(Node source, Node destination) {
+        setSource(source);
+        setDestination(destination);
+    }
 
-	public int getMultiplicity() {
-		return multiplicity;
-	}
+    public Arc(PlaceNode placeNode, Transition transition, boolean placeToTransition) {
+        super(placeNode, transition, placeToTransition);
+    }
 
-	public void setMultiplicity(int multiplicity) {
-		this.multiplicity = multiplicity;
-	}
-        
-        public void setInhibitory(boolean value) {
-                this.inhibitory = value;            
+    public int getMultiplicity() {
+        return multiplicity;
+    }
+
+    public void setMultiplicity(int multiplicity) {
+        this.multiplicity = multiplicity;
+    }
+
+    public void setInhibitory(boolean value) {
+        this.inhibitory = value;
+    }
+
+    public boolean getInhibitory() {
+        return this.inhibitory;
+    }
+
+    public boolean setReset(boolean value) {
+        return this.reset = value;
+    }
+
+    public boolean getReset() {
+        return this.reset;
+    }
+
+    @Override
+    public void draw(Graphics g, DrawingOptions drawingOptions) {
+        if (this.inhibitory) {
+            this.color = Color.MAGENTA;
+        } else if (this.reset) {
+            this.color = Color.RED;
+        } else {
+            this.color = Color.BLACK;
         }
-        
-        public boolean getInhibitory() {
-                return this.inhibitory;            
-        }
-        
-    	public boolean setReset(boolean value) {
-    		return this.reset = value;
-    	}
 
-    	public boolean getReset() {
-    		 return this.reset;
-    	}
-	
-	@Override
-	public void draw(Graphics g, DrawingOptions drawingOptions) {
-                if(this.inhibitory) 
-                        this.color = Color.MAGENTA;
-                else if(this.reset)
-                        this.color = Color.RED;
-                	else 
-                		this.color = Color.BLACK;
-                
-		g.setColor(color);
-		drawSegmentedLine(g);
-                Point arrowTip = computeArrowTipPoint();
-                if(this.inhibitory){                    
-                	 drawCircle(g, arrowTip);        	
-                }
-                else{
-                	if(this.reset){
-                    	drawArrowDouble(g, arrowTip);
-                    }else{
-                    	drawArrow(g, arrowTip);
-                    } 
-                }
-                
-		if (multiplicity >= 2) {
-			drawMultiplicityLabel(g, arrowTip, multiplicity);
-		}
-	}
-	
-	public Transition getTransition() {
-		return (Transition)getTransitionNode();
-	}
-	
-	@Override
-	public Arc getClone(){
-		Arc arc = (Arc)super.getClone();
-		arc.multiplicity = this.multiplicity;
-		return arc;
+        g.setColor(color);
+        drawSegmentedLine(g);
+        Point arrowTip = computeArrowTipPoint();
+        if (this.inhibitory) {
+            drawCircle(g, arrowTip);
+        } else {
+            if (this.reset) {
+                drawArrowDouble(g, arrowTip);
+            } else {
+                drawArrow(g, arrowTip);
+            }
+        }
+
+        if (multiplicity >= 2) {
+            drawMultiplicityLabel(g, arrowTip, multiplicity);
+        }
+    }
+
+    public Transition getTransition() {
+        return (Transition) getTransitionNode();
+    }
+
+    @Override
+    public Arc getClone() {
+        Arc arc = (Arc) super.getClone();
+        arc.multiplicity = this.multiplicity;
+        return arc;
     }
 }

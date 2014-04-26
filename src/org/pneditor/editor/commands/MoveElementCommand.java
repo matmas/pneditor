@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.awt.Point;
@@ -27,29 +26,29 @@ import org.pneditor.util.Command;
  */
 public class MoveElementCommand implements Command {
 
-	private Element element;
-	private Point deltaPosition;
+    private Element element;
+    private Point deltaPosition;
 
-	public MoveElementCommand(Element element, Point deltaPosition) {
-		this.element = element;
-		this.deltaPosition = deltaPosition;
-	}
-	
-	public void execute() {
-		element.moveBy(deltaPosition.x, deltaPosition.y);
-	}
+    public MoveElementCommand(Element element, Point deltaPosition) {
+        this.element = element;
+        this.deltaPosition = deltaPosition;
+    }
 
-	public void undo() {
-		element.moveBy(-deltaPosition.x, -deltaPosition.y);
-	}
+    public void execute() {
+        element.moveBy(deltaPosition.x, deltaPosition.y);
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void undo() {
+        element.moveBy(-deltaPosition.x, -deltaPosition.y);
+    }
 
-	@Override
-	public String toString() {
-		return "Move element";
-	}
-	
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Move element";
+    }
+
 }

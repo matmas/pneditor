@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashSet;
@@ -29,38 +28,38 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ReplaceSubnetsLooseMethodCommand implements Command {
-	
-	private Set<Command> replaceSubnets = new HashSet<Command>();
 
-	public ReplaceSubnetsLooseMethodCommand(Set<Subnet> subnets, Subnet storedSubnet, PetriNet petriNet) {
-		for (Subnet subnet : subnets) {
-			replaceSubnets.add(new ReplaceSubnetLooseMethodCommand(subnet, storedSubnet, petriNet));
-		}
-	}
+    private Set<Command> replaceSubnets = new HashSet<Command>();
 
-	public void execute() {
-		for (Command command : replaceSubnets) {
-			command.execute();
-		}
-	}
+    public ReplaceSubnetsLooseMethodCommand(Set<Subnet> subnets, Subnet storedSubnet, PetriNet petriNet) {
+        for (Subnet subnet : subnets) {
+            replaceSubnets.add(new ReplaceSubnetLooseMethodCommand(subnet, storedSubnet, petriNet));
+        }
+    }
 
-	public void undo() {
-		for (Command command : replaceSubnets) {
-			command.undo();
-		}
-	}
+    public void execute() {
+        for (Command command : replaceSubnets) {
+            command.execute();
+        }
+    }
 
-	public void redo() {
-		for (Command command : replaceSubnets) {
-			command.redo();
-		}
-	}
+    public void undo() {
+        for (Command command : replaceSubnets) {
+            command.undo();
+        }
+    }
 
-	@Override
-	public String toString() {
-		if (replaceSubnets.size() == 1) {
-			return CollectionTools.getFirstElement(replaceSubnets).toString();
-		}
-		return "Replace subnets";
-	}
+    public void redo() {
+        for (Command command : replaceSubnets) {
+            command.redo();
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (replaceSubnets.size() == 1) {
+            return CollectionTools.getFirstElement(replaceSubnets).toString();
+        }
+        return "Replace subnets";
+    }
 }

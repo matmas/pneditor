@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -33,34 +32,34 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class DeleteAction extends AbstractAction {
-	
-	private Root root;
-	
-	public DeleteAction(Root root) {
-		this.root = root;
-		String name = "Delete";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Delete16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_D);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("DELETE"));
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) { //TODO: use getSelectedElementsWithClickedElement()
-		Set<Element> elementsToDelete = new HashSet<Element>();
+    private Root root;
 
-		for (Element selectedElement : root.getSelection()) {
-			elementsToDelete.add(selectedElement);
-		}
-		root.getSelection().clear();
-		if (root.getClickedElement() != null) {
-			elementsToDelete.add(root.getClickedElement());
-			root.setClickedElement(null);
-		}
+    public DeleteAction(Root root) {
+        this.root = root;
+        String name = "Delete";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Delete16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_D);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("DELETE"));
+        setEnabled(false);
+    }
 
-		if ( !elementsToDelete.isEmpty()) {
-			root.getUndoManager().executeCommand(new DeleteElementsCommand(elementsToDelete));
-		}
-	}
+    public void actionPerformed(ActionEvent e) { //TODO: use getSelectedElementsWithClickedElement()
+        Set<Element> elementsToDelete = new HashSet<Element>();
+
+        for (Element selectedElement : root.getSelection()) {
+            elementsToDelete.add(selectedElement);
+        }
+        root.getSelection().clear();
+        if (root.getClickedElement() != null) {
+            elementsToDelete.add(root.getClickedElement());
+            root.setClickedElement(null);
+        }
+
+        if (!elementsToDelete.isEmpty()) {
+            root.getUndoManager().executeCommand(new DeleteElementsCommand(elementsToDelete));
+        }
+    }
 }

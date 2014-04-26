@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.util;
 
 import java.util.ArrayList;
@@ -29,43 +28,43 @@ import javax.swing.AbstractListModel;
  */
 public abstract class ListModel<E> extends AbstractListModel implements Iterable<E> {
 
-	protected List<E> elements = new ArrayList<E>();
-	
-	abstract public void addNew();
-	
-	public int getSize() {
-		return elements.size();
-	}
-	
-	public E getElementAt(int i) {
-		return elements.get(i);
-	}
-	
-	public void delete(int[] selectedIndices) {
-		List<E> elementsToDelete = new LinkedList<E>();
-		for (int i : selectedIndices) {
-			elementsToDelete.add(elements.get(i));
-		}
-		for (E e : elementsToDelete) {
-			int i = elements.indexOf(e);
-			elements.remove(i);
-			fireIntervalRemoved(this, i, i);
-		}
-	}
-	
-	public Iterator<E> iterator() {
-		return elements.iterator();
-	}
-	
-	public void clear() {
-		int lastIndex = elements.size() - 1;
-		elements.clear();
-		if (lastIndex >= 0) {
-			fireIntervalRemoved(this, 0, lastIndex);
-		}
-	}
-	
-	public void add(E element) {
-		elements.add(element);
-	}
+    protected List<E> elements = new ArrayList<E>();
+
+    abstract public void addNew();
+
+    public int getSize() {
+        return elements.size();
+    }
+
+    public E getElementAt(int i) {
+        return elements.get(i);
+    }
+
+    public void delete(int[] selectedIndices) {
+        List<E> elementsToDelete = new LinkedList<E>();
+        for (int i : selectedIndices) {
+            elementsToDelete.add(elements.get(i));
+        }
+        for (E e : elementsToDelete) {
+            int i = elements.indexOf(e);
+            elements.remove(i);
+            fireIntervalRemoved(this, i, i);
+        }
+    }
+
+    public Iterator<E> iterator() {
+        return elements.iterator();
+    }
+
+    public void clear() {
+        int lastIndex = elements.size() - 1;
+        elements.clear();
+        if (lastIndex >= 0) {
+            fireIntervalRemoved(this, 0, lastIndex);
+        }
+    }
+
+    public void add(E element) {
+        elements.add(element);
+    }
 }

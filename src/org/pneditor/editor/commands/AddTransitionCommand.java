@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.PetriNet;
@@ -27,38 +26,38 @@ import org.pneditor.petrinet.Transition;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class AddTransitionCommand implements Command {
-	
-	private Subnet subnet;
-	private int x, y;
-	private Transition createdTransition;
-	private PetriNet petriNet;
 
-	public AddTransitionCommand(Subnet subnet, int x, int y, PetriNet petriNet) {
-		this.subnet = subnet;
-		this.x = x;
-		this.y = y;
-		this.petriNet = petriNet;
-	}
-	
-	public void execute() {
-		createdTransition = new Transition();
-		createdTransition.setCenter(x, y);
-		petriNet.getNodeSimpleIdGenerator().setUniqueId(createdTransition);
-		petriNet.getNodeLabelGenerator().setLabelToNewlyCreatedNode(createdTransition);
-		subnet.addElement(createdTransition);
-	}
+    private Subnet subnet;
+    private int x, y;
+    private Transition createdTransition;
+    private PetriNet petriNet;
 
-	public void undo() {
-		new DeleteElementCommand(createdTransition).execute();
-	}
+    public AddTransitionCommand(Subnet subnet, int x, int y, PetriNet petriNet) {
+        this.subnet = subnet;
+        this.x = x;
+        this.y = y;
+        this.petriNet = petriNet;
+    }
 
-	public void redo() {
-		subnet.addElement(createdTransition);
-	}
+    public void execute() {
+        createdTransition = new Transition();
+        createdTransition.setCenter(x, y);
+        petriNet.getNodeSimpleIdGenerator().setUniqueId(createdTransition);
+        petriNet.getNodeLabelGenerator().setLabelToNewlyCreatedNode(createdTransition);
+        subnet.addElement(createdTransition);
+    }
 
-	@Override
-	public String toString() {
-		return "Add transition";
-	}
-	
+    public void undo() {
+        new DeleteElementCommand(createdTransition).execute();
+    }
+
+    public void redo() {
+        subnet.addElement(createdTransition);
+    }
+
+    @Override
+    public String toString() {
+        return "Add transition";
+    }
+
 }

@@ -1,4 +1,4 @@
-	package org.pneditor.editor.commands;
+package org.pneditor.editor.commands;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -13,48 +13,48 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class PasteCommand implements Command {
-	
-	private Subnet subnet;
-	private Set<Element> elements;
 
-	public PasteCommand(Set<Element> elements, Subnet currentSubnet, PetriNet petriNet) {
-		this.subnet = currentSubnet;
-		this.elements = elements;
-		petriNet.getNodeLabelGenerator().setLabelsToPastedContent(elements);
+    private Subnet subnet;
+    private Set<Element> elements;
 
-		Point translation = calculateTranslatioToCenter(elements, currentSubnet);
-		for (Element element : elements) {
-			element.moveBy(translation.x, translation.y);
-		}
-	}
+    public PasteCommand(Set<Element> elements, Subnet currentSubnet, PetriNet petriNet) {
+        this.subnet = currentSubnet;
+        this.elements = elements;
+        petriNet.getNodeLabelGenerator().setLabelsToPastedContent(elements);
 
-	public void execute() {
-		subnet.addAll(elements);
-	}
+        Point translation = calculateTranslatioToCenter(elements, currentSubnet);
+        for (Element element : elements) {
+            element.moveBy(translation.x, translation.y);
+        }
+    }
 
-	public void undo() {
-		subnet.removeAll(elements);
-	}
+    public void execute() {
+        subnet.addAll(elements);
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void undo() {
+        subnet.removeAll(elements);
+    }
 
-	@Override
-	public String toString() {
-		return "Paste";
-	}
-	
-	private Point calculateTranslatioToCenter(Set<Element> elements, Subnet currentSubnet) {
-		Point viewTranslation = currentSubnet.getViewTranslation();
-		Subnet tempSubnet = new Subnet();
-		tempSubnet.addAll(elements);
-		Rectangle bounds = tempSubnet.getBounds();
+    public void redo() {
+        execute();
+    }
 
-		Point result = new Point();
-		result.translate(Math.round(-(float)bounds.getCenterX()), Math.round(-(float)bounds.getCenterY()));
-		result.translate(-viewTranslation.x, -viewTranslation.y);
-		return result;
-	}
+    @Override
+    public String toString() {
+        return "Paste";
+    }
+
+    private Point calculateTranslatioToCenter(Set<Element> elements, Subnet currentSubnet) {
+        Point viewTranslation = currentSubnet.getViewTranslation();
+        Subnet tempSubnet = new Subnet();
+        tempSubnet.addAll(elements);
+        Rectangle bounds = tempSubnet.getBounds();
+
+        Point result = new Point();
+        result.translate(Math.round(-(float) bounds.getCenterX()), Math.round(-(float) bounds.getCenterY()));
+        result.translate(-viewTranslation.x, -viewTranslation.y);
+        return result;
+    }
 
 }

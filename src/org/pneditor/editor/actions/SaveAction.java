@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -35,35 +34,34 @@ import org.pneditor.util.GraphicsTools;
  */
 public class SaveAction extends AbstractAction {
 
-	private Root root;
-	private List<FileType> fileTypes;
+    private Root root;
+    private List<FileType> fileTypes;
 
-	public SaveAction(Root root, List<FileType> fileTypes) {
-		this.root = root;
-		this.fileTypes = fileTypes;
-		String name = "Save";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Save16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl S"));
-	}
+    public SaveAction(Root root, List<FileType> fileTypes) {
+        this.root = root;
+        this.fileTypes = fileTypes;
+        String name = "Save";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Save16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl S"));
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		File file = root.getCurrentFile();
-		if (file != null) {
-			try {
-				FileType fileType = FileType.getAcceptingFileType(file, fileTypes);
-				fileType.save(root.getDocument(), file);
-				root.setModified(false);
-			} catch (FileTypeException ex) {
-				JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-			}
-		}
-		else {
-			new SaveFileAsAction(root, fileTypes).actionPerformed(e);
-		}
-		
-	}
-	
+    public void actionPerformed(ActionEvent e) {
+        File file = root.getCurrentFile();
+        if (file != null) {
+            try {
+                FileType fileType = FileType.getAcceptingFileType(file, fileTypes);
+                fileType.save(root.getDocument(), file);
+                root.setModified(false);
+            } catch (FileTypeException ex) {
+                JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+            }
+        } else {
+            new SaveFileAsAction(root, fileTypes).actionPerformed(e);
+        }
+
+    }
+
 }

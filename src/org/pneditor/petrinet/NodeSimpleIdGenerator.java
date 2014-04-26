@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 import java.util.Set;
@@ -24,50 +23,48 @@ import java.util.Set;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class NodeSimpleIdGenerator {
-	
-	private int nextUniqueId = 1; //rootSubnet has already id == 0
-	private PetriNet petriNet;
 
-	public NodeSimpleIdGenerator(PetriNet petriNet) {
-		this.petriNet = petriNet;
-	}
+    private int nextUniqueId = 1; //rootSubnet has already id == 0
+    private PetriNet petriNet;
 
-	public void setUniqueId(Node node) {
-		String id;
-		id = Integer.toString(nextUniqueId++);
-		node.setId(id);
-	}
+    public NodeSimpleIdGenerator(PetriNet petriNet) {
+        this.petriNet = petriNet;
+    }
 
-	public void fixFutureUniqueIds() {
-		int maxId = 0;
-		Set<Node> allNodes = petriNet.getRootSubnet().getNodesRecursively();
-		allNodes.add(petriNet.getRootSubnet());
-		for (Node node : allNodes) {
-			try {
-				int id = Integer.parseInt(node.getId());
-				if (id > maxId) {
-					maxId = id;
-				}
-			}
-			catch (NumberFormatException ex) {
-				//do nothing
-			}
-		}
-		nextUniqueId = maxId + 1;
-	}
+    public void setUniqueId(Node node) {
+        String id;
+        id = Integer.toString(nextUniqueId++);
+        node.setId(id);
+    }
 
-	public void ensureNumberIds() {
-		for (Node node : petriNet.getRootSubnet().getNodesRecursively()) {
-			try {
-				Integer.parseInt(node.getId());
-			}
-			catch (NumberFormatException ex) {
-				setUniqueId(node);
-			}
-		}
-	}
+    public void fixFutureUniqueIds() {
+        int maxId = 0;
+        Set<Node> allNodes = petriNet.getRootSubnet().getNodesRecursively();
+        allNodes.add(petriNet.getRootSubnet());
+        for (Node node : allNodes) {
+            try {
+                int id = Integer.parseInt(node.getId());
+                if (id > maxId) {
+                    maxId = id;
+                }
+            } catch (NumberFormatException ex) {
+                //do nothing
+            }
+        }
+        nextUniqueId = maxId + 1;
+    }
 
-	public void resetUniqueIds() {
-		
-	}
+    public void ensureNumberIds() {
+        for (Node node : petriNet.getRootSubnet().getNodesRecursively()) {
+            try {
+                Integer.parseInt(node.getId());
+            } catch (NumberFormatException ex) {
+                setUniqueId(node);
+            }
+        }
+    }
+
+    public void resetUniqueIds() {
+
+    }
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor;
 
 import java.util.Collection;
@@ -42,61 +41,61 @@ import org.pneditor.util.CollectionTools;
  */
 public class LocalClipboard {
 
-	private Subnet subnet = new Subnet();
+    private Subnet subnet = new Subnet();
 
-	public LocalClipboard() {
-	}
+    public LocalClipboard() {
+    }
 
-	public void setContents(Set<Element> elements, PetriNet petriNet) {
-		subnet.removeElements();
-		elements = filterOutDisconnectedArcs(elements);
-		elements = ElementCloner.getClones(elements, petriNet);
-		subnet.addAll(elements);
-	}
+    public void setContents(Set<Element> elements, PetriNet petriNet) {
+        subnet.removeElements();
+        elements = filterOutDisconnectedArcs(elements);
+        elements = ElementCloner.getClones(elements, petriNet);
+        subnet.addAll(elements);
+    }
 
-	public Set<Element> getContents(PetriNet petriNet) {
-		return ElementCloner.getClones(subnet.getElements(), petriNet);
-	}
+    public Set<Element> getContents(PetriNet petriNet) {
+        return ElementCloner.getClones(subnet.getElements(), petriNet);
+    }
 
-	public boolean isEmpty() {
-		return subnet.getElements().isEmpty();
-	}
+    public boolean isEmpty() {
+        return subnet.getElements().isEmpty();
+    }
 
-	private static Set<Element> filterOutDisconnectedArcs(Set<Element> elements) {
-		Set<Element> filteredElements = new HashSet<Element>();
-		Set<Node> nodes = getNodes(elements);
-		for (Node node : nodes) {
-			Set<ArcEdge> connectedArcEdges = node.getConnectedArcEdges();
-			for (ArcEdge connectedArcEdge : connectedArcEdges) {
-				if (nodes.contains(connectedArcEdge.getPlaceNode()) && nodes.contains(connectedArcEdge.getTransitionNode())) {
-					filteredElements.add(connectedArcEdge);
-				}
-			}
-		}
-		filteredElements.addAll(nodes);
-		return filteredElements;
-	}
+    private static Set<Element> filterOutDisconnectedArcs(Set<Element> elements) {
+        Set<Element> filteredElements = new HashSet<Element>();
+        Set<Node> nodes = getNodes(elements);
+        for (Node node : nodes) {
+            Set<ArcEdge> connectedArcEdges = node.getConnectedArcEdges();
+            for (ArcEdge connectedArcEdge : connectedArcEdges) {
+                if (nodes.contains(connectedArcEdge.getPlaceNode()) && nodes.contains(connectedArcEdge.getTransitionNode())) {
+                    filteredElements.add(connectedArcEdge);
+                }
+            }
+        }
+        filteredElements.addAll(nodes);
+        return filteredElements;
+    }
 
-	public static Set<Node> getNodes(Set<Element> elements) {
-		Set<Node> nodes = new HashSet<Node>();
-		for (Element element : elements) {
-			if (element instanceof Node) {
-				nodes.add((Node)element);
-			}
-		}
-		return nodes;
-	}
+    public static Set<Node> getNodes(Set<Element> elements) {
+        Set<Node> nodes = new HashSet<Node>();
+        for (Element element : elements) {
+            if (element instanceof Node) {
+                nodes.add((Node) element);
+            }
+        }
+        return nodes;
+    }
 
-	public Set<Node> getNodes() {
-		Set<Node> nodes = new HashSet<Node>();
-		for (Element element : subnet.getElements()) {
-			if (element instanceof Node) {
-				nodes.add((Node)element);
-			}
-		}
-		return nodes;
-	}
-	
+    public Set<Node> getNodes() {
+        Set<Node> nodes = new HashSet<Node>();
+        for (Element element : subnet.getElements()) {
+            if (element instanceof Node) {
+                nodes.add((Node) element);
+            }
+        }
+        return nodes;
+    }
+
 //	private PetriNet clipboardNet = new PetriNet();
 //
 //	public void setContents(Set<Element> elements, PetriNet petriNet) {

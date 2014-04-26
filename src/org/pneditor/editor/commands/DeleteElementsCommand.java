@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashSet;
@@ -25,42 +24,43 @@ import org.pneditor.util.Command;
 
 /**
  * Delete clicked and selected elements
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class DeleteElementsCommand implements Command {
 
-	private Set<Command> deleteAllElements = new HashSet<Command>();
-	
-	public DeleteElementsCommand(Set<? extends Element> elementsToDelete) {
-		for (Element element : elementsToDelete) {
-			deleteAllElements.add(new DeleteElementCommand(element));
-		}
-	}
-	
-	public void execute() {
-		for (Command deleteElement : deleteAllElements) {
-			deleteElement.execute();
-		}
-	}
+    private Set<Command> deleteAllElements = new HashSet<Command>();
 
-	public void undo() {
-		for (Command deleteElement : deleteAllElements) {
-			deleteElement.undo();
-		}
-	}
-	
-	public void redo() {
-		for (Command deleteElement : deleteAllElements) {
-			deleteElement.redo();
-		}
-	}
+    public DeleteElementsCommand(Set<? extends Element> elementsToDelete) {
+        for (Element element : elementsToDelete) {
+            deleteAllElements.add(new DeleteElementCommand(element));
+        }
+    }
 
-	@Override
-	public String toString() {
-		if (deleteAllElements.size() == 1) {
-			return CollectionTools.getFirstElement(deleteAllElements).toString();
-		}
-		return "Delete elements";
-	}
-	
+    public void execute() {
+        for (Command deleteElement : deleteAllElements) {
+            deleteElement.execute();
+        }
+    }
+
+    public void undo() {
+        for (Command deleteElement : deleteAllElements) {
+            deleteElement.undo();
+        }
+    }
+
+    public void redo() {
+        for (Command deleteElement : deleteAllElements) {
+            deleteElement.redo();
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (deleteAllElements.size() == 1) {
+            return CollectionTools.getFirstElement(deleteAllElements).toString();
+        }
+        return "Delete elements";
+    }
+
 }

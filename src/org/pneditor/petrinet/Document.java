@@ -14,21 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 /**
  * Represents Petri net document with subnets and role definitions.
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-
 public class Document {
-	
+
     @Deprecated
-	public Roles roles = new Roles();
-	
+    public Roles roles = new Roles();
+
     @Deprecated
-	public PetriNet petriNet = new PetriNet();
+    public PetriNet petriNet = new PetriNet();
 
     public PetriNet getPetriNet() {
         return petriNet;

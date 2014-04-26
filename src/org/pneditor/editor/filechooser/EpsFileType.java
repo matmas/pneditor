@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.awt.image.BufferedImage;
@@ -33,45 +32,45 @@ import org.pneditor.util.GraphicsTools;
  */
 public class EpsFileType extends FileType {
 
-	@Override
-	public String getExtension() {
-		return "eps";
-	}
+    @Override
+    public String getExtension() {
+        return "eps";
+    }
 
-	@Override
-	public String getName() {
-		return "Encapsulated PostScript";
-	}
+    @Override
+    public String getName() {
+        return "Encapsulated PostScript";
+    }
 
-	@Override
-	public Icon getIcon() {
-		final Icon icon = GraphicsTools.getIcon("pneditor/filechooser/eps.gif");
-		return icon;
-	}
+    @Override
+    public Icon getIcon() {
+        final Icon icon = GraphicsTools.getIcon("pneditor/filechooser/eps.gif");
+        return icon;
+    }
 
-	@Override
-	public Document load(File file) throws FileTypeException {
-		throw new UnsupportedOperationException("Loading not supported.");
-	}
+    @Override
+    public Document load(File file) throws FileTypeException {
+        throw new UnsupportedOperationException("Loading not supported.");
+    }
 
-	@Override
-	public BufferedImage getPreview(File file) {
-		return null;
-	}
+    @Override
+    public BufferedImage getPreview(File file) {
+        return null;
+    }
 
-	@Override
-	public void save(Document document, File file) throws FileTypeException {
-		try {
-			EPSGraphics2D epsGraphics2d = new EPSGraphics2D();
-			DrawingOptions drawingOptions = new DrawingOptions();
-			drawingOptions.setMarking(document.petriNet.getInitialMarking());
-			for (Element element : document.petriNet.getCurrentSubnet().getElements()) {
-				element.draw(epsGraphics2d, drawingOptions);
-			}
-			epsGraphics2d.writeToFile(file);
-		} catch (FileNotFoundException ex) {
-			throw new FileTypeException(ex.getMessage());
-		}
-	}
-	
+    @Override
+    public void save(Document document, File file) throws FileTypeException {
+        try {
+            EPSGraphics2D epsGraphics2d = new EPSGraphics2D();
+            DrawingOptions drawingOptions = new DrawingOptions();
+            drawingOptions.setMarking(document.petriNet.getInitialMarking());
+            for (Element element : document.petriNet.getCurrentSubnet().getElements()) {
+                element.draw(epsGraphics2d, drawingOptions);
+            }
+            epsGraphics2d.writeToFile(file);
+        } catch (FileNotFoundException ex) {
+            throw new FileTypeException(ex.getMessage());
+        }
+    }
+
 }

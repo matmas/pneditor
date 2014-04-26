@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -34,45 +33,44 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ConvertTransitionToSubnetAction extends AbstractAction {
-	
-	private Root root;
-	
-	public ConvertTransitionToSubnetAction(Root root) {
-		this.root = root;
-		String name = "Convert transition(s) to subnet(s)";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/converttransitiontosubnet.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		Set<Transition> selectedTransitions = new HashSet<Transition>();
-		for (Element element : root.getSelectedElementsWithClickedElement()) {
-			if (element instanceof Transition) {
-				Transition transition = (Transition)element;
-				selectedTransitions.add(transition);
-			}
-			else if (element instanceof Subnet) {
-				Subnet subnet = (Subnet)element;
-				selectedTransitions.addAll(subnet.getTransitionsRecursively());
-			}
-		}
+    private Root root;
 
-		Set<Subnet> previousSubnets = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
+    public ConvertTransitionToSubnetAction(Root root) {
+        this.root = root;
+        String name = "Convert transition(s) to subnet(s)";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/converttransitiontosubnet.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_C);
+        setEnabled(false);
+    }
 
-		root.getUndoManager().executeCommand(
-			new ConvertTransitionsToSubnetsCommand(selectedTransitions, root.getDocument().petriNet)
-		);
-		
-		Set<Subnet> createdElements = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
-		createdElements.removeAll(previousSubnets);
+    public void actionPerformed(ActionEvent e) {
+        Set<Transition> selectedTransitions = new HashSet<Transition>();
+        for (Element element : root.getSelectedElementsWithClickedElement()) {
+            if (element instanceof Transition) {
+                Transition transition = (Transition) element;
+                selectedTransitions.add(transition);
+            } else if (element instanceof Subnet) {
+                Subnet subnet = (Subnet) element;
+                selectedTransitions.addAll(subnet.getTransitionsRecursively());
+            }
+        }
 
-		root.getSelection().clear();
-		root.getSelection().getElements().addAll(createdElements);
-		root.getSelection().selectionChanged();
+        Set<Subnet> previousSubnets = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
+
+        root.getUndoManager().executeCommand(
+                new ConvertTransitionsToSubnetsCommand(selectedTransitions, root.getDocument().petriNet)
+        );
+
+        Set<Subnet> createdElements = root.getDocument().petriNet.getCurrentSubnet().getSubnets();
+        createdElements.removeAll(previousSubnets);
+
+        root.getSelection().clear();
+        root.getSelection().getElements().addAll(createdElements);
+        root.getSelection().selectionChanged();
 
 //		root.refreshAll(); TODO: root.refreshAll() does not help
-	}
+    }
 }

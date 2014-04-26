@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import org.pneditor.petrinet.Element;
@@ -26,10 +25,10 @@ import org.pneditor.petrinet.DrawingOptions;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 class VisualHandle extends Element {
-	
-	@Override
-	public void draw(Graphics g, DrawingOptions drawingOptions) {
-		g.setColor(color);
-		g.drawRect(Math.min(getStart().x, getEnd().x), Math.min(getStart().y, getEnd().y), getWidth(), getHeight());
-	}
+
+    @Override
+    public void draw(Graphics g, DrawingOptions drawingOptions) {
+        g.setColor(color);
+        g.drawRect(Math.min(getStart().x, getEnd().x), Math.min(getStart().y, getEnd().y), getWidth(), getHeight());
+    }
 }

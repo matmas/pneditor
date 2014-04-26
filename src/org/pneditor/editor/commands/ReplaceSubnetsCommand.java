@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashSet;
@@ -30,38 +29,38 @@ import org.pneditor.util.Command;
  */
 public class ReplaceSubnetsCommand implements Command {
 
-	private Set<Command> replaceSubnets = new HashSet<Command>();
+    private Set<Command> replaceSubnets = new HashSet<Command>();
 
-	public ReplaceSubnetsCommand(Set<Subnet> subnets, Subnet storedSubnet, PetriNet petriNet) {
-		for (Subnet subnet : subnets) {
-			replaceSubnets.add(new ReplaceSubnetCommand(subnet, storedSubnet, petriNet));
-		}
-	}
+    public ReplaceSubnetsCommand(Set<Subnet> subnets, Subnet storedSubnet, PetriNet petriNet) {
+        for (Subnet subnet : subnets) {
+            replaceSubnets.add(new ReplaceSubnetCommand(subnet, storedSubnet, petriNet));
+        }
+    }
 
-	public void execute() {
-		for (Command command : replaceSubnets) {
-			command.execute();
-		}
-	}
+    public void execute() {
+        for (Command command : replaceSubnets) {
+            command.execute();
+        }
+    }
 
-	public void undo() {
-		for (Command command : replaceSubnets) {
-			command.undo();
-		}
-	}
+    public void undo() {
+        for (Command command : replaceSubnets) {
+            command.undo();
+        }
+    }
 
-	public void redo() {
-		for (Command command : replaceSubnets) {
-			command.redo();
-		}
-	}
+    public void redo() {
+        for (Command command : replaceSubnets) {
+            command.redo();
+        }
+    }
 
-	@Override
-	public String toString() {
-		if (replaceSubnets.size() == 1) {
-			return CollectionTools.getFirstElement(replaceSubnets).toString();
-		}
-		return "Replace subnets";
-	}
+    @Override
+    public String toString() {
+        if (replaceSubnets.size() == 1) {
+            return CollectionTools.getFirstElement(replaceSubnets).toString();
+        }
+        return "Replace subnets";
+    }
 
 }

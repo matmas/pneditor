@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 import java.awt.BorderLayout;
@@ -35,42 +34,41 @@ import org.pneditor.util.GraphicsTools;
  */
 public class Sidebar extends JPanel implements ActionListener, PropertyChangeListener {
 
-	private JFileChooser fileChooser;
-	private JButton delete = new JButton("Delete file", GraphicsTools.getIcon("pneditor/Delete16.gif"));
+    private JFileChooser fileChooser;
+    private JButton delete = new JButton("Delete file", GraphicsTools.getIcon("pneditor/Delete16.gif"));
 
-	public Sidebar(JFileChooser fileChooser) {
-		super();
-		this.fileChooser = fileChooser;
-		Preview preview = new Preview(fileChooser);
-		setLayout(new BorderLayout());
-		add(preview, BorderLayout.CENTER);
-		add(delete, BorderLayout.NORTH);
-		delete.addActionListener(this);
-		fileChooser.addPropertyChangeListener(this);
-	}
+    public Sidebar(JFileChooser fileChooser) {
+        super();
+        this.fileChooser = fileChooser;
+        Preview preview = new Preview(fileChooser);
+        setLayout(new BorderLayout());
+        add(preview, BorderLayout.CENTER);
+        add(delete, BorderLayout.NORTH);
+        delete.addActionListener(this);
+        fileChooser.addPropertyChangeListener(this);
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == delete) {
-			File selectedFile = fileChooser.getSelectedFile();
-			if (selectedFile != null && JOptionPane.showOptionDialog(
-				fileChooser,
-				"Delete " + selectedFile.getName() + "?\nThis action is irreversible!",
-				"Delete",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"Delete permanently", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-			) {
-				selectedFile.delete();
-				fileChooser.setSelectedFile(new File(""));
-				fileChooser.rescanCurrentDirectory();
-			}
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == delete) {
+            File selectedFile = fileChooser.getSelectedFile();
+            if (selectedFile != null && JOptionPane.showOptionDialog(
+                    fileChooser,
+                    "Delete " + selectedFile.getName() + "?\nThis action is irreversible!",
+                    "Delete",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[]{"Delete permanently", "Cancel"},
+                    "Cancel") == JOptionPane.YES_OPTION) {
+                selectedFile.delete();
+                fileChooser.setSelectedFile(new File(""));
+                fileChooser.rescanCurrentDirectory();
+            }
+        }
+    }
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		delete.setEnabled(fileChooser.getSelectedFile() != null);
-	}
-	
+    public void propertyChange(PropertyChangeEvent evt) {
+        delete.setEnabled(fileChooser.getSelectedFile() != null);
+    }
+
 }

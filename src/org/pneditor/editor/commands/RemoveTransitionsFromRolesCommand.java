@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashMap;
@@ -31,40 +30,40 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class RemoveTransitionsFromRolesCommand implements Command {
-	
-	private Set<Transition> transitions;
-	private List<Role> roles;
-	private Map<Role, Set<Transition>> oldRoleTransitions;
-	
-	public RemoveTransitionsFromRolesCommand(Set<Transition> transitions, List<Role> roles) {
-		this.transitions = transitions;
-		this.roles = roles;
-	}
-	
-	public void execute() {
-		oldRoleTransitions = new HashMap<Role, Set<Transition>>();
-		for (Role role : roles) {
-			oldRoleTransitions.put(role, new HashSet<Transition>(role.transitions));
-		}
-		redo();
-	}
 
-	public void undo() {
-		for (Role role : roles) {
-			role.transitions.clear();
-			role.transitions.addAll(oldRoleTransitions.get(role));
-		}
-	}
+    private Set<Transition> transitions;
+    private List<Role> roles;
+    private Map<Role, Set<Transition>> oldRoleTransitions;
 
-	public void redo() {
-		for (Role role : roles) {
-			role.transitions.removeAll(transitions);
-		}
-	}
+    public RemoveTransitionsFromRolesCommand(Set<Transition> transitions, List<Role> roles) {
+        this.transitions = transitions;
+        this.roles = roles;
+    }
 
-	@Override
-	public String toString() {
-		return "Remove transition from role(s)";
-	}
-	
+    public void execute() {
+        oldRoleTransitions = new HashMap<Role, Set<Transition>>();
+        for (Role role : roles) {
+            oldRoleTransitions.put(role, new HashSet<Transition>(role.transitions));
+        }
+        redo();
+    }
+
+    public void undo() {
+        for (Role role : roles) {
+            role.transitions.clear();
+            role.transitions.addAll(oldRoleTransitions.get(role));
+        }
+    }
+
+    public void redo() {
+        for (Role role : roles) {
+            role.transitions.removeAll(transitions);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Remove transition from role(s)";
+    }
+
 }

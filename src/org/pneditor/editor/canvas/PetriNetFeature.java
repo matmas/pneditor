@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.canvas;
 
 import java.awt.Color;
@@ -33,38 +32,52 @@ import org.pneditor.petrinet.Element;
  */
 public class PetriNetFeature implements Feature {
 
-	private Canvas canvas;
-	private DrawingOptions drawingOptions = new DrawingOptions();
+    private Canvas canvas;
+    private DrawingOptions drawingOptions = new DrawingOptions();
 
-	public PetriNetFeature(Canvas canvas) {
-		this.canvas = canvas;
-	}
+    public PetriNetFeature(Canvas canvas) {
+        this.canvas = canvas;
+    }
 
-	public void drawMainLayer(Graphics g) {
-		for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
-			if (element.highlightColor != null) {
-				Color previousColor = element.getColor();
+    public void drawMainLayer(Graphics g) {
+        for (Element element : PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()) {
+            if (element.highlightColor != null) {
+                Color previousColor = element.getColor();
 
-				element.setColor(element.highlightColor);
-				drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
-				element.draw(g, drawingOptions); //TODO
+                element.setColor(element.highlightColor);
+                drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
+                element.draw(g, drawingOptions); //TODO
 
-				element.setColor(previousColor);
-			}
-			else {
-				drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
-				element.draw(g, drawingOptions); //TODO
-			}
-		}
-	}
-	
-	public void drawForeground(Graphics g) {}
-	public void drawBackground(Graphics g) {}
-	public void mousePressed(MouseEvent event) {}
-	public void mouseDragged(int x, int y) {}
-	public void mouseReleased(int x, int y) {}
-	public void setHoverEffects(int x, int y) {}
-	public void setCursor(int x, int y) {}
-	public void mouseMoved(int x, int y) {}
-	
+                element.setColor(previousColor);
+            } else {
+                drawingOptions.setMarking(PNEditor.getRoot().getCurrentMarking());
+                element.draw(g, drawingOptions); //TODO
+            }
+        }
+    }
+
+    public void drawForeground(Graphics g) {
+    }
+
+    public void drawBackground(Graphics g) {
+    }
+
+    public void mousePressed(MouseEvent event) {
+    }
+
+    public void mouseDragged(int x, int y) {
+    }
+
+    public void mouseReleased(int x, int y) {
+    }
+
+    public void setHoverEffects(int x, int y) {
+    }
+
+    public void setCursor(int x, int y) {
+    }
+
+    public void mouseMoved(int x, int y) {
+    }
+
 }

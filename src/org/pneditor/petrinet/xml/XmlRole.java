@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet.xml;
 
 import java.util.HashSet;
@@ -26,20 +25,20 @@ import javax.xml.bind.annotation.XmlElement;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class XmlRole {
-	
-	@XmlElement(name="id")
-	public int id;
 
-	@XmlElement(name="name")
-	public String name;
-	
-	@XmlElement(name="transitionId")
-	public Set<String> transitionIds = new HashSet<String>();
-	
-	@XmlElement(name="createCase")
-	public boolean createCase;
-	
-	@XmlElement(name="destroyCase")
-	public boolean destroyCase;
+    @XmlElement(name = "id")
+    public int id;
+
+    @XmlElement(name = "name")
+    public String name;
+
+    @XmlElement(name = "transitionId")
+    public Set<String> transitionIds = new HashSet<String>();
+
+    @XmlElement(name = "createCase")
+    public boolean createCase;
+
+    @XmlElement(name = "destroyCase")
+    public boolean destroyCase;
 
 }

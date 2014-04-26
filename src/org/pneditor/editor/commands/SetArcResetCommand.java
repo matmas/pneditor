@@ -11,30 +11,30 @@ import org.pneditor.util.Command;
  *
  * @author jan.tancibok
  */
-public class SetArcResetCommand implements Command{
-	
-	private Arc arc;
-	private boolean isReset;
-	
-	public SetArcResetCommand(Arc arc, boolean reset) {
-		this.arc = arc;
-		this.isReset = reset;
-	}
-	
-	public void execute() {
-		arc.setReset(isReset);
-	}
+public class SetArcResetCommand implements Command {
 
-	public void undo() {
-		arc.setReset(!isReset);
-	}
+    private Arc arc;
+    private boolean isReset;
 
-	public void redo() {
-		execute();
-	}
+    public SetArcResetCommand(Arc arc, boolean reset) {
+        this.arc = arc;
+        this.isReset = reset;
+    }
 
-	@Override
-	public String toString() {
-		return "Switch arc to reset arc";
-	}	
+    public void execute() {
+        arc.setReset(isReset);
+    }
+
+    public void undo() {
+        arc.setReset(!isReset);
+    }
+
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Switch arc to reset arc";
+    }
 }

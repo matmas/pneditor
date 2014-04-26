@@ -33,61 +33,61 @@ import org.pneditor.util.StringTools;
  */
 public abstract class FileType extends FileFilter {
 
-	public static Set<FileType> getAllFileTypes() {
-		Set<FileType> allFileTypes = new HashSet<FileType>();
-		allFileTypes.add(new EpsFileType());
-		allFileTypes.add(new PflowFileType());
-		allFileTypes.add(new PflowxFileType());
-		allFileTypes.add(new PngFileType());
-		allFileTypes.add(new ViptoolPnmlFileType());
-		return allFileTypes;
-	}
+    public static Set<FileType> getAllFileTypes() {
+        Set<FileType> allFileTypes = new HashSet<FileType>();
+        allFileTypes.add(new EpsFileType());
+        allFileTypes.add(new PflowFileType());
+        allFileTypes.add(new PflowxFileType());
+        allFileTypes.add(new PngFileType());
+        allFileTypes.add(new ViptoolPnmlFileType());
+        return allFileTypes;
+    }
 
-	public abstract String getExtension();
+    public abstract String getExtension();
 
-	public abstract String getName();
+    public abstract String getName();
 
-	public abstract void save(Document document, File file) throws FileTypeException;
+    public abstract void save(Document document, File file) throws FileTypeException;
 
-	public abstract Document load(File file) throws FileTypeException;
+    public abstract Document load(File file) throws FileTypeException;
 
-	public abstract Icon getIcon();
+    public abstract Icon getIcon();
 
-	public BufferedImage getPreview(File file) {
-		try {
-			Document document = load(file);
-			PetriNet petriNet = document.petriNet;
-			BufferedImage image = petriNet.getRootSubnet().getPreview(petriNet.getInitialMarking());
-			return image;
-		} catch (FileTypeException ex) {
-		}
-		return null;
-	}
+    public BufferedImage getPreview(File file) {
+        try {
+            Document document = load(file);
+            PetriNet petriNet = document.petriNet;
+            BufferedImage image = petriNet.getRootSubnet().getPreview(petriNet.getInitialMarking());
+            return image;
+        } catch (FileTypeException ex) {
+        }
+        return null;
+    }
 
-	public String getDescription() {
-		return getName() + " (*." + getExtension() + ")";
-	}
+    public String getDescription() {
+        return getName() + " (*." + getExtension() + ")";
+    }
 
-	public boolean accept(File file) {
-		if (file.isDirectory()) { //Show also directories in the filters
-			return true;
-		}
+    public boolean accept(File file) {
+        if (file.isDirectory()) { //Show also directories in the filters
+            return true;
+        }
 
-		String extension = StringTools.getExtension(file);
-		if (extension != null) {
-			if (extension.equals(getExtension())) {
-				return true;
-			}
-		}
-		return false;
-	}
+        String extension = StringTools.getExtension(file);
+        if (extension != null) {
+            if (extension.equals(getExtension())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public static FileType getAcceptingFileType(File file, Collection<FileType> fileTypes) {
-		for (FileType fileType : fileTypes) {
-			if (fileType.accept(file)) {
-				return fileType;
-			}
-		}
-		return null;
-	}
+    public static FileType getAcceptingFileType(File file, Collection<FileType> fileTypes) {
+        for (FileType fileType : fileTypes) {
+            if (fileType.accept(file)) {
+                return fileType;
+            }
+        }
+        return null;
+    }
 }

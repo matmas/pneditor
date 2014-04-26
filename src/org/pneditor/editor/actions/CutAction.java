@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -30,23 +29,23 @@ import org.pneditor.util.GraphicsTools;
  */
 public class CutAction extends AbstractAction {
 
-	private Root root;
+    private Root root;
 
-	public CutAction(Root root) {
-		this.root = root;
-		String name = "Cut";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Cut16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl X"));
-		setEnabled(false);
-	}
+    public CutAction(Root root) {
+        this.root = root;
+        String name = "Cut";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Cut16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl X"));
+        setEnabled(false);
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		root.getClipboard().setContents(root.getSelectedElementsWithClickedElement(), root.getDocument().petriNet);
-		root.getUndoManager().executeCommand(new CutCommand(root.getSelectedElementsWithClickedElement()));
-		root.getSelection().clear();
-		root.setClickedElement(null);
-		root.refreshAll();
-	}
+    public void actionPerformed(ActionEvent e) {
+        root.getClipboard().setContents(root.getSelectedElementsWithClickedElement(), root.getDocument().petriNet);
+        root.getUndoManager().executeCommand(new CutCommand(root.getSelectedElementsWithClickedElement()));
+        root.getSelection().clear();
+        root.setClickedElement(null);
+        root.refreshAll();
+    }
 }

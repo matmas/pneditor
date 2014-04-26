@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.awt.Point;
@@ -29,40 +28,40 @@ import org.pneditor.util.Command;
  */
 public class MoveElementsCommand implements Command {
 
-	private Set<Command> moveElements = new HashSet<Command>();
-	
-	public MoveElementsCommand(Set<Element> elements, Point deltaPosition) {
-		for (Element element : elements) {
-			moveElements.add(new MoveElementCommand(element, deltaPosition));
-		}
-	}
-	
-	public void execute() {
-		for (Command moveElement : moveElements) {
-			moveElement.execute();
-		}
-	}
+    private Set<Command> moveElements = new HashSet<Command>();
 
-	public void undo() {
-		for (Command moveElement : moveElements) {
-			moveElement.undo();
-		}
-	}
+    public MoveElementsCommand(Set<Element> elements, Point deltaPosition) {
+        for (Element element : elements) {
+            moveElements.add(new MoveElementCommand(element, deltaPosition));
+        }
+    }
 
-	public void redo() {
-		for (Command moveElement : moveElements) {
-			moveElement.redo();
-		}
-	}
+    public void execute() {
+        for (Command moveElement : moveElements) {
+            moveElement.execute();
+        }
+    }
 
-	@Override
-	public String toString() {
-		if (moveElements.size() == 1) {
-			for (Command moveElement : moveElements) {
-				return moveElement.toString();
-			}
-		}
-		return "Move elements";
-	}
-	
+    public void undo() {
+        for (Command moveElement : moveElements) {
+            moveElement.undo();
+        }
+    }
+
+    public void redo() {
+        for (Command moveElement : moveElements) {
+            moveElement.redo();
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (moveElements.size() == 1) {
+            for (Command moveElement : moveElements) {
+                return moveElement.toString();
+            }
+        }
+        return "Move elements";
+    }
+
 }

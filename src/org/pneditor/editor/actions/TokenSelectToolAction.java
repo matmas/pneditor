@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -28,20 +27,20 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class TokenSelectToolAction extends AbstractAction {
-	
-	private Root root;
-	
-	public TokenSelectToolAction(Root root) {
-		this.root = root;
-		String name = "Edit tokens / Fire transitions";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/token_and_fire16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("F"));
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		root.selectTool_Token();
-	}
+    private Root root;
+
+    public TokenSelectToolAction(Root root) {
+        this.root = root;
+        String name = "Edit tokens / Fire transitions";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/token_and_fire16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_F);
+//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("F"));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        root.selectTool_Token();
+    }
 }

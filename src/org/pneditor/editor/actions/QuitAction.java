@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -28,19 +27,19 @@ import org.pneditor.editor.Root;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class QuitAction extends AbstractAction {
-	
-	private Root root;
-	
-	public QuitAction(Root root) {
-		this.root = root;
-		String name = "Quit";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl Q"));
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		root.quitApplication();
-	}
+    private Root root;
+
+    public QuitAction(Root root) {
+        this.root = root;
+        String name = "Quit";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_Q);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl Q"));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        root.quitApplication();
+    }
 }

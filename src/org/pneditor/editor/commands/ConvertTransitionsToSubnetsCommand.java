@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.util.HashSet;
@@ -30,38 +29,38 @@ import org.pneditor.util.Command;
  */
 public class ConvertTransitionsToSubnetsCommand implements Command {
 
-	private Set<Command> convertTransitionsToSubnets = new HashSet<Command>();
+    private Set<Command> convertTransitionsToSubnets = new HashSet<Command>();
 
-	public ConvertTransitionsToSubnetsCommand(Set<Transition> transitions, PetriNet petriNet) {
-		for (Transition transition : transitions) {
-			convertTransitionsToSubnets.add(new ConvertTransitionToSubnetCommand(transition, petriNet));
-		}
-	}
+    public ConvertTransitionsToSubnetsCommand(Set<Transition> transitions, PetriNet petriNet) {
+        for (Transition transition : transitions) {
+            convertTransitionsToSubnets.add(new ConvertTransitionToSubnetCommand(transition, petriNet));
+        }
+    }
 
-	public void execute() {
-		for (Command command : convertTransitionsToSubnets) {
-			command.execute();
-		}
-	}
+    public void execute() {
+        for (Command command : convertTransitionsToSubnets) {
+            command.execute();
+        }
+    }
 
-	public void undo() {
-		for (Command command : convertTransitionsToSubnets) {
-			command.undo();
-		}
-	}
+    public void undo() {
+        for (Command command : convertTransitionsToSubnets) {
+            command.undo();
+        }
+    }
 
-	public void redo() {
-		for (Command command : convertTransitionsToSubnets) {
-			command.redo();
-		}
-	}
+    public void redo() {
+        for (Command command : convertTransitionsToSubnets) {
+            command.redo();
+        }
+    }
 
-	@Override
-	public String toString() {
-		if (convertTransitionsToSubnets.size() == 1) {
-			return CollectionTools.getFirstElement(convertTransitionsToSubnets).toString();
-		}
-		return "Convert transitions to subnets";
-	}
-	
+    @Override
+    public String toString() {
+        if (convertTransitionsToSubnets.size() == 1) {
+            return CollectionTools.getFirstElement(convertTransitionsToSubnets).toString();
+        }
+        return "Convert transitions to subnets";
+    }
+
 }

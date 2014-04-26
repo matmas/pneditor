@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,22 +28,21 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class PlaceSelectToolAction extends AbstractAction {
-	
-	private Root root;
-	
-	public PlaceSelectToolAction(Root root) {
-		this.root = root;
-		String name = "Place";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/place16.gif"));
-		putValue(SHORT_DESCRIPTION, "Place");
-		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("W"));
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		root.selectTool_Place();
-	}
+    private Root root;
+
+    public PlaceSelectToolAction(Root root) {
+        this.root = root;
+        String name = "Place";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/place16.gif"));
+        putValue(SHORT_DESCRIPTION, "Place");
+        putValue(MNEMONIC_KEY, KeyEvent.VK_P);
+//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("W"));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        root.selectTool_Place();
+    }
 }
-	

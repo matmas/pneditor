@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import java.awt.Point;
@@ -28,34 +27,34 @@ import org.pneditor.util.Command;
  */
 public class SetEdgeZigzagPointCommand implements Command {
 
-	private Edge edge;
-	private Point startingLocation;
-	private Point targetLocation;
-	private List<Point> oldBreakPoints;
-	
-	public SetEdgeZigzagPointCommand(Edge edge, Point startingLocation, Point targetLocation) {
-		this.edge = edge;
-		this.startingLocation = new Point(startingLocation);
-		this.targetLocation = new Point(targetLocation);
-	}
-	
-	public void execute() {
-		oldBreakPoints = edge.getBreakPointsCopy();
-		redo();
-	}
+    private Edge edge;
+    private Point startingLocation;
+    private Point targetLocation;
+    private List<Point> oldBreakPoints;
 
-	public void undo() {
-		edge.setBreakPoints(oldBreakPoints);
-	}
+    public SetEdgeZigzagPointCommand(Edge edge, Point startingLocation, Point targetLocation) {
+        this.edge = edge;
+        this.startingLocation = new Point(startingLocation);
+        this.targetLocation = new Point(targetLocation);
+    }
 
-	public void redo() {
-		edge.addOrGetBreakPoint(new Point(startingLocation)).setLocation(targetLocation);
-		edge.cleanupUnecessaryBreakPoints();
-	}
+    public void execute() {
+        oldBreakPoints = edge.getBreakPointsCopy();
+        redo();
+    }
 
-	@Override
-	public String toString() {
-		return "Set edge break point";
-	}
-	
+    public void undo() {
+        edge.setBreakPoints(oldBreakPoints);
+    }
+
+    public void redo() {
+        edge.addOrGetBreakPoint(new Point(startingLocation)).setLocation(targetLocation);
+        edge.cleanupUnecessaryBreakPoints();
+    }
+
+    @Override
+    public String toString() {
+        return "Set edge break point";
+    }
+
 }

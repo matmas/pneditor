@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -36,41 +35,40 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class RemoveSelectedTransitionsFromSelectedRolesAction extends AbstractAction {
-	
-	private Root root;
-	
-	public RemoveSelectedTransitionsFromSelectedRolesAction(Root root) {
-		this.root = root;
-		String name = "Remove transition(s) from role(s)";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/removefromrole16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		setEnabled(false);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		List<Role> selectedRoles = root.getRoleEditor().getSelectedElements();
-		Set<Transition> selectedTransitions = new HashSet<Transition>();
-		selectedTransitions.addAll(root.getSelection().getTransitionsRecursively()); //TODO: cleanup - selection - included clickedElement
-		if (root.getClickedElement() instanceof Subnet) {
-			Subnet subnet = (Subnet)root.getClickedElement();
-			selectedTransitions.addAll(subnet.getTransitionsRecursively());
-		}
-		else if (root.getClickedElement() instanceof Transition) {
-			selectedTransitions.add((Transition)root.getClickedElement());
-		}
+    private Root root;
 
-		boolean change = false;
-		for (Role role : selectedRoles) {
-			if (CollectionTools.containsAtLeastOne(role.transitions, selectedTransitions)) {
-				change = true;
-				break;
-			}
-		}
+    public RemoveSelectedTransitionsFromSelectedRolesAction(Root root) {
+        this.root = root;
+        String name = "Remove transition(s) from role(s)";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/removefromrole16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_E);
+        setEnabled(false);
+    }
 
-		if ( !selectedRoles.isEmpty() && !selectedTransitions.isEmpty() && change) {
-			root.getUndoManager().executeCommand(new RemoveTransitionsFromRolesCommand(selectedTransitions, selectedRoles));
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+        List<Role> selectedRoles = root.getRoleEditor().getSelectedElements();
+        Set<Transition> selectedTransitions = new HashSet<Transition>();
+        selectedTransitions.addAll(root.getSelection().getTransitionsRecursively()); //TODO: cleanup - selection - included clickedElement
+        if (root.getClickedElement() instanceof Subnet) {
+            Subnet subnet = (Subnet) root.getClickedElement();
+            selectedTransitions.addAll(subnet.getTransitionsRecursively());
+        } else if (root.getClickedElement() instanceof Transition) {
+            selectedTransitions.add((Transition) root.getClickedElement());
+        }
+
+        boolean change = false;
+        for (Role role : selectedRoles) {
+            if (CollectionTools.containsAtLeastOne(role.transitions, selectedTransitions)) {
+                change = true;
+                break;
+            }
+        }
+
+        if (!selectedRoles.isEmpty() && !selectedTransitions.isEmpty() && change) {
+            root.getUndoManager().executeCommand(new RemoveTransitionsFromRolesCommand(selectedTransitions, selectedRoles));
+        }
+    }
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Arc;
@@ -22,35 +21,36 @@ import org.pneditor.util.Command;
 
 /**
  * Set multiplicity to clicked arc
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetArcMultiplicityCommand implements Command {
-	
-	private Arc arc;
-	private int newMultiplicity;
-	private int oldMultiplicity;
-	
-	public SetArcMultiplicityCommand(Arc arc, int newMultiplicity) {
-		this.arc = arc;
-		this.newMultiplicity = newMultiplicity;
-	}
-	
-	public void execute() {
-		oldMultiplicity = arc.getMultiplicity();
-		arc.setMultiplicity(newMultiplicity);
-	}
 
-	public void undo() {
-		arc.setMultiplicity(oldMultiplicity);
-	}
+    private Arc arc;
+    private int newMultiplicity;
+    private int oldMultiplicity;
 
-	public void redo() {
-		execute();
-	}
+    public SetArcMultiplicityCommand(Arc arc, int newMultiplicity) {
+        this.arc = arc;
+        this.newMultiplicity = newMultiplicity;
+    }
 
-	@Override
-	public String toString() {
-		return "Set arc multiplicity";
-	}
-	
+    public void execute() {
+        oldMultiplicity = arc.getMultiplicity();
+        arc.setMultiplicity(newMultiplicity);
+    }
+
+    public void undo() {
+        arc.setMultiplicity(oldMultiplicity);
+    }
+
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Set arc multiplicity";
+    }
+
 }

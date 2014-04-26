@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.ReferencePlace;
@@ -26,34 +25,34 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class DeleteReferenceArcCommand implements Command {
-	
-	private ReferenceArc ReferenceArc;
-	private Command deleteReferencePlace;
-	
-	public DeleteReferenceArcCommand(ReferenceArc referenceArc) {
-		this.ReferenceArc = referenceArc;
-		ReferencePlace referencePlace = referenceArc.getReferencePlace();
-		deleteReferencePlace = new DeletePlaceNodeCommand(referencePlace);
-	}
 
-	public void execute() {
-		ReferenceArc.getParentSubnet().removeElement(ReferenceArc);
-		deleteReferencePlace.execute();
-	}
+    private ReferenceArc ReferenceArc;
+    private Command deleteReferencePlace;
 
-	public void undo() {
-		ReferenceArc.getParentSubnet().addElement(ReferenceArc);
-		deleteReferencePlace.undo();
-	}
+    public DeleteReferenceArcCommand(ReferenceArc referenceArc) {
+        this.ReferenceArc = referenceArc;
+        ReferencePlace referencePlace = referenceArc.getReferencePlace();
+        deleteReferencePlace = new DeletePlaceNodeCommand(referencePlace);
+    }
 
-	public void redo() {
-		ReferenceArc.getParentSubnet().removeElement(ReferenceArc);
-		deleteReferencePlace.redo();
-	}
+    public void execute() {
+        ReferenceArc.getParentSubnet().removeElement(ReferenceArc);
+        deleteReferencePlace.execute();
+    }
 
-	@Override
-	public String toString() {
-		return "Delete reference arc";
-	}
-	
+    public void undo() {
+        ReferenceArc.getParentSubnet().addElement(ReferenceArc);
+        deleteReferencePlace.undo();
+    }
+
+    public void redo() {
+        ReferenceArc.getParentSubnet().removeElement(ReferenceArc);
+        deleteReferencePlace.redo();
+    }
+
+    @Override
+    public String toString() {
+        return "Delete reference arc";
+    }
+
 }

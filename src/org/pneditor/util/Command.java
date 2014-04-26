@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.util;
 
 /**
@@ -22,7 +21,10 @@ package org.pneditor.util;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public interface Command {
-	public void execute();
-	public void undo();
-	public void redo();
+
+    public void execute();
+
+    public void undo();
+
+    public void redo();
 }

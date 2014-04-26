@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor;
 
 import java.awt.Frame;
@@ -33,45 +32,86 @@ import org.pneditor.util.ListEditor;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public interface Root {
+
     public DrawingBoard getDrawingBoard();
-	public UndoManager getUndoManager();
-	public File getCurrentDirectory();
-	public void setCurrentDirectory(File currentDirectory);
-	public Frame getParentFrame();
-	public Document getDocument();
-	public void setDocument(Document document);
-	public Element getClickedElement();
-	public void setClickedElement(Element clickedElement);
-	public Selection getSelection();
-	public Set<Element> getSelectedElementsWithClickedElement();
-	public void selectTool_Select();
-	public boolean isSelectedTool_Select();
-	public void selectTool_Place();
-	public boolean isSelectedTool_Place();
-	public void selectTool_Transition();
-	public boolean isSelectedTool_Transition();
-	public void selectTool_Arc();
-	public boolean isSelectedTool_Arc();
-	public void selectTool_Token();
-	public boolean isSelectedTool_Token();
-	public ListEditor<Role> getRoleEditor();
-	public JPopupMenu getPlacePopup();
-	public JPopupMenu getTransitionPopup();
-	public JPopupMenu getArcEdgePopup();
-	public JPopupMenu getSubnetPopup();
-	public JPopupMenu getCanvasPopup();
-	public void openSubnet();
-	public void closeSubnet();
-	public void refreshAll();
-	public void repaintCanvas();
-	public void quitApplication();
-	public Marking getCurrentMarking();
-	public void setCurrentMarking(Marking currentMarking);
-	public LocalClipboard getClipboard();
-	public boolean isModified();
-	public void setModified(boolean isModified);
-	public File getCurrentFile();
-	public void setCurrentFile(File currentFile);
-	public String getAppShortName();
-	public String getAppLongName();
+
+    public UndoManager getUndoManager();
+
+    public File getCurrentDirectory();
+
+    public void setCurrentDirectory(File currentDirectory);
+
+    public Frame getParentFrame();
+
+    public Document getDocument();
+
+    public void setDocument(Document document);
+
+    public Element getClickedElement();
+
+    public void setClickedElement(Element clickedElement);
+
+    public Selection getSelection();
+
+    public Set<Element> getSelectedElementsWithClickedElement();
+
+    public void selectTool_Select();
+
+    public boolean isSelectedTool_Select();
+
+    public void selectTool_Place();
+
+    public boolean isSelectedTool_Place();
+
+    public void selectTool_Transition();
+
+    public boolean isSelectedTool_Transition();
+
+    public void selectTool_Arc();
+
+    public boolean isSelectedTool_Arc();
+
+    public void selectTool_Token();
+
+    public boolean isSelectedTool_Token();
+
+    public ListEditor<Role> getRoleEditor();
+
+    public JPopupMenu getPlacePopup();
+
+    public JPopupMenu getTransitionPopup();
+
+    public JPopupMenu getArcEdgePopup();
+
+    public JPopupMenu getSubnetPopup();
+
+    public JPopupMenu getCanvasPopup();
+
+    public void openSubnet();
+
+    public void closeSubnet();
+
+    public void refreshAll();
+
+    public void repaintCanvas();
+
+    public void quitApplication();
+
+    public Marking getCurrentMarking();
+
+    public void setCurrentMarking(Marking currentMarking);
+
+    public LocalClipboard getClipboard();
+
+    public boolean isModified();
+
+    public void setModified(boolean isModified);
+
+    public File getCurrentFile();
+
+    public void setCurrentFile(File currentFile);
+
+    public String getAppShortName();
+
+    public String getAppLongName();
 }

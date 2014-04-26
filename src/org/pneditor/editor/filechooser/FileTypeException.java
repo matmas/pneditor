@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.filechooser;
 
 /**
@@ -23,8 +22,8 @@ package org.pneditor.editor.filechooser;
  */
 public class FileTypeException extends Exception {
 
-	public FileTypeException(String message) {
-		super(message);
-	}
+    public FileTypeException(String message) {
+        super(message);
+    }
 
 }

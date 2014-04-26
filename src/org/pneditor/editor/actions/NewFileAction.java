@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -29,36 +28,35 @@ import org.pneditor.util.GraphicsTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class NewFileAction extends AbstractAction {
-	
-	private Root root;
-	
-	public NewFileAction(Root root) {
-		this.root = root;
-		String name = "New";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/New16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (!root.isModified() || JOptionPane.showOptionDialog(
-				root.getParentFrame(),
-				"Any unsaved changes will be lost. Continue?",
-				"New file",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"New file", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-		) {
-			root.getDocument().petriNet.clear();
-			root.getDocument().roles.clear();
-			root.setClickedElement(null);
-			root.refreshAll();
-			root.getUndoManager().eraseAll();
-			root.setCurrentFile(null);
-			root.setModified(false);
-		}
-	}
+    private Root root;
+
+    public NewFileAction(Root root) {
+        this.root = root;
+        String name = "New";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/New16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (!root.isModified() || JOptionPane.showOptionDialog(
+                root.getParentFrame(),
+                "Any unsaved changes will be lost. Continue?",
+                "New file",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                new String[]{"New file", "Cancel"},
+                "Cancel") == JOptionPane.YES_OPTION) {
+            root.getDocument().petriNet.clear();
+            root.getDocument().roles.clear();
+            root.setClickedElement(null);
+            root.refreshAll();
+            root.getUndoManager().eraseAll();
+            root.setCurrentFile(null);
+            root.setModified(false);
+        }
+    }
 }

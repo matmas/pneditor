@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Marking;
@@ -23,37 +22,38 @@ import org.pneditor.util.Command;
 
 /**
  * Set tokens to clicked place node
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SetTokensCommand implements Command {
 
-	private PlaceNode placeNode;
-	private int newValue;
-	private Marking marking;
-	
-	public SetTokensCommand(PlaceNode placeNode, int tokens, Marking marking) {
-		this.placeNode = placeNode;
-		this.newValue = tokens;
-		this.marking = marking;
-	}
-	
-	private int oldValue;
-	
-	public void execute() {
-		oldValue = marking.getTokens(placeNode);
-		marking.setTokens(placeNode, newValue);
-	}
+    private PlaceNode placeNode;
+    private int newValue;
+    private Marking marking;
 
-	public void undo() {
-		marking.setTokens(placeNode, oldValue);
-	}
+    public SetTokensCommand(PlaceNode placeNode, int tokens, Marking marking) {
+        this.placeNode = placeNode;
+        this.newValue = tokens;
+        this.marking = marking;
+    }
 
-	public void redo() {
-		execute();
-	}
+    private int oldValue;
 
-	@Override
-	public String toString() {
-		return "Set tokens";
-	}
+    public void execute() {
+        oldValue = marking.getTokens(placeNode);
+        marking.setTokens(placeNode, newValue);
+    }
+
+    public void undo() {
+        marking.setTokens(placeNode, oldValue);
+    }
+
+    public void redo() {
+        execute();
+    }
+
+    @Override
+    public String toString() {
+        return "Set tokens";
+    }
 }

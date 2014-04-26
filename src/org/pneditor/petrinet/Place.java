@@ -14,24 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 /**
  * Represents place in Petri net
+ *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Place extends PlaceNode implements Cloneable {
-	
-	private boolean isStatic = false;
-	
-	@Override
-	public boolean isStatic() {
-		return isStatic;
-	}
 
-	@Override
-	public void setStatic(boolean isStatic) {
-		this.isStatic = isStatic;
-	}
+    private boolean isStatic = false;
+
+    @Override
+    public boolean isStatic() {
+        return isStatic;
+    }
+
+    @Override
+    public void setStatic(boolean isStatic) {
+        this.isStatic = isStatic;
+    }
 }

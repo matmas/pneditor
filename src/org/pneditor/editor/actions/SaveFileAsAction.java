@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -34,56 +33,55 @@ import org.pneditor.editor.filechooser.FileTypeException;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class SaveFileAsAction extends AbstractAction {
-	
-	private Root root;
-	private List<FileType> fileTypes;
-	
-	public SaveFileAsAction(Root root, List<FileType> fileTypes) {
-		this.root = root;
-		this.fileTypes = fileTypes;
-		String name = "Save as...";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/SaveAs16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		FileChooserDialog chooser = new FileChooserDialog();
+    private Root root;
+    private List<FileType> fileTypes;
 
-		if (root.getCurrentFile() != null) {
-			chooser.setSelectedFile(root.getCurrentFile());
-		}
+    public SaveFileAsAction(Root root, List<FileType> fileTypes) {
+        this.root = root;
+        this.fileTypes = fileTypes;
+        String name = "Save as...";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/SaveAs16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+    }
 
-		for (FileType fileType : fileTypes) {
-			chooser.addChoosableFileFilter(fileType);
-		}
-		chooser.setAcceptAllFileFilterUsed(false);
-		chooser.setCurrentDirectory(root.getCurrentDirectory());
-		chooser.setDialogTitle("Save as...");
+    public void actionPerformed(ActionEvent e) {
+        FileChooserDialog chooser = new FileChooserDialog();
 
-		if (chooser.showSaveDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
-			FileType chosenFileType = (FileType)chooser.getFileFilter();
-			
-			if (!file.exists() || JOptionPane.showOptionDialog(
-				root.getParentFrame(),
-				"Selected file already exists. Overwrite?",
-				"Save as " + file.getName(),
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"Overwrite", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-			) {
-				try {
-					chosenFileType.save(root.getDocument(), file);
-				} catch (FileTypeException ex) {
-					JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-				}
-			}
-			root.setCurrentFile(file);
-			root.setModified(false);
-		}
-		root.setCurrentDirectory(chooser.getCurrentDirectory());
-	}
+        if (root.getCurrentFile() != null) {
+            chooser.setSelectedFile(root.getCurrentFile());
+        }
+
+        for (FileType fileType : fileTypes) {
+            chooser.addChoosableFileFilter(fileType);
+        }
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setCurrentDirectory(root.getCurrentDirectory());
+        chooser.setDialogTitle("Save as...");
+
+        if (chooser.showSaveDialog(root.getParentFrame()) == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            FileType chosenFileType = (FileType) chooser.getFileFilter();
+
+            if (!file.exists() || JOptionPane.showOptionDialog(
+                    root.getParentFrame(),
+                    "Selected file already exists. Overwrite?",
+                    "Save as " + file.getName(),
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[]{"Overwrite", "Cancel"},
+                    "Cancel") == JOptionPane.YES_OPTION) {
+                try {
+                    chosenFileType.save(root.getDocument(), file);
+                } catch (FileTypeException ex) {
+                    JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                }
+            }
+            root.setCurrentFile(file);
+            root.setModified(false);
+        }
+        root.setCurrentDirectory(chooser.getCurrentDirectory());
+    }
 }

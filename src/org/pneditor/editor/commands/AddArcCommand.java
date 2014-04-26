@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Arc;
@@ -29,38 +28,38 @@ import org.pneditor.util.Command;
  */
 public class AddArcCommand implements Command {
 
-	private Subnet parentSubnet;
-	private PlaceNode placeNode;
-	private Transition transition;
-	private boolean placeToTransition;
-	private Arc createdArc;
-	
-	public AddArcCommand(PlaceNode placeNode, Transition transition, boolean placeToTransition) {
-		this.parentSubnet = placeNode.getParentSubnet();
-		this.placeNode = placeNode;
-		this.transition = transition;
-		this.placeToTransition = placeToTransition;
-	}
-	
-	public void execute() {
-		createdArc = new Arc(placeNode, transition, placeToTransition);
-		parentSubnet.addElement(createdArc);
-	}
+    private Subnet parentSubnet;
+    private PlaceNode placeNode;
+    private Transition transition;
+    private boolean placeToTransition;
+    private Arc createdArc;
 
-	public void undo() {
-		new DeleteElementCommand(createdArc).execute();
-	}
+    public AddArcCommand(PlaceNode placeNode, Transition transition, boolean placeToTransition) {
+        this.parentSubnet = placeNode.getParentSubnet();
+        this.placeNode = placeNode;
+        this.transition = transition;
+        this.placeToTransition = placeToTransition;
+    }
 
-	public void redo() {
-		parentSubnet.addElement(createdArc);
-	}
+    public void execute() {
+        createdArc = new Arc(placeNode, transition, placeToTransition);
+        parentSubnet.addElement(createdArc);
+    }
 
-	@Override
-	public String toString() {
-		return "Add arc";
-	}
-	
-	public Arc getCreatedArc() { //TODO: check usage
-		return createdArc;
-	}
+    public void undo() {
+        new DeleteElementCommand(createdArc).execute();
+    }
+
+    public void redo() {
+        parentSubnet.addElement(createdArc);
+    }
+
+    @Override
+    public String toString() {
+        return "Add arc";
+    }
+
+    public Arc getCreatedArc() { //TODO: check usage
+        return createdArc;
+    }
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -35,53 +34,52 @@ import org.pneditor.util.StringTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class ExportAction extends AbstractAction {
-	
-	private Root root;
-	private List<FileType> fileTypes;
-	
-	public ExportAction(Root root, List<FileType> fileTypes) {
-		this.root = root;
-		this.fileTypes = fileTypes;
-		String name = "Export...";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/export.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		FileChooserDialog chooser = new FileChooserDialog();
 
-		if (root.getCurrentFile() != null) {
-			chooser.setSelectedFile(new File(StringTools.getExtensionCutOut(root.getCurrentFile().getName())));
-		}
+    private Root root;
+    private List<FileType> fileTypes;
 
-		for (FileType fileType : fileTypes) {
-			chooser.addChoosableFileFilter(fileType);
-		}
-		chooser.setAcceptAllFileFilterUsed(false);
-		chooser.setCurrentDirectory(root.getCurrentDirectory());
+    public ExportAction(Root root, List<FileType> fileTypes) {
+        this.root = root;
+        this.fileTypes = fileTypes;
+        String name = "Export...";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/export.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+    }
 
-		if (chooser.showDialog(root.getParentFrame(), "Export") == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
-			FileType chosenFileType = (FileType)chooser.getFileFilter();
+    public void actionPerformed(ActionEvent e) {
+        FileChooserDialog chooser = new FileChooserDialog();
 
-			if (!file.exists() || JOptionPane.showOptionDialog(
-				root.getParentFrame(),
-				"Selected file already exists. Overwrite?",
-				"Export to " + file.getName(),
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE,
-				null,
-				new String[] {"Overwrite", "Cancel"},
-				"Cancel") == JOptionPane.YES_OPTION
-			) {
-				try {
-					chosenFileType.save(root.getDocument(), file);
-				} catch (FileTypeException ex) {
-					JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
-				}
-			}
-			root.setCurrentDirectory(chooser.getCurrentDirectory());
-		}
-	}
+        if (root.getCurrentFile() != null) {
+            chooser.setSelectedFile(new File(StringTools.getExtensionCutOut(root.getCurrentFile().getName())));
+        }
+
+        for (FileType fileType : fileTypes) {
+            chooser.addChoosableFileFilter(fileType);
+        }
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setCurrentDirectory(root.getCurrentDirectory());
+
+        if (chooser.showDialog(root.getParentFrame(), "Export") == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            FileType chosenFileType = (FileType) chooser.getFileFilter();
+
+            if (!file.exists() || JOptionPane.showOptionDialog(
+                    root.getParentFrame(),
+                    "Selected file already exists. Overwrite?",
+                    "Export to " + file.getName(),
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[]{"Overwrite", "Cancel"},
+                    "Cancel") == JOptionPane.YES_OPTION) {
+                try {
+                    chosenFileType.save(root.getDocument(), file);
+                } catch (FileTypeException ex) {
+                    JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
+                }
+            }
+            root.setCurrentDirectory(chooser.getCurrentDirectory());
+        }
+    }
 }

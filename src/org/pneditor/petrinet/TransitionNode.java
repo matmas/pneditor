@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.petrinet;
 
 import java.util.HashSet;
@@ -24,13 +23,13 @@ import java.util.Set;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public abstract class TransitionNode extends Node implements Cloneable{
-	
-	public Set<PlaceNode> getConnectedPlaceNodes() {
-		Set<PlaceNode> connectedPlaceNodes = new HashSet<PlaceNode>();
-		for (ArcEdge arc : getConnectedArcEdges()) {
-			connectedPlaceNodes.add(arc.getPlaceNode());
-		}
-		return connectedPlaceNodes;
-	}
+public abstract class TransitionNode extends Node implements Cloneable {
+
+    public Set<PlaceNode> getConnectedPlaceNodes() {
+        Set<PlaceNode> connectedPlaceNodes = new HashSet<PlaceNode>();
+        for (ArcEdge arc : getConnectedArcEdges()) {
+            connectedPlaceNodes.add(arc.getPlaceNode());
+        }
+        return connectedPlaceNodes;
+    }
 }

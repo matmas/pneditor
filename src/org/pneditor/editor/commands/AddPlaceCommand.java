@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.PetriNet;
@@ -28,40 +27,40 @@ import org.pneditor.util.Command;
  */
 public class AddPlaceCommand implements Command {
 
-	private Subnet subnet;
-	private int x, y;
-	private Place createdPlace;
-	private PetriNet petriNet;
+    private Subnet subnet;
+    private int x, y;
+    private Place createdPlace;
+    private PetriNet petriNet;
 
-	public AddPlaceCommand(Subnet subnet, int x, int y, PetriNet petriNet) {
-		this.subnet = subnet;
-		this.x = x;
-		this.y = y;
-		this.petriNet = petriNet;
-	}
-	
-	public void execute() {
-		createdPlace = new Place();
-		createdPlace.setCenter(x, y);
-		petriNet.getNodeSimpleIdGenerator().setUniqueId(createdPlace);
-		petriNet.getNodeLabelGenerator().setLabelToNewlyCreatedNode(createdPlace);
-		subnet.addElement(createdPlace);
-	}
+    public AddPlaceCommand(Subnet subnet, int x, int y, PetriNet petriNet) {
+        this.subnet = subnet;
+        this.x = x;
+        this.y = y;
+        this.petriNet = petriNet;
+    }
 
-	public void undo() {
-		new DeleteElementCommand(createdPlace).execute();
-	}
+    public void execute() {
+        createdPlace = new Place();
+        createdPlace.setCenter(x, y);
+        petriNet.getNodeSimpleIdGenerator().setUniqueId(createdPlace);
+        petriNet.getNodeLabelGenerator().setLabelToNewlyCreatedNode(createdPlace);
+        subnet.addElement(createdPlace);
+    }
 
-	public void redo() {
-		subnet.addElement(createdPlace);
-	}
+    public void undo() {
+        new DeleteElementCommand(createdPlace).execute();
+    }
 
-	@Override
-	public String toString() {
-		return "Add place";
-	}
-	
-	public Place getCreatedPlace() {
-		return createdPlace;
-	}
+    public void redo() {
+        subnet.addElement(createdPlace);
+    }
+
+    @Override
+    public String toString() {
+        return "Add place";
+    }
+
+    public Place getCreatedPlace() {
+        return createdPlace;
+    }
 }

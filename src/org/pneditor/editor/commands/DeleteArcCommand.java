@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Arc;
@@ -26,36 +25,36 @@ import org.pneditor.util.Command;
  */
 public class DeleteArcCommand implements Command {
 
-	private Arc arc;
-	private boolean isAlreadyDeleted;
-	
-	public DeleteArcCommand(Arc arc) {
-		this.arc = arc;
-	}
-	
-	public void execute() {
-		isAlreadyDeleted = !arc.getParentSubnet().getElements().contains(arc);
-		if ( !isAlreadyDeleted) {
-			arc.getParentSubnet().removeElement(arc);
-		}
-	}
+    private Arc arc;
+    private boolean isAlreadyDeleted;
 
-	public void undo() {
-		if ( !isAlreadyDeleted) {
-			arc.getParentSubnet().addElement(arc);
-		}
-	}
+    public DeleteArcCommand(Arc arc) {
+        this.arc = arc;
+    }
 
-	public void redo() {
-		isAlreadyDeleted = !arc.getParentSubnet().getElements().contains(arc);
-		if ( !isAlreadyDeleted) {
-			arc.getParentSubnet().removeElement(arc);
-		}
-	}
+    public void execute() {
+        isAlreadyDeleted = !arc.getParentSubnet().getElements().contains(arc);
+        if (!isAlreadyDeleted) {
+            arc.getParentSubnet().removeElement(arc);
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Delete arc";
-	}
-	
+    public void undo() {
+        if (!isAlreadyDeleted) {
+            arc.getParentSubnet().addElement(arc);
+        }
+    }
+
+    public void redo() {
+        isAlreadyDeleted = !arc.getParentSubnet().getElements().contains(arc);
+        if (!isAlreadyDeleted) {
+            arc.getParentSubnet().removeElement(arc);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Delete arc";
+    }
+
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -33,26 +32,26 @@ import org.pneditor.util.GraphicsTools;
  */
 public class PasteAction extends AbstractAction {
 
-	private Root root;
+    private Root root;
 
-	public PasteAction(Root root) {
-		this.root = root;
-		String name = "Paste";
-		putValue(NAME, name);
-		putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Paste16.gif"));
-		putValue(SHORT_DESCRIPTION, name);
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl V"));
-		setEnabled(false);
-	}
+    public PasteAction(Root root) {
+        this.root = root;
+        String name = "Paste";
+        putValue(NAME, name);
+        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/Paste16.gif"));
+        putValue(SHORT_DESCRIPTION, name);
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("ctrl V"));
+        setEnabled(false);
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		PetriNet petriNet = root.getDocument().petriNet;
-		Set<Element> pastedElements = root.getClipboard().getContents(petriNet);
-		root.getUndoManager().executeCommand(new PasteCommand(pastedElements, root.getDocument().petriNet.getCurrentSubnet(), petriNet));
-		//TODO: getViewTranslation()
-		root.setClickedElement(null);
-		root.getSelection().clear();
-		root.getSelection().addAll(pastedElements);
-		root.refreshAll();
-	}
+    public void actionPerformed(ActionEvent e) {
+        PetriNet petriNet = root.getDocument().petriNet;
+        Set<Element> pastedElements = root.getClipboard().getContents(petriNet);
+        root.getUndoManager().executeCommand(new PasteCommand(pastedElements, root.getDocument().petriNet.getCurrentSubnet(), petriNet));
+        //TODO: getViewTranslation()
+        root.setClickedElement(null);
+        root.getSelection().clear();
+        root.getSelection().addAll(pastedElements);
+        root.refreshAll();
+    }
 }

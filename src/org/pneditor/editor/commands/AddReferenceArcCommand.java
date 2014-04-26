@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.PetriNet;
@@ -29,44 +28,44 @@ import org.pneditor.util.Command;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class AddReferenceArcCommand implements Command {
-	
-	private Subnet parentSubnet;
-	private PlaceNode placeNode;
-	private Subnet nestedSubnet;
-	private ReferenceArc createdReferenceArc;
-	private ReferencePlace referencePlace;
-	private PetriNet petriNet;
 
-	public AddReferenceArcCommand(PlaceNode placeNode, Subnet nestedSubnet, PetriNet petriNet) {
-		this.parentSubnet = placeNode.getParentSubnet();
-		this.placeNode = placeNode;
-		this.nestedSubnet = nestedSubnet;
-		this.petriNet = petriNet;
-	}
-	
-	public void execute() {
-		referencePlace = new ReferencePlace(placeNode);
-		referencePlace.setCenter(
-			placeNode.getCenter().x - nestedSubnet.getCenter().x,
-			placeNode.getCenter().y - nestedSubnet.getCenter().y
-		);
-		petriNet.getNodeSimpleIdGenerator().setUniqueId(referencePlace);
-		createdReferenceArc = new ReferenceArc(placeNode, nestedSubnet);
-		redo();
-	}
+    private Subnet parentSubnet;
+    private PlaceNode placeNode;
+    private Subnet nestedSubnet;
+    private ReferenceArc createdReferenceArc;
+    private ReferencePlace referencePlace;
+    private PetriNet petriNet;
 
-	public void undo() {
-		new DeleteElementCommand(createdReferenceArc).execute();
-	}
+    public AddReferenceArcCommand(PlaceNode placeNode, Subnet nestedSubnet, PetriNet petriNet) {
+        this.parentSubnet = placeNode.getParentSubnet();
+        this.placeNode = placeNode;
+        this.nestedSubnet = nestedSubnet;
+        this.petriNet = petriNet;
+    }
 
-	public void redo() {
-		nestedSubnet.addElement(referencePlace);
-		parentSubnet.addElement(createdReferenceArc);
-	}
+    public void execute() {
+        referencePlace = new ReferencePlace(placeNode);
+        referencePlace.setCenter(
+                placeNode.getCenter().x - nestedSubnet.getCenter().x,
+                placeNode.getCenter().y - nestedSubnet.getCenter().y
+        );
+        petriNet.getNodeSimpleIdGenerator().setUniqueId(referencePlace);
+        createdReferenceArc = new ReferenceArc(placeNode, nestedSubnet);
+        redo();
+    }
 
-	@Override
-	public String toString() {
-		return "Add reference arc";
-	}
-	
+    public void undo() {
+        new DeleteElementCommand(createdReferenceArc).execute();
+    }
+
+    public void redo() {
+        nestedSubnet.addElement(referencePlace);
+        parentSubnet.addElement(createdReferenceArc);
+    }
+
+    @Override
+    public String toString() {
+        return "Add reference arc";
+    }
+
 }

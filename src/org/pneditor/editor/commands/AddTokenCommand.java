@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.pneditor.editor.commands;
 
 import org.pneditor.petrinet.Marking;
@@ -27,29 +26,29 @@ import org.pneditor.util.Command;
  */
 public class AddTokenCommand implements Command {
 
-	private PlaceNode placeNode;
-	private Marking marking;
+    private PlaceNode placeNode;
+    private Marking marking;
 
-	public AddTokenCommand(PlaceNode placeNode, Marking marking) {
-		this.placeNode = placeNode;
-		this.marking = marking;
-	}
+    public AddTokenCommand(PlaceNode placeNode, Marking marking) {
+        this.placeNode = placeNode;
+        this.marking = marking;
+    }
 
-	public void execute() {
-		marking.setTokens(placeNode, marking.getTokens(placeNode) + 1);
-	}
+    public void execute() {
+        marking.setTokens(placeNode, marking.getTokens(placeNode) + 1);
+    }
 
-	public void undo() {
-		new RemoveTokenCommand(placeNode, marking).execute();
-	}
+    public void undo() {
+        new RemoveTokenCommand(placeNode, marking).execute();
+    }
 
-	public void redo() {
-		execute();
-	}
+    public void redo() {
+        execute();
+    }
 
-	@Override
-	public String toString() {
-		return "Add token";
-	}
-	
+    @Override
+    public String toString() {
+        return "Add token";
+    }
+
 }

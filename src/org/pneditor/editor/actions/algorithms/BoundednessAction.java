@@ -28,110 +28,112 @@ import org.pneditor.petrinet.*;
  * @author milka
  */
 public class BoundednessAction extends AbstractAction {
-	
-	private Root root;
-	
-	private Stack<Marking> markingsStack;
-	private boolean isUnboundedness;
-	
-	public BoundednessAction(Root root) {
-		this.root = root;
-		String name = "Boundedness";
-		putValue(NAME, name);
-		putValue(SHORT_DESCRIPTION, name);
-		setEnabled(true);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
 
-		isUnboundedness = false;
-		PetriNet petriNet = root.getDocument().petriNet;
-		
-		Marking m0 = petriNet.getInitialMarking();
-		markingsStack = new Stack<Marking>();
-		markingsStack.push(m0);
-		
-		Set<Transition> executableTransitions = m0.getAllEnabledTransitions();
-		for(Transition t : executableTransitions) {
-			int branchLength = checkBranchBoundedness(m0, t);
-			for (int i=0; i<branchLength; i++) {
-				markingsStack.pop();
-			}
-		}
-		
-		if (isUnboundedness)
-			JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is NOT bounded ", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
-		else
-			JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is bounded", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	private int checkBranchBoundedness(Marking marking, Transition transition) {
-		
-		if (isUnboundedness)
-			return 0;
-		
-		Marking newMarking = new Marking(marking);
-		newMarking.fire(transition);
-		
-		for (Marking oldMarking : markingsStack) {
-			if (isOmega(newMarking, oldMarking)) {
-				isUnboundedness = true;
-				return 0;
-			}
-		}
-		
-		if (!markingsStack.contains(newMarking)) {
-			markingsStack.push(newMarking);
-			Set<Transition> executableTransitions = newMarking.getAllEnabledTransitions();
-			for (Transition t : executableTransitions) {
-				int branchLength = checkBranchBoundedness(newMarking, t);
-				for (int i = 0; i < branchLength; i++) {
-					markingsStack.pop();
-				}
-			}
-			return 1;
-		}
-		
-		return 0;
-		
-	}
-	
-	private boolean isOmega(Marking newMarking, Marking oldMarking) {
-		
-		Set<Place> newMarkingPlaces = newMarking.getPetriNet().getRootSubnet().getPlaces();
-		Set<Place> oldMarkingPlaces = oldMarking.getPetriNet().getRootSubnet().getPlaces();
-		
-		boolean isOneSharplyHigher = false;
-		
-		for (Place newMarkingPlace : newMarkingPlaces) {
-			
-			int newTokens = newMarking.getTokens(newMarkingPlace);
-			
-			Place oldMarkingPlace = null;
-			for (Place place : oldMarkingPlaces) {
-				if (place.equals(newMarkingPlace)) {
-					oldMarkingPlace = place;
-					break;
-				}
-			}
-			
-			int oldTokens = oldMarking.getTokens(oldMarkingPlace);
-			
-			if (! (newTokens >= oldTokens) )
-				return false;
-			else if (newTokens > oldTokens)
-				isOneSharplyHigher = true;
-			
-		}
-		
-		if (isOneSharplyHigher)
-			return true;
-		
-		
-		return false;
-		
-		
-	}
-	
+    private Root root;
+
+    private Stack<Marking> markingsStack;
+    private boolean isUnboundedness;
+
+    public BoundednessAction(Root root) {
+        this.root = root;
+        String name = "Boundedness";
+        putValue(NAME, name);
+        putValue(SHORT_DESCRIPTION, name);
+        setEnabled(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        isUnboundedness = false;
+        PetriNet petriNet = root.getDocument().petriNet;
+
+        Marking m0 = petriNet.getInitialMarking();
+        markingsStack = new Stack<Marking>();
+        markingsStack.push(m0);
+
+        Set<Transition> executableTransitions = m0.getAllEnabledTransitions();
+        for (Transition t : executableTransitions) {
+            int branchLength = checkBranchBoundedness(m0, t);
+            for (int i = 0; i < branchLength; i++) {
+                markingsStack.pop();
+            }
+        }
+
+        if (isUnboundedness) {
+            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is NOT bounded ", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is bounded", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private int checkBranchBoundedness(Marking marking, Transition transition) {
+
+        if (isUnboundedness) {
+            return 0;
+        }
+
+        Marking newMarking = new Marking(marking);
+        newMarking.fire(transition);
+
+        for (Marking oldMarking : markingsStack) {
+            if (isOmega(newMarking, oldMarking)) {
+                isUnboundedness = true;
+                return 0;
+            }
+        }
+
+        if (!markingsStack.contains(newMarking)) {
+            markingsStack.push(newMarking);
+            Set<Transition> executableTransitions = newMarking.getAllEnabledTransitions();
+            for (Transition t : executableTransitions) {
+                int branchLength = checkBranchBoundedness(newMarking, t);
+                for (int i = 0; i < branchLength; i++) {
+                    markingsStack.pop();
+                }
+            }
+            return 1;
+        }
+
+        return 0;
+
+    }
+
+    private boolean isOmega(Marking newMarking, Marking oldMarking) {
+
+        Set<Place> newMarkingPlaces = newMarking.getPetriNet().getRootSubnet().getPlaces();
+        Set<Place> oldMarkingPlaces = oldMarking.getPetriNet().getRootSubnet().getPlaces();
+
+        boolean isOneSharplyHigher = false;
+
+        for (Place newMarkingPlace : newMarkingPlaces) {
+
+            int newTokens = newMarking.getTokens(newMarkingPlace);
+
+            Place oldMarkingPlace = null;
+            for (Place place : oldMarkingPlaces) {
+                if (place.equals(newMarkingPlace)) {
+                    oldMarkingPlace = place;
+                    break;
+                }
+            }
+
+            int oldTokens = oldMarking.getTokens(oldMarkingPlace);
+
+            if (!(newTokens >= oldTokens)) {
+                return false;
+            } else if (newTokens > oldTokens) {
+                isOneSharplyHigher = true;
+            }
+
+        }
+
+        if (isOneSharplyHigher) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 }
