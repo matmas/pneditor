@@ -675,8 +675,7 @@ public class RootPflow implements Root, WindowListener, ListSelectionListener, S
 
         arcEdgePopup = new JPopupMenu();
         arcEdgePopup.add(setArcMultiplicity);
-                //TODO : pridavanie polozky do popup
-
+        
         arcEdgePopup.add(setArcInhibitory);
         arcEdgePopup.add(setArcReset);
 

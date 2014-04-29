@@ -15,20 +15,25 @@ public class SetArcInhibitCommand implements Command {
 
     private Arc arc;
     private boolean isInhib;
-
+    private String oldType;
+    
     public SetArcInhibitCommand(Arc arc, boolean isInhib) {
         this.arc = arc;
         this.isInhib = isInhib;
     }
 
     public void execute() {
-        //oldMultiplicity = arc.getMultiplicity();
-        arc.setInhibitory(isInhib);
+        oldType = arc.getType();
+        if (isInhib) {
+            arc.setType(Arc.INHIBITOR);
+        }
+        else {
+            arc.setType(Arc.REGULAR);
+        }
     }
 
     public void undo() {
-        //isInhib = !isInhib;
-        arc.setInhibitory(!isInhib);
+        arc.setType(oldType);
     }
 
     public void redo() {
@@ -37,7 +42,7 @@ public class SetArcInhibitCommand implements Command {
 
     @Override
     public String toString() {
-        return "Set arc inhibitory";
+        return "Set arc type to inhibitor arc";
     }
 
 }

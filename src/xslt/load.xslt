@@ -51,11 +51,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </xsl:for-each>
         <xsl:for-each select="arc">
             <arc>
+                <type><xsl:value-of select="type"/></type>
                 <sourceId><xsl:value-of select="sourceId"/></sourceId>
                 <destinationId><xsl:value-of select="destinationId"/></destinationId>
                 <multiplicity><xsl:value-of select="multiplicity"/></multiplicity>
-                <inhibitory><xsl:value-of select="inhibitory"/></inhibitory>
-                <reset><xsl:value-of select="reset"/></reset>
                 <xsl:for-each select="breakPoint">
                     <breakPoint>
                         <x><xsl:value-of select="x"/></x>

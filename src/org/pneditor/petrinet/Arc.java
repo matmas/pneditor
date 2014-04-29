@@ -27,9 +27,11 @@ import java.awt.Point;
 public class Arc extends ArcEdge implements Cloneable {
 
     private int multiplicity = 1;
-    private boolean inhibitory = false;
-    private boolean reset = false;
-
+    private String type = REGULAR;
+    public static String REGULAR = "regular";
+    public static String INHIBITOR = "inhibitor";
+    public static String RESET = "reset";
+    
     public Arc(Node sourceNode) {
         setSource(sourceNode);
         setStart(sourceNode.getCenter().x, sourceNode.getCenter().y);
@@ -53,39 +55,25 @@ public class Arc extends ArcEdge implements Cloneable {
         this.multiplicity = multiplicity;
     }
 
-    public void setInhibitory(boolean value) {
-        this.inhibitory = value;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public boolean getInhibitory() {
-        return this.inhibitory;
-    }
-
-    public boolean setReset(boolean value) {
-        return this.reset = value;
-    }
-
-    public boolean getReset() {
-        return this.reset;
+    public String getType() {
+        return this.type;
     }
 
     @Override
     public void draw(Graphics g, DrawingOptions drawingOptions) {
-        if (this.inhibitory) {
-            this.color = Color.MAGENTA;
-        } else if (this.reset) {
-            this.color = Color.RED;
-        } else {
-            this.color = Color.BLACK;
-        }
-
+        this.color = Color.BLACK;
+        
         g.setColor(color);
         drawSegmentedLine(g);
         Point arrowTip = computeArrowTipPoint();
-        if (this.inhibitory) {
+        if (this.type.equals(Arc.INHIBITOR)) {
             drawCircle(g, arrowTip);
         } else {
-            if (this.reset) {
+            if (this.type.equals(Arc.RESET)) {
                 drawArrowDouble(g, arrowTip);
             } else {
                 drawArrow(g, arrowTip);

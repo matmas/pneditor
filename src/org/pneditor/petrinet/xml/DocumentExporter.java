@@ -148,8 +148,7 @@ public class DocumentExporter {
     private XmlArc getXmlArc(Arc arc) {
         XmlArc xmlArc = new XmlArc();
         xmlArc.multiplicity = arc.getMultiplicity();
-        xmlArc.inhibitory = arc.getInhibitory();
-        xmlArc.reset = arc.getReset();
+        xmlArc.type = arc.getType();
         xmlArc.sourceId = arc.getSource().getId();
         xmlArc.destinationId = arc.getDestination().getId();
 

@@ -25,7 +25,7 @@ public class SetArcResetAction extends AbstractAction {
 
     public SetArcResetAction(Root root) {
         this.root = root;
-        String name = "Change arc to reset arc";
+        String name = "Set/unset reset arc type";
         putValue(NAME, name);
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/setarcresetaction.gif"));
         putValue(SHORT_DESCRIPTION, name);
@@ -37,15 +37,8 @@ public class SetArcResetAction extends AbstractAction {
         if (root.getClickedElement() != null) {
             if (root.getClickedElement() instanceof Arc) {
                 Arc arc = (Arc) root.getClickedElement();
-                boolean isReset = !arc.getReset();
-				//String response = JOptionPane.showInputDialog(root.getParentFrame(), "Multiplicity:", multiplicity);
-                //arc.setInhibitory(!isInhib);
-                root.getUndoManager().executeCommand(new SetArcResetCommand(arc, isReset));
-
-                //if arc was inhibit then un-inhibit it
-                if (arc.getInhibitory()) {
-                    root.getUndoManager().executeCommand(new SetArcInhibitCommand(arc, false));
-                }
+                boolean isReset = arc.getType().equals(Arc.RESET);
+                root.getUndoManager().executeCommand(new SetArcResetCommand(arc, !isReset));
             }
         }
     }

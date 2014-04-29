@@ -15,6 +15,7 @@ public class SetArcResetCommand implements Command {
 
     private Arc arc;
     private boolean isReset;
+    private String oldType;
 
     public SetArcResetCommand(Arc arc, boolean reset) {
         this.arc = arc;
@@ -22,11 +23,17 @@ public class SetArcResetCommand implements Command {
     }
 
     public void execute() {
-        arc.setReset(isReset);
+        oldType = arc.getType();
+        if (isReset) {
+            arc.setType(Arc.RESET);
+        }
+        else {
+            arc.setType(Arc.REGULAR);
+        }
     }
 
     public void undo() {
-        arc.setReset(!isReset);
+        arc.setType(oldType);
     }
 
     public void redo() {
@@ -35,6 +42,6 @@ public class SetArcResetCommand implements Command {
 
     @Override
     public String toString() {
-        return "Switch arc to reset arc";
+        return "Set arc type to reset arc";
     }
 }
