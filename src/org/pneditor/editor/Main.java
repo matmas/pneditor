@@ -23,6 +23,6 @@ package org.pneditor.editor;
 public class Main {
 
     public static void main(String[] args) {
-        new RootPflow(args);
+        new Root(args);
     }
 }
