@@ -38,7 +38,7 @@ public class ArcSelectToolAction extends AbstractAction {
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/arc.gif"));
         putValue(SHORT_DESCRIPTION, name);
         putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("A"));
+//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("A"));
     }
 
     public void actionPerformed(ActionEvent e) {

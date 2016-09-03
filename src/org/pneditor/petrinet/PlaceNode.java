@@ -160,7 +160,7 @@ public abstract class PlaceNode extends Node implements Cloneable {
 
     @Override
     public boolean containsPoint(int x, int y) {
-		// Check whether (x,y) is inside this oval, using the
+        // Check whether (x,y) is inside this oval, using the
         // mathematical equation of an ellipse.
         double rx = getWidth() / 2.0;   // horizontal radius of ellipse
         double ry = getHeight() / 2.0;  // vertical radius of ellipse 
@@ -204,10 +204,10 @@ public abstract class PlaceNode extends Node implements Cloneable {
             connectedTransitions.add(arc.getTransition());
         }
         for (ReferenceArc referenceArc : getConnectedReferenceArcs()) {
-//			Subnet subnet = referenceArc.getSubnet();
-//			subnet.getre
-//			for (Arc arc : subnet.get)
-//			connectedTransitions.add();
+//          Subnet subnet = referenceArc.getSubnet();
+//          subnet.getre
+//          for (Arc arc : subnet.get)
+//          connectedTransitions.add();
 
             //TODO: !!! unfinished (!)
         }

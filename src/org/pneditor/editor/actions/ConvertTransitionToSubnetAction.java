@@ -71,6 +71,6 @@ public class ConvertTransitionToSubnetAction extends AbstractAction {
         root.getSelection().getElements().addAll(createdElements);
         root.getSelection().selectionChanged();
 
-//		root.refreshAll(); TODO: root.refreshAll() does not help
+//      root.refreshAll(); TODO: root.refreshAll() does not help
     }
 }

@@ -33,9 +33,9 @@ public class SelectAllAction extends AbstractAction {
         PNEditor.getRoot().refreshAll();
     }
 
-//	@Override
-//	public boolean shouldBeEnabled() {
-//		PetriNet petriNet = PNEditor.getRoot().getDocument().getPetriNet();
-//		return !petriNet.isEmpty();
-//	}
+//  @Override
+//  public boolean shouldBeEnabled() {
+//      PetriNet petriNet = PNEditor.getRoot().getDocument().getPetriNet();
+//      return !petriNet.isEmpty();
+//  }
 }

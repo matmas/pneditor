@@ -123,9 +123,9 @@ public class RootPnml extends RootPflow implements Root, WindowListener, ListSel
         toolBar.add(transition);
         toolBar.add(arc);
         toolBar.add(token);
-//		toolBar.addSeparator();
-//		toolBar.add(addSelectedTransitionsToSelectedRoles);
-//		toolBar.add(removeSelectedTransitionsFromSelectedRoles);
+//      toolBar.addSeparator();
+//      toolBar.add(addSelectedTransitionsToSelectedRoles);
+//      toolBar.add(removeSelectedTransitionsFromSelectedRoles);
 
         JMenuBar menuBar = new JMenuBar();
         mainFrame.setJMenuBar(menuBar);
@@ -146,12 +146,12 @@ public class RootPnml extends RootPflow implements Root, WindowListener, ListSel
         elementMenu.setMnemonic('l');
         menuBar.add(elementMenu);
 
-//		JMenu rolesMenu = new JMenu("Roles");
-//		rolesMenu.setMnemonic('R');
-//		menuBar.add(rolesMenu);
-//		JMenu subnetMenu = new JMenu("Subnet");
-//		subnetMenu.setMnemonic('S');
-//		menuBar.add(subnetMenu);
+//      JMenu rolesMenu = new JMenu("Roles");
+//      rolesMenu.setMnemonic('R');
+//      menuBar.add(rolesMenu);
+//      JMenu subnetMenu = new JMenu("Subnet");
+//      subnetMenu.setMnemonic('S');
+//      menuBar.add(subnetMenu);
         JMenu helpMenu = new JMenu("Help");
         helpMenu.add(new AboutAction(this));
         menuBar.add(helpMenu);
@@ -175,12 +175,12 @@ public class RootPnml extends RootPflow implements Root, WindowListener, ListSel
         elementMenu.add(setLabel);
         elementMenu.addSeparator();
         elementMenu.add(setTokens);
-//		elementMenu.add(setPlaceStatic);
+//      elementMenu.add(setPlaceStatic);
         elementMenu.addSeparator();
         elementMenu.add(setArcMultiplicity);
 
-//		rolesMenu.add(addSelectedTransitionsToSelectedRoles);
-//		rolesMenu.add(removeSelectedTransitionsFromSelectedRoles);
+//      rolesMenu.add(addSelectedTransitionsToSelectedRoles);
+//      rolesMenu.add(removeSelectedTransitionsFromSelectedRoles);
         drawMenu.add(selectTool_SelectionAction);
         drawMenu.addSeparator();
         drawMenu.add(selectTool_PlaceAction);
@@ -188,15 +188,15 @@ public class RootPnml extends RootPflow implements Root, WindowListener, ListSel
         drawMenu.add(selectTool_ArcAction);
         drawMenu.add(selectTool_TokenAction);
 
-//		subnetMenu.add(openSubnet);
-//		subnetMenu.add(closeSubnet);
-//		subnetMenu.add(convertTransitionToSubnet);
-//		subnetMenu.add(replaceSubnet);
-//		subnetMenu.add(saveSubnetAs);
+//      subnetMenu.add(openSubnet);
+//      subnetMenu.add(closeSubnet);
+//      subnetMenu.add(convertTransitionToSubnet);
+//      subnetMenu.add(replaceSubnet);
+//      subnetMenu.add(saveSubnetAs);
         placePopup = new JPopupMenu();
         placePopup.add(setLabel);
         placePopup.add(setTokens);
-//		placePopup.add(setPlaceStatic);
+//      placePopup.add(setPlaceStatic);
         placePopup.addSeparator();
         placePopup.add(cutAction);
         placePopup.add(copyAction);
@@ -204,39 +204,39 @@ public class RootPnml extends RootPflow implements Root, WindowListener, ListSel
 
         transitionPopup = new JPopupMenu();
         transitionPopup.add(setLabel);
-//		transitionPopup.add(convertTransitionToSubnet);
-//		transitionPopup.add(addSelectedTransitionsToSelectedRoles);
-//		transitionPopup.add(removeSelectedTransitionsFromSelectedRoles);
+//      transitionPopup.add(convertTransitionToSubnet);
+//      transitionPopup.add(addSelectedTransitionsToSelectedRoles);
+//      transitionPopup.add(removeSelectedTransitionsFromSelectedRoles);
         transitionPopup.addSeparator();
         transitionPopup.add(cutAction);
         transitionPopup.add(copyAction);
         transitionPopup.add(delete);
 
-//		Font boldFont = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+//      Font boldFont = new Font(Font.SANS_SERIF, Font.BOLD, 12);
         canvasPopup = new JPopupMenu();
-//		canvasPopup.add(closeSubnet).setFont(boldFont);
+//      canvasPopup.add(closeSubnet).setFont(boldFont);
         canvasPopup.add(pasteAction);
 
         subnetPopup = new JPopupMenu();
-//		subnetPopup.add(openSubnet).setFont(boldFont);
-//		subnetPopup.add(setLabel);
-//		subnetPopup.add(replaceSubnet);
-//		subnetPopup.add(saveSubnetAs);
-//		subnetPopup.add(addSelectedTransitionsToSelectedRoles);
-//		subnetPopup.add(removeSelectedTransitionsFromSelectedRoles);
-//		subnetPopup.add(delete);
+//      subnetPopup.add(openSubnet).setFont(boldFont);
+//      subnetPopup.add(setLabel);
+//      subnetPopup.add(replaceSubnet);
+//      subnetPopup.add(saveSubnetAs);
+//      subnetPopup.add(addSelectedTransitionsToSelectedRoles);
+//      subnetPopup.add(removeSelectedTransitionsFromSelectedRoles);
+//      subnetPopup.add(delete);
 
         arcEdgePopup = new JPopupMenu();
         arcEdgePopup.add(setArcMultiplicity);
         arcEdgePopup.add(delete);
 
-//		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
-//		splitPane.setDividerSize(6);
-//		splitPane.setOneTouchExpandable(true);
-//		splitPane.setLeftComponent(getRoleEditor());
-//		splitPane.setRightComponent(canvas);
-//		splitPane.setDividerLocation(120);
-//		mainFrame.add(splitPane, BorderLayout.CENTER);
+//      JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);
+//      splitPane.setDividerSize(6);
+//      splitPane.setOneTouchExpandable(true);
+//      splitPane.setLeftComponent(getRoleEditor());
+//      splitPane.setRightComponent(canvas);
+//      splitPane.setDividerLocation(120);
+//      mainFrame.add(splitPane, BorderLayout.CENTER);
         mainFrame.add(canvas, BorderLayout.CENTER);
         mainFrame.add(toolBar, BorderLayout.NORTH);
 

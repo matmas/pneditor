@@ -53,7 +53,7 @@ public class DocumentExporter {
 
         marking.getLock().readLock().lock();
         try {
-//			xmlDocument.rootSubnet = getXmlSubnet(document.petriNet.getRootSubnet(), marking);
+//          xmlDocument.rootSubnet = getXmlSubnet(document.petriNet.getRootSubnet(), marking);
             xmlDocument.rootSubnet = getXmlSubnet(marking.getPetriNet().getRootSubnet(), marking);
         } finally {
             marking.getLock().readLock().unlock();

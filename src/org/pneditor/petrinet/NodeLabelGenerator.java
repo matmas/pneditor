@@ -66,13 +66,13 @@ public class NodeLabelGenerator {
     }
 
     public void setLabelToNewlyCreatedNode(Node node) {
-//		setUniqueLabel(node);
+//      setUniqueLabel(node);
     }
 
     public void setLabelsToPastedContent(Collection<Element> elements) {
         for (Element element : elements) {
             if (element instanceof Node && !(element instanceof ReferencePlace)) {
-//				setUniqueLabel((Node)element);
+//              setUniqueLabel((Node)element);
             }
         }
     }
@@ -80,33 +80,33 @@ public class NodeLabelGenerator {
     public void setLabelsToReplacedSubnet(Subnet subnet) {
         for (Node node : subnet.getNodesRecursively()) {
             if (!(node instanceof ReferencePlace)) {
-//				if (isNodeAutolabeled(node)) {
-//					setUniqueLabel(node);
-//				}
+//              if (isNodeAutolabeled(node)) {
+//                  setUniqueLabel(node);
+//              }
             }
         }
     }
 
     public void setLabelsOfConversionTransitionToSubnet(Transition transition, Subnet subnet) {
-//		if (isNodeAutolabeled(transition)) {
-//			setUniqueLabel(subnet);
-//		}
-//		else {
-//			subnet.setLabel(transition.getLabel());
-//			setUniqueLabel(transition);
-//		}
+//      if (isNodeAutolabeled(transition)) {
+//          setUniqueLabel(subnet);
+//      }
+//      else {
+//          subnet.setLabel(transition.getLabel());
+//          setUniqueLabel(transition);
+//      }
 
         subnet.setLabel(transition.getLabel());
         transition.setLabel(null);
     }
 
     public void cloneLabel(Node newNode, Node oldNode) {
-//		if (isNodeAutolabeled(oldNode)) {
-//			setUniqueLabel(newNode);
-//		}
-//		else {
+//      if (isNodeAutolabeled(oldNode)) {
+//          setUniqueLabel(newNode);
+//      }
+//      else {
         newNode.setLabel(oldNode.getLabel());
-//		}
+//      }
     }
 
     private boolean isNodeAutolabeled(Node node) {

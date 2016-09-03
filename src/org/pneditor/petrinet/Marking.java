@@ -180,8 +180,8 @@ public class Marking {
                 for (Arc arc : transition.getConnectedArcs()) {
                     if (arc.isPlaceToTransition()) {
                         int tokens = getTokens(arc.getPlaceNode());
-                        if (!arc.getType().equals(Arc.INHIBITOR)) {					//inhibitor arc doesnt consume tokens
-                            if (arc.getType().equals(Arc.RESET)) {						//reset arc consumes them all
+                        if (!arc.getType().equals(Arc.INHIBITOR)) {                 //inhibitor arc doesnt consume tokens
+                            if (arc.getType().equals(Arc.RESET)) {                      //reset arc consumes them all
                                 setTokens(arc.getPlaceNode(), 0);
                             } else {
                                 setTokens(arc.getPlaceNode(), tokens - arc.getMultiplicity());

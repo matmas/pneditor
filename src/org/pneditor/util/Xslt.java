@@ -47,8 +47,8 @@ public class Xslt {
     public static File transformXml(File fileToTransform, InputStream xslt, File output) throws IOException, TransformerException {
         Source xmlSource = new StreamSource(fileToTransform);
         Source xsltSource = new StreamSource(xslt); //or DOMSource or SAXSource
-//		Source xmlSource = new SAXSource(new InputSource(fileToTransform.toString()));
-//		Source xsltSource = new SAXSource(new InputSource(xslt)); //or DOMSource or SAXSource
+//      Source xmlSource = new SAXSource(new InputSource(fileToTransform.toString()));
+//      Source xsltSource = new SAXSource(new InputSource(xslt)); //or DOMSource or SAXSource
         Result result = new StreamResult(output);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer(xsltSource);

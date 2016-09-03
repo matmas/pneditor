@@ -95,8 +95,8 @@ public class ReplaceSubnetAction extends AbstractAction {
                     root.getSelection().getElements().addAll(createdElements);
                     root.getSelection().selectionChanged();
 
-//					root.refreshAll();
-//					root.getUndoManager().executeCommand(new ReplaceSubnetCommand(clickedSubnet, storedSubnet));
+//                  root.refreshAll();
+//                  root.getUndoManager().executeCommand(new ReplaceSubnetCommand(clickedSubnet, storedSubnet));
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(root.getParentFrame(), ex.getMessage());
                 }

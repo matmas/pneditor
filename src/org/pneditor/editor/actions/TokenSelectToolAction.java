@@ -37,7 +37,7 @@ public class TokenSelectToolAction extends AbstractAction {
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/token_and_fire16.gif"));
         putValue(SHORT_DESCRIPTION, name);
         putValue(MNEMONIC_KEY, KeyEvent.VK_F);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("F"));
+//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("F"));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -40,8 +40,8 @@ public class SetLabelAction extends AbstractAction {
         putValue(NAME, name);
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/label.gif"));
         putValue(SHORT_DESCRIPTION, name);
-//		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("R"));
+//      putValue(MNEMONIC_KEY, KeyEvent.VK_R);
+//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("R"));
         setEnabled(false);
     }
 

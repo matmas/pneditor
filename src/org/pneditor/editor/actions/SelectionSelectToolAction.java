@@ -39,7 +39,7 @@ public class SelectionSelectToolAction extends AbstractAction {
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/select.gif"));
         putValue(SHORT_DESCRIPTION, "Select");
         putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("S"));
+//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("S"));
     }
 
     public void actionPerformed(ActionEvent e) {

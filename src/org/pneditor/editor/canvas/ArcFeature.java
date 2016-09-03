@@ -138,7 +138,7 @@ class ArcFeature implements Feature {
                             PNEditor.getRoot().setClickedElement(CollectionTools.getFirstElement(PNEditor.getRoot().getDocument().petriNet.getCurrentSubnet().getElements()));
                         } else if (!(arcEdge instanceof ReferenceArc)) {
                             Arc arc = (Arc) arcEdge;
-							// increase multiplicity
+                            // increase multiplicity
                             // but only if there is no ReferenceArc
                             PNEditor.getRoot().getUndoManager().executeCommand(new SetArcMultiplicityCommand(arc, arc.getMultiplicity() + 1));
                             PNEditor.getRoot().setClickedElement(arcEdge);

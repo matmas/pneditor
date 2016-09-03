@@ -36,25 +36,25 @@ public class FileIconView extends FileView {
             return fileType.getIcon();
         }
         return super.getIcon(file);
-//		if (file.isDirectory()) {
-//			return super.getIcon(file);
-//		}
-//		if (cache.containsKey(file)) {
-//			return cache.get(file);
-//		}
-//		try {
-//			for (Element element : new DocumentImporter().readFromFile(file).petriNet.getRootSubnet().getElements()) {
-//				if (element instanceof ReferencePlace) {
-//					cache.put(file, pflowxIcon);
-//					return pflowxIcon;
-//				}
-//			}
-//			cache.put(file, pflowIcon);
-//			return pflowIcon;
-//		} catch (JAXBException ex) {
-//		}
-//		cache.put(file, super.getIcon(file));
-//		return super.getIcon(file);
+//      if (file.isDirectory()) {
+//          return super.getIcon(file);
+//      }
+//      if (cache.containsKey(file)) {
+//          return cache.get(file);
+//      }
+//      try {
+//          for (Element element : new DocumentImporter().readFromFile(file).petriNet.getRootSubnet().getElements()) {
+//              if (element instanceof ReferencePlace) {
+//                  cache.put(file, pflowxIcon);
+//                  return pflowxIcon;
+//              }
+//          }
+//          cache.put(file, pflowIcon);
+//          return pflowIcon;
+//      } catch (JAXBException ex) {
+//      }
+//      cache.put(file, super.getIcon(file));
+//      return super.getIcon(file);
     }
 
 }

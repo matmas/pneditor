@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
         UIManager.put("swing.boldMetal", Boolean.FALSE);
         String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
         if (lookAndFeel.equals("javax.swing.plaf.metal.MetalLookAndFeel")) {
-//			lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+//          lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
         }
         try {
             UIManager.setLookAndFeel(lookAndFeel);

@@ -59,7 +59,7 @@ public class MarkingConcurrentSimulation {
         final Marking marking = petriNet.getInitialMarking();
         new Thread(new Runnable() {
             public void run() {
-//				System.out.println("running co-thread");
+//              System.out.println("running co-thread");
                 for (int i = 0; i < 100; i++) {
                     try {
                         if (!marking.isEnabledByAnyTransition()) {
@@ -80,7 +80,7 @@ public class MarkingConcurrentSimulation {
                         Logger.getLogger(MarkingConcurrentSimulation.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-//				System.out.println("finished co-thread");
+//              System.out.println("finished co-thread");
             }
         }).start();
     }

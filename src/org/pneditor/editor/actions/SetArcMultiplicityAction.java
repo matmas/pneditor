@@ -41,7 +41,7 @@ public class SetArcMultiplicityAction extends AbstractAction {
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/multiplicity.gif"));
         putValue(SHORT_DESCRIPTION, name);
         putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-//		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("M"));
+//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("M"));
         setEnabled(false);
     }
 

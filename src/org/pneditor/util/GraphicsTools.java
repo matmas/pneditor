@@ -125,7 +125,7 @@ public class GraphicsTools {
 
         Color previousColor = g.getColor();
         g.setColor(new Color(1f, 1f, 1f, 0.7f));
-//		g.setColor(new Color(0.7f, 0.7f, 1f, 0.7f)); //debug with this
+//      g.setColor(new Color(0.7f, 0.7f, 1f, 0.7f)); //debug with this
         g.fillRect(resultX, resultY - textHeight + 1, textWidth, g.getFontMetrics().getHeight() - 1);
         g.setColor(previousColor);
         g.drawString(str, resultX, resultY);
@@ -157,17 +157,17 @@ public class GraphicsTools {
         Graphics2D g2d = (Graphics2D) g;
         double aDir = Math.atan2(xCenter - x, yCenter - y);
         //g2d.drawLine(x, y, xCenter, yCenter);
-        g2d.setStroke(new BasicStroke(1f));					// make the arrow head solid even if dash pattern has been specified
+        g2d.setStroke(new BasicStroke(1f));                 // make the arrow head solid even if dash pattern has been specified
         Polygon tmpPoly = new Polygon();
         int i1 = 12;
-        int i2 = 6;							// make the arrow head the same size regardless of the length length
-        tmpPoly.addPoint(x, y);							// arrow tip
+        int i2 = 6;                         // make the arrow head the same size regardless of the length length
+        tmpPoly.addPoint(x, y);                         // arrow tip
         tmpPoly.addPoint(x + xCor(i1, aDir + 0.5), y + yCor(i1, aDir + 0.5));
         tmpPoly.addPoint(x + xCor(i2, aDir), y + yCor(i2, aDir));
         tmpPoly.addPoint(x + xCor(i1, aDir - 0.5), y + yCor(i1, aDir - 0.5));
-        tmpPoly.addPoint(x, y);							// arrow tip
+        tmpPoly.addPoint(x, y);                         // arrow tip
         g2d.drawPolygon(tmpPoly);
-        g2d.fillPolygon(tmpPoly);						// remove this line to leave arrow head unpainted
+        g2d.fillPolygon(tmpPoly);                       // remove this line to leave arrow head unpainted
     }
 
     //Jan Tancibok Reset arc
@@ -175,26 +175,26 @@ public class GraphicsTools {
         Graphics2D g2d = (Graphics2D) g;
         double aDir = Math.atan2(xCenter - x, yCenter - y);
         //g2d.drawLine(x, y, xCenter, yCenter);
-        g2d.setStroke(new BasicStroke(1f));					// make the arrow head solid even if dash pattern has been specified
+        g2d.setStroke(new BasicStroke(1f));                 // make the arrow head solid even if dash pattern has been specified
         Polygon tmpPoly = new Polygon();
         int i1 = 12;
-        int i2 = 6;							// make the arrow head the same size regardless of the length length
-        tmpPoly.addPoint(x, y);							// arrow tip
+        int i2 = 6;                         // make the arrow head the same size regardless of the length length
+        tmpPoly.addPoint(x, y);                         // arrow tip
         tmpPoly.addPoint(x + xCor(i1, aDir + 0.5), y + yCor(i1, aDir + 0.5));
         tmpPoly.addPoint(x + xCor(i2, aDir), y + yCor(i2, aDir));
         tmpPoly.addPoint(x + xCor(i1, aDir - 0.5), y + yCor(i1, aDir - 0.5));
-        tmpPoly.addPoint(x, y);							// arrow tip
+        tmpPoly.addPoint(x, y);                         // arrow tip
         g2d.drawPolygon(tmpPoly);
         g2d.fillPolygon(tmpPoly);
 
         i1 = 24;
         int move = 6;
         int dmove = 12;
-        tmpPoly.addPoint(x + xCor(i2 + move, aDir), y + yCor(i2 + move, aDir));							// arrow tip
+        tmpPoly.addPoint(x + xCor(i2 + move, aDir), y + yCor(i2 + move, aDir));                         // arrow tip
         tmpPoly.addPoint(x + xCor(i1, aDir - 0.25), y + yCor(i1, aDir - 0.25));
         tmpPoly.addPoint(x + xCor(i2 + dmove, aDir), y + yCor(i2 + dmove, aDir));
         tmpPoly.addPoint(x + xCor(i1, aDir + 0.25), y + yCor(i1, aDir + 0.25));
-        tmpPoly.addPoint(x + xCor(i2 + move, aDir), y + yCor(i2 + move, aDir));							// arrow tip
+        tmpPoly.addPoint(x + xCor(i2 + move, aDir), y + yCor(i2 + move, aDir));                         // arrow tip
         g2d.drawPolygon(tmpPoly);
         g2d.fillPolygon(tmpPoly);// remove this line to leave arrow head unpainted
     }

@@ -91,9 +91,9 @@ public class Point {
         return hash;
     }
 
-//	public Point snapToGrid(int gridSize) {
-//		int x = (point.x / gridSize) * gridSize;
-//		int y = (point.y / gridSize) * gridSize;
-//		return new Point(x, y);
-//	}
+//  public Point snapToGrid(int gridSize) {
+//      int x = (point.x / gridSize) * gridSize;
+//      int y = (point.y / gridSize) * gridSize;
+//      return new Point(x, y);
+//  }
 }

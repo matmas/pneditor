@@ -48,20 +48,20 @@ public class ReferenceArc extends ArcEdge {
 
     @Override
     public void draw(Graphics g, DrawingOptions drawingOptions) {
-//		Arc subnetArc = null;
-//		for (Arc arc : referencePlace.getConnectedArcs()) {
-//			subnetArc = arc;
-//		}
+//      Arc subnetArc = null;
+//      for (Arc arc : referencePlace.getConnectedArcs()) {
+//          subnetArc = arc;
+//      }
 
-//		if (referencePlace.getConnectedNodes().size() == 1 &&
-//			referencePlace.getConnectedArcs().size() == 1 &&
-//			subnetArc instanceof ReferenceArc) {
-//			for (Arc arc : referencePlace.getConnectedArcs()) {
-//				this.multiplicity = arc.multiplicity;
-//				setDirection(arc.placeToTransition);
-//				super.draw(g);
-//			}
-//		}
+//      if (referencePlace.getConnectedNodes().size() == 1 &&
+//          referencePlace.getConnectedArcs().size() == 1 &&
+//          subnetArc instanceof ReferenceArc) {
+//          for (Arc arc : referencePlace.getConnectedArcs()) {
+//              this.multiplicity = arc.multiplicity;
+//              setDirection(arc.placeToTransition);
+//              super.draw(g);
+//          }
+//      }
         ReferencePlace referencePlace = getReferencePlace();
         if (referencePlace.getConnectedTransitionNodes().size() == 1) {
             g.setColor(color);

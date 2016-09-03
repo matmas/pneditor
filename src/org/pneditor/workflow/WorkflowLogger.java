@@ -41,7 +41,7 @@ public class WorkflowLogger {
         FileOutputStream fileOutputStream = new FileOutputStream(file, true);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
         PrintStream out = new PrintStream(bufferedOutputStream);
-        out.println(caseId + "	" + new Date().getTime() + "	" + userId + "	" + transition.getFullLabel());
+        out.println(caseId + "  " + new Date().getTime() + "    " + userId + "  " + transition.getFullLabel());
         bufferedOutputStream.close();
         fileOutputStream.close();
     }

@@ -54,7 +54,7 @@ public class Canvas extends JPanel implements MouseListener, MouseMotionListener
         addMouseWheelListener(this);
 
         features.add(new ClickFeature(this));
-//		features.add(new PanningFeature(this));
+//      features.add(new PanningFeature(this));
         scrollingFeature = new ScrollingFeature(this);
         features.add(scrollingFeature);
         features.add(new DraggingFeature(this));

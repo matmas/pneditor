@@ -175,7 +175,7 @@ public abstract class Node extends Element implements Comparable<Node> {
         if (getLabel() != null && !getLabel().equals("")) {
             GraphicsTools.drawString(g, getLabel(), getCenter().x, getEnd().y, HorizontalAlignment.center, VerticalAlignment.top);
         }
-//		GraphicsTools.drawString(g, getId(), getCenter().x, getStart().y, HorizontalAlignment.center, VerticalAlignment.bottom);
+//      GraphicsTools.drawString(g, getId(), getCenter().x, getStart().y, HorizontalAlignment.center, VerticalAlignment.bottom);
     }
 
     @Override
