@@ -187,7 +187,10 @@ public class Marking {
                                 setTokens(arc.getPlaceNode(), tokens - arc.getMultiplicity());
                             }
                         }
-                    } else {
+                    }
+                }
+                for (Arc arc : transition.getConnectedArcs()) {
+                    if (!arc.isPlaceToTransition()) {
                         int tokens = getTokens(arc.getPlaceNode());
                         setTokens(arc.getPlaceNode(), tokens + arc.getMultiplicity());
                     }
