@@ -189,6 +189,7 @@ public class DocumentImporter {
         place.setId(xmlPlace.id);
         place.setLabel(xmlPlace.label);
         place.setStatic(xmlPlace.isStatic);
+        place.setTokenLimit(xmlPlace.tokenLimit);
         place.setCenter(xmlPlace.x, xmlPlace.y);
         return place;
     }
