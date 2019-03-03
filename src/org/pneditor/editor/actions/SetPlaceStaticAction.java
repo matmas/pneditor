@@ -43,7 +43,10 @@ public class SetPlaceStaticAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         if (root.getClickedElement() instanceof PlaceNode) {
             PlaceNode placeNode = (PlaceNode) root.getClickedElement();
-            root.getUndoManager().executeCommand(new SetUnsetPlaceStaticCommand(placeNode));
+            if (placeNode.getTokenLimit()==0)
+            {
+            	root.getUndoManager().executeCommand(new SetUnsetPlaceStaticCommand(placeNode));
+            }
         }
     }
 
