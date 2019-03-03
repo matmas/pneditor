@@ -112,7 +112,7 @@ public class BoundednessAction extends AbstractAction {
 
             Place oldMarkingPlace = null;
             for (Place place : oldMarkingPlaces) {
-                if (place.equals(newMarkingPlace)) {
+            	if (place.equals(newMarkingPlace)) {
                     oldMarkingPlace = place;
                     break;
                 }
@@ -123,7 +123,12 @@ public class BoundednessAction extends AbstractAction {
             if (!(newTokens >= oldTokens)) {
                 return false;
             } else if (newTokens > oldTokens) {
-                isOneSharplyHigher = true;
+            	if (newMarkingPlace.getTokenLimit()==0) {
+            		// If a place has a token limit, it means that this specific place
+            		// is assured to be bounded ; thus, even if the tokens can raise
+            		// inquantity here, it has to stop.
+            		isOneSharplyHigher = true;
+            	}
             }
 
         }
