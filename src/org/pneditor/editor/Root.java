@@ -363,6 +363,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         undo.setEnabled(getUndoManager().isUndoable());
         redo.setEnabled(getUndoManager().isRedoable());
         setPlaceStatic.setEnabled(isPlaceNode);
+        fireAction1.setEnabled(is);
     }
 
     @Override
@@ -466,6 +467,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         copyAction = new CopyAction(this);
         pasteAction = new PasteAction(this);
         selectAllAction = new SelectAllAction();
+        fireAction1 = new  FireAction(this,0);   // initializes to zero
 
         Action selectTool_SelectionAction = new SelectionSelectToolAction(this);
         Action selectTool_PlaceAction = new PlaceSelectToolAction(this);
