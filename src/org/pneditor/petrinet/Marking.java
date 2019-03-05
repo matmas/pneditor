@@ -472,7 +472,7 @@ public class Marking {
     }
     /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
     public  int returnTokens(Transition t) {
-    	int n = 0;
+    	int n = 0; // Initializing the number of tokens , this variable n is used(in Line 481) to calculate of tokens of places or a place placed before a transition.
     	if(isEnabled(t)){
     	
     	 for (Arc arc : t.getConnectedArcs()) {
@@ -491,18 +491,15 @@ public class Marking {
     
     /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
     public int returnTokensAfter(Transition t) {
-    	lock.writeLock().lock();
-    	int n =0;
+  
+    	int n =0;    // Initializing the number of tokens , this variable n is used(in Line 501 and 506) to calculate of tokens of places or a place placed before a transition.
     	if(isEnabled(t)) {
     		
     	  	 for (Arc arc : t.getConnectedArcs()) {
         		 if(!arc.isPlaceToTransition()) {
         			 int tokens = getTokens(arc.getPlaceNode());
         			 n= n + tokens;
-        		 }	
-    		
-    		
-    		
+        		 }	  		
     	
     	      }
     	}  	 
@@ -521,15 +518,13 @@ public class Marking {
                 for (Arc arc1 : transition.getConnectedArcs()) {
                     if (!arc1.isPlaceToTransition()) {
                     
-                    		int tokens1 = getTokens(arc1.getPlaceNode()); 
-                    		initialNumberOftokens = returnTokens(transition);
-                    		int valAf = returnTokensAfter(transition);                   
-                    		
+                    		int tokens = getTokens(arc1.getPlaceNode()); 
+                    		initialNumberOftokens = returnTokens(transition);                 		
                     		if(i<initialNumberOftokens)
-                                   setTokens(arc1.getPlaceNode(), tokens1 + i*arc1.getMultiplicity());
+                                   setTokens(arc1.getPlaceNode(), tokens + i*arc1.getMultiplicity());
                     		else if(i>initialNumberOftokens || i==initialNumberOftokens){
-                    			 setTokens(arc1.getPlaceNode(), tokens1 + initialNumberOftokens*arc1.getMultiplicity());
-                    			 vaft= tokens1 + initialNumberOftokens*arc1.getMultiplicity();
+                    			 setTokens(arc1.getPlaceNode(), tokens + initialNumberOftokens*arc1.getMultiplicity());
+                    			 vaft= tokens + initialNumberOftokens*arc1.getMultiplicity(); // Stock the value in variable defined in line 38.
                             }
                             
 
@@ -567,6 +562,9 @@ public class Marking {
 		
 	}
 
+/*Management of the backtrack taking into account the initial state of the network and the final 
+ and the final state. Calculations have been made with precision for a good management of the Marking*/
+	
 	public void undoFire(Transition transition, int i) {
 		// TODO Auto-generated method stub
         lock.writeLock().lock();
@@ -574,11 +572,11 @@ public class Marking {
             if (canBeUnfired(transition)) {
                 for (Arc arc1 : transition.getConnectedArcs()) {
                	 if(arc1.isPlaceToTransition()) {
-            		 int tokens2 = getTokens(arc1.getPlaceNode());         	
+            		 int tokens = getTokens(arc1.getPlaceNode());         	
               		if(i<initialNumberOftokens || i==initialNumberOftokens ) {
-                     setTokens(arc1.getPlaceNode(), tokens2 + i*arc1.getMultiplicity());}
+                     setTokens(arc1.getPlaceNode(), tokens + i*arc1.getMultiplicity());}
               		else if(i>initialNumberOftokens) {
-              			setTokens(arc1.getPlaceNode(), tokens2 + initialNumberOftokens*arc1.getMultiplicity());
+              			setTokens(arc1.getPlaceNode(), tokens + initialNumberOftokens*arc1.getMultiplicity());
               		}
             		 
             	 }
@@ -587,11 +585,11 @@ public class Marking {
                	 
                	 if (!arc1.isPlaceToTransition()) {
                         
-                		int tokens1 = getTokens(arc1.getPlaceNode());
+                		int tokens = getTokens(arc1.getPlaceNode());
                 		if(i<initialNumberOftokens || i==initialNumberOftokens) {
-                               setTokens(arc1.getPlaceNode(), tokens1 - i*arc1.getMultiplicity());}
+                               setTokens(arc1.getPlaceNode(), tokens - i*arc1.getMultiplicity());}
                 		else if(i>initialNumberOftokens){
-                			 setTokens(arc1.getPlaceNode(), Math.abs(tokens1 - initialNumberOftokens*arc1.getMultiplicity()));
+                			 setTokens(arc1.getPlaceNode(), Math.abs(tokens - initialNumberOftokens*arc1.getMultiplicity()));
                         }               	 
                   
                }
