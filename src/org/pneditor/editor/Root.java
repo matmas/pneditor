@@ -292,7 +292,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
     private Action convertTransitionToSubnet;
     private Action replaceSubnet;
     private Action saveSubnetAs;
-    private Action cutAction, copyAction, pasteAction, selectAllAction;
+    private Action cutAction, copyAction, pasteAction, selectAllAction,fireAction1;
 
     //per application
     private Action openSubnet;
@@ -335,6 +335,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean roleSelected = !roleEditor.getSelectedElements().isEmpty();
         boolean isParent = !document.petriNet.isCurrentSubnetRoot();
         boolean isPtoT = false;
+        boolean is = clickedElement instanceof Transition;
 
         if (isArc) {
             Arc test;
