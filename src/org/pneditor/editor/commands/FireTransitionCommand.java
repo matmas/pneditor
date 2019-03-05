@@ -28,6 +28,13 @@ public class FireTransitionCommand implements Command {
 
     private Transition transition;
     private Marking marking;
+    private int _i= 1;
+    
+    public FireTransitionCommand(Transition transition, Marking marking, int i) {
+        this.transition = transition;
+        this.marking = marking;
+        this._i=i;
+    }
 
     public FireTransitionCommand(Transition transition, Marking marking) {
         this.transition = transition;
