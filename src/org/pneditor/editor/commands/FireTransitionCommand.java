@@ -43,13 +43,13 @@ public class FireTransitionCommand implements Command {
 
     public void execute() {
         if (marking.isEnabled(transition)) {
-            marking.fire(transition);
+            marking.fire(transition,_i);
         }
     }
 
     public void undo() {
         if (marking.canBeUnfired(transition)) {
-            marking.undoFire(transition);
+            marking.undoFire(transition,_i);
         }
     }
 

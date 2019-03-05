@@ -625,6 +625,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         transitionPopup.add(cutAction);
         transitionPopup.add(copyAction);
         transitionPopup.add(delete);
+       // transitionPopup.add(fireAction1);
 
         Font boldFont = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 

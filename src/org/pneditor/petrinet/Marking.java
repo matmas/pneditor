@@ -33,7 +33,9 @@ import org.pneditor.util.CollectionTools;
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
 public class Marking {
-
+    
+	public static int initialNumberOftokens;  /* initialNumberOftokens is a static variable that allows us to store a number of tokens upstream instead of downstream*/
+    public static int vaft;  /*vaft is a static variable that allows us to store a number of tokens downstream instead of upstream */
     protected Map<Place, Integer> map = new ConcurrentHashMap<Place, Integer>();
     private PetriNet petriNet;
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true); //fair
@@ -468,5 +470,140 @@ public class Marking {
         }
         return hash;
     }
+    /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
+    public  int returnTokens(Transition t) {
+    	int n = 0;
+    	if(isEnabled(t)){
+    	
+    	 for (Arc arc : t.getConnectedArcs()) {
+    		 if(arc.isPlaceToTransition()) {
+    			 int tokens = getTokens(arc.getPlaceNode());
+    			 n= n + tokens;
+    		 }
+    		
+    	 }
+    	
+		
+    	}
+		return n;
+    	
+    }
+    
+    /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
+    public int returnTokensAfter(Transition t) {
+    	lock.writeLock().lock();
+    	int n =0;
+    	if(isEnabled(t)) {
+    		
+    	  	 for (Arc arc : t.getConnectedArcs()) {
+        		 if(!arc.isPlaceToTransition()) {
+        			 int tokens = getTokens(arc.getPlaceNode());
+        			 n= n + tokens;
+        		 }	
+    		
+    		
+    		
+    	
+    	      }
+    	}  	 
+		return n;
+    	
+    }
+
+    
+    /*Overload of the method fire allowing to send N token(s) from place(s) to the following place(s)*/
+	public boolean fire(Transition transition, int i) {
+		// TODO Auto-generated method stub
+        boolean success;
+        lock.writeLock().lock();
+        try {
+            if (isEnabled(transition)) {
+                for (Arc arc1 : transition.getConnectedArcs()) {
+                    if (!arc1.isPlaceToTransition()) {
+                    
+                    		int tokens1 = getTokens(arc1.getPlaceNode()); 
+                    		initialNumberOftokens = returnTokens(transition);
+                    		int valAf = returnTokensAfter(transition);                   
+                    		
+                    		if(i<initialNumberOftokens)
+                                   setTokens(arc1.getPlaceNode(), tokens1 + i*arc1.getMultiplicity());
+                    		else if(i>initialNumberOftokens || i==initialNumberOftokens){
+                    			 setTokens(arc1.getPlaceNode(), tokens1 + initialNumberOftokens*arc1.getMultiplicity());
+                    			 vaft= tokens1 + initialNumberOftokens*arc1.getMultiplicity();
+                            }
+                            
+
+                    }
+                }
+                
+              for (Arc arc : transition.getConnectedArcs()) {
+              if (arc.isPlaceToTransition()) {
+                 int tokens = getTokens(arc.getPlaceNode());
+                 if(i<tokens || i==tokens) {
+                  if (!arc.getType().equals(Arc.INHIBITOR)) {                 //inhibitor arc doesnt consume tokens
+                      if (arc.getType().equals(Arc.RESET)) {                      //reset arc consumes them all
+                          setTokens(arc.getPlaceNode(), 0);
+                      } else {
+                              setTokens(arc.getPlaceNode(), tokens - i*arc.getMultiplicity());
+                      }
+                  }
+                 }
+                 else if(i>tokens) {
+              	   if (arc.isPlaceToTransition()) {
+              		   setTokens(arc.getPlaceNode(), 0);
+              	   }
+              	   
+                 }
+              }
+          }
+                success = true;
+            } else {
+                success = false;
+            }
+        } finally {
+            lock.writeLock().unlock();
+        }
+        return success;
+		
+	}
+
+	public void undoFire(Transition transition, int i) {
+		// TODO Auto-generated method stub
+        lock.writeLock().lock();
+        try {
+            if (canBeUnfired(transition)) {
+                for (Arc arc1 : transition.getConnectedArcs()) {
+               	 if(arc1.isPlaceToTransition()) {
+            		 int tokens2 = getTokens(arc1.getPlaceNode());         	
+              		if(i<initialNumberOftokens || i==initialNumberOftokens ) {
+                     setTokens(arc1.getPlaceNode(), tokens2 + i*arc1.getMultiplicity());}
+              		else if(i>initialNumberOftokens) {
+              			setTokens(arc1.getPlaceNode(), tokens2 + initialNumberOftokens*arc1.getMultiplicity());
+              		}
+            		 
+            	 }
+                }
+                for (Arc arc1 : transition.getConnectedArcs()) {
+               	 
+               	 if (!arc1.isPlaceToTransition()) {
+                        
+                		int tokens1 = getTokens(arc1.getPlaceNode());
+                		if(i<initialNumberOftokens || i==initialNumberOftokens) {
+                               setTokens(arc1.getPlaceNode(), tokens1 - i*arc1.getMultiplicity());}
+                		else if(i>initialNumberOftokens){
+                			 setTokens(arc1.getPlaceNode(), Math.abs(tokens1 - initialNumberOftokens*arc1.getMultiplicity()));
+                        }               	 
+                  
+               }
+
+            }
+        }
+                
+        }      
+           finally {
+            lock.writeLock().unlock();
+        }
+		
+	}
 
 }
