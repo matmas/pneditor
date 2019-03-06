@@ -60,6 +60,9 @@ public class UndoManager {
         executedCommands.add(command);
         currentCommandIndex = executedCommands.size() - 1;
         command.execute();
+        if (root.getMacroManager().getRecording()) {
+        	root.getMacroManager().recordCommand(command);
+        }
         refresh();
         root.setModified(true);
     }

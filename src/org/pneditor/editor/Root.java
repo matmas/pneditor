@@ -119,6 +119,16 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         return undoManager;
     }
 
+    // Macro manager - per tab
+    protected RecordMacroAction recordMacro = new RecordMacroAction(this);
+    protected PlayMacroAction playMacro = new PlayMacroAction(this);
+    protected FastPlayMacroAction fastPlayMacro = new FastPlayMacroAction(this);
+    private MacroManager macroManager = new MacroManager(this, recordMacro, playMacro,fastPlayMacro); 
+    
+    public MacroManager getMacroManager() {
+        return macroManager;
+    }
+    
     // Current directory - per application
     private File currentDirectory;
 
@@ -335,7 +345,9 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean roleSelected = !roleEditor.getSelectedElements().isEmpty();
         boolean isParent = !document.petriNet.isCurrentSubnetRoot();
         boolean isPtoT = false;
-
+        boolean macroCurrentlyPlaying = false;
+        boolean macroExists = (getMacroManager().getRecordedCommandsNumber()!=0 );
+        
         if (isArc) {
             Arc test;
             test = (Arc) clickedElement;
@@ -362,6 +374,10 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         undo.setEnabled(getUndoManager().isUndoable());
         redo.setEnabled(getUndoManager().isRedoable());
         setPlaceStatic.setEnabled(isPlaceNode);
+        
+        recordMacro.setEnabled(!macroCurrentlyPlaying);
+        playMacro.setEnabled(macroExists&(!macroCurrentlyPlaying));
+        fastPlayMacro.setEnabled(macroExists&(!macroCurrentlyPlaying));
     }
 
     @Override
@@ -521,7 +537,12 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         toolBar.addSeparator();
         toolBar.add(addSelectedTransitionsToSelectedRoles);
         toolBar.add(removeSelectedTransitionsFromSelectedRoles);
-
+        toolBar.addSeparator();
+        
+        toolBar.add(recordMacro);
+        toolBar.add(playMacro);
+        toolBar.add(fastPlayMacro);
+        
         JMenuBar menuBar = new JMenuBar();
         mainFrame.setJMenuBar(menuBar);
 
