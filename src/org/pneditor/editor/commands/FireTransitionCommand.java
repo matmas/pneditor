@@ -29,7 +29,12 @@ public class FireTransitionCommand implements Command {
     private Transition transition;
     private Marking marking;
     private int _i= 1;
-    
+    /**
+     * Overload the fireTransitionCommand 
+     * @param transition : the transition activated
+     * @param marking 
+     * @param i  : the number of tokens put by the user
+     */
     public FireTransitionCommand(Transition transition, Marking marking, int i) {
         this.transition = transition;
         this.marking = marking;
@@ -46,7 +51,10 @@ public class FireTransitionCommand implements Command {
             marking.fire(transition,_i);
         }
     }
-
+/**
+ * 
+ * Marking receiver Call and UNDO management.
+ */
     public void undo() {
         if (marking.canBeUnfired(transition)) {
             marking.undoFire(transition,_i);

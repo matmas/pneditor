@@ -11,7 +11,11 @@ import com.sun.glass.events.KeyEvent;
 import org.pneditor.editor.commands.FireTransitionCommand;
 import org.pneditor.petrinet.Transition;
 
-
+/**
+ * FireAction controller
+ * @author goudiaby
+ *
+ */
 @SuppressWarnings("serial")
 public class FireAction extends AbstractAction {
 
@@ -38,6 +42,7 @@ public class FireAction extends AbstractAction {
 		}	
 		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

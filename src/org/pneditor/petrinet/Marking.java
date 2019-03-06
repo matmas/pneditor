@@ -470,7 +470,13 @@ public class Marking {
         }
         return hash;
     }
-    /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
+    
+    /**
+     * Return the number of tokens located at the place(s) that are positioned before the transition to activate
+     * @param t : transition 
+     * @return
+     * 
+     */
     public  int returnTokens(Transition t) {
     	int n = 0; // Initializing the number of tokens , this variable n is used(in Line 481) to calculate of tokens of places or a place placed before a transition.
     	if(isEnabled(t)){
@@ -489,7 +495,11 @@ public class Marking {
     	
     }
     
-    /*Return the number of tokens located at the place(s) that are positioned before the transition to activate*/
+    /**
+     * Return the number of tokens located at the place(s) that are positioned before the transition to activate
+     * @param t
+     * @return
+     */
     public int returnTokensAfter(Transition t) {
   
     	int n =0;    // Initializing the number of tokens , this variable n is used(in Line 501 and 506) to calculate of tokens of places or a place placed before a transition.
@@ -508,7 +518,13 @@ public class Marking {
     }
 
     
-    /*Overload of the method fire allowing to send N token(s) from place(s) to the following place(s)*/
+    
+    /**
+     * Overload of the method fire allowing to send N token(s) from place(s) to the following place(s)
+     * @param transition
+     * @param i
+     * @return
+     */
 	public boolean fire(Transition transition, int i) {
 		// TODO Auto-generated method stub
         boolean success;
@@ -562,9 +578,12 @@ public class Marking {
 		
 	}
 
-/*Management of the backtrack taking into account the initial state of the network and the final 
- and the final state. Calculations have been made with precision for a good management of the Marking*/
-	
+/**
+ * Management of the backtrack taking into account the initial state of the network and the final 
+ and the final state. Calculations have been made with precision for a good management of the Marking
+ * @param transition
+ * @param i
+ */
 	public void undoFire(Transition transition, int i) {
 		// TODO Auto-generated method stub
         lock.writeLock().lock();
