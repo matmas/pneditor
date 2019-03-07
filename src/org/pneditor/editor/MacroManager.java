@@ -25,6 +25,11 @@ import org.pneditor.editor.actions.FastPlayMacroAction;
 import org.pneditor.util.Command;
 import org.pneditor.editor.UndoManager;
 import java.util.concurrent.TimeUnit;
+import org.pneditor.editor.commands.AddTokenCommand;
+import org.pneditor.editor.commands.FireTransitionCommand;
+import org.pneditor.editor.commands.RemoveTokenCommand;
+
+
 
 /**
  * MacroManager manages macro, and rely on UndoManager
@@ -73,11 +78,25 @@ public class MacroManager {
         buffer.removeAll(nonRedoedCommands);
         */
     	//Do we want macro to be sensitive to undo/redo during recording ?
-        buffer.add(command);
-        currentCommandIndex = buffer.size() - 1;
+    	if(recordableCommand(command) ) {
+	        buffer.add(command);
+	        currentCommandIndex = buffer.size() - 1;
+    	}
         //command.execute();
         //refresh();
         //root.setModified(true);
+    }
+    
+    public boolean recordableCommand(Command command) {
+    	if(command instanceof AddTokenCommand) { 
+    		return true;
+    	}else if (command instanceof FireTransitionCommand) {
+    		return true;
+    	}else if (command instanceof RemoveTokenCommand) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     public void beginRecording() {
