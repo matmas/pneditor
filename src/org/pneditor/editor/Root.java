@@ -327,6 +327,9 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
     }
 
     private void enableOnlyPossibleActions() {
+    	
+    	
+    	
         boolean isDeletable = clickedElement != null
                 && !(clickedElement instanceof ReferencePlace)
                 || !selection.isEmpty()
@@ -347,13 +350,15 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean isPtoT = false;
         boolean macroCurrentlyPlaying = false;
         boolean macroExists = (getMacroManager().getRecordedCommandsNumber()!=0 );
+        boolean notRecording = (!getMacroManager().getRecording());
+        
         
         if (isArc) {
             Arc test;
             test = (Arc) clickedElement;
             isPtoT = test.isPlaceToTransition();
         }
-
+        // && notRecording ?
         cutAction.setEnabled(isCutable);
         copyAction.setEnabled(isCopyable);
         pasteAction.setEnabled(isPastable);

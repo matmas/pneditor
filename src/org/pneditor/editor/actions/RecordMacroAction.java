@@ -37,7 +37,7 @@ public class RecordMacroAction extends AbstractAction {
 
     public RecordMacroAction(Root root) {
         this.root = root;
-        String name = "Record macro";
+        String name = "Record macro of token operations";
         putValue(NAME, name);
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroRecord.gif"));
         putValue(SHORT_DESCRIPTION, name);
