@@ -34,12 +34,15 @@ public class AddTokenCommand implements Command {
         this.marking = marking;
     }
 
+    private int oldValue;
+    
     public void execute() {
+    	oldValue = marking.getTokens(placeNode);
         marking.setTokens(placeNode, marking.getTokens(placeNode) + 1);
     }
 
     public void undo() {
-        new RemoveTokenCommand(placeNode, marking).execute();
+        marking.setTokens(placeNode, oldValue);
     }
 
     public void redo() {
