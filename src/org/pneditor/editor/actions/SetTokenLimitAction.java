@@ -30,7 +30,7 @@ import org.pneditor.util.GraphicsTools;
 
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 
 /*
@@ -48,8 +48,6 @@ public class SetTokenLimitAction extends AbstractAction {
         putValue(NAME, name);
         putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/tokenLimit.gif"));
         putValue(SHORT_DESCRIPTION, name);
-//      putValue(MNEMONIC_KEY, KeyEvent.VK_R);
-//      putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("R"));
         setEnabled(false);
     }
 

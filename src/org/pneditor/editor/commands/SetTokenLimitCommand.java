@@ -22,7 +22,7 @@ import org.pneditor.util.Command;
 
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 public class SetTokenLimitCommand implements Command {
 
