@@ -28,7 +28,7 @@ import org.pneditor.util.RecordableCommand;
 
 
 /**
- * MacroManager manages macro, and rely on UndoManager
+ * MacroManager manages macro recording and playing
  *
  * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */

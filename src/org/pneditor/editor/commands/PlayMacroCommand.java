@@ -21,7 +21,7 @@ import org.pneditor.editor.MacroManager;
 
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 public class PlayMacroCommand implements Command {
 
