@@ -19,7 +19,7 @@ package org.pneditor.util;
 import org.pneditor.petrinet.Element;
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 public interface RecordableCommand extends Command{
 

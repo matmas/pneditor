@@ -29,7 +29,7 @@ import org.pneditor.util.GraphicsTools;
 
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 public class PlayMacroAction extends AbstractAction {
 
