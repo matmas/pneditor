@@ -18,17 +18,13 @@ package org.pneditor.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.AbstractAction;
 import org.pneditor.editor.actions.RecordMacroAction;
 import org.pneditor.editor.actions.PlayMacroAction;
-import org.pneditor.editor.actions.FastPlayMacroAction;
 import org.pneditor.util.Command;
-import org.pneditor.editor.UndoManager;
-import java.util.concurrent.TimeUnit;
-import org.pneditor.editor.commands.AddTokenCommand;
-import org.pneditor.editor.commands.FireTransitionCommand;
-import org.pneditor.editor.commands.RemoveTokenCommand;
+import org.pneditor.util.GraphicsTools;
+import javax.swing.AbstractAction;
 
+import org.pneditor.util.RecordableCommand;
 
 
 /**
@@ -40,19 +36,17 @@ public class MacroManager {
 
 
 	//the list of commands, once recording is done
-    private List<Command> recordedCommands = new ArrayList<Command>();
+    private List<RecordableCommand> recordedCommands = new ArrayList<RecordableCommand>();
     // list of commands being recorded
-    private List<Command> buffer = new ArrayList<Command>();
+    private List<RecordableCommand> buffer = new ArrayList<RecordableCommand>();
     /*
      * The separation of the two list allows for the saved macro to be played during
      * recording, so the new one can be composed of the old one
      */
     
-    private int currentCommandIndex = -1;
     private Root root;
-    private RecordMacroAction recordMacroAction;
+    private RecordMacroAction recordMacroAction; // useful only to modify them form here
     private PlayMacroAction playMacroAction;
-    private FastPlayMacroAction fastPlayMacroAction;
     private boolean recording;
     private boolean playing;
 
@@ -63,11 +57,10 @@ public class MacroManager {
      * @param undoAction action for undo button
      * @param redoAction action for redo button
      */
-    public MacroManager(Root root, RecordMacroAction recordMacroAction, PlayMacroAction playMacroAction, FastPlayMacroAction fastPlayMacroAction) {
+    public MacroManager(Root root, RecordMacroAction recordMacroAction, PlayMacroAction playMacroAction) {
         this.root = root;
         this.recordMacroAction = recordMacroAction;
         this.playMacroAction = playMacroAction;
-        this.fastPlayMacroAction = fastPlayMacroAction;
         this.recording = false;
         this.playing = false;
     }
@@ -78,46 +71,19 @@ public class MacroManager {
         buffer.removeAll(nonRedoedCommands);
         */
     	//Do we want macro to be sensitive to undo/redo during recording ?
-    	if(recordableCommand(command) ) {
-	        buffer.add(command);
-	        currentCommandIndex = buffer.size() - 1;
+    	// Currently they are not
+    	if(isRecordableCommand(command) ) {
+	        buffer.add((RecordableCommand) command);
+	        //currentCommandIndex = buffer.size() - 1;
     	}
         //command.execute();
         //refresh();
         //root.setModified(true);
     }
+
     
-    
-    /*
-    public boolean macroAvailable() {
-    	boolean available = true;
-    	for (Command command : recordedCommands) {
-        	if(command instanceof AddTokenCommand) { 
-        		if (command.) {
-        			
-        		}
-        	}else if (command instanceof FireTransitionCommand) {
-        		return true;
-        	}else if (command instanceof RemoveTokenCommand) {
-        		return true;
-        	} else {
-        		return false;
-        	}
-    	}
-    	return available;
-    }
-    */
-    
-    public boolean recordableCommand(Command command) {
-    	if(command instanceof AddTokenCommand) { 
-    		return true;
-    	}else if (command instanceof FireTransitionCommand) {
-    		return true;
-    	}else if (command instanceof RemoveTokenCommand) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+    public boolean isRecordableCommand(Command command) {
+    	return (command instanceof RecordableCommand);
     }
     
     public void beginRecording() {
@@ -132,22 +98,17 @@ public class MacroManager {
     	refresh();
     }
     
-    /**
-     * Performs the undo action.
-     */
-    /*
-    public void undoCommand() {
-        if (isUndoable()) {
-            Command command = executedCommands.get(currentCommandIndex);
-            command.undo();
-            currentCommandIndex--;
-            refresh();
-        }
-        root.setModified(true);
+    public boolean macroUnaffected() {
+    	boolean unaffected = true;
+    	for (RecordableCommand command : recordedCommands) {
+    		if(! root.getDocument().petriNet.getCurrentSubnet().getElements().contains(command.getRecordedElement())) {
+    			unaffected = false;
+    			break;
+    		}
+    	}
+    	return unaffected;
     }
-    */
     
-
     public void undoMacro() {
     	System.out.println(recordedCommands.size());
     	for (int i = recordedCommands.size() - 1 ; i >= 0 ; i --) {
@@ -158,56 +119,12 @@ public class MacroManager {
     	}
     }
     
-    
-    
-    /**
-     * Performs the redo action.
-     */
-    /*
-    public void redoNextCommand() {
-        if (isRedoable()) {
-            Command command = executedCommands.get(currentCommandIndex + 1);
-            command.redo();
-            currentCommandIndex++;
-            refresh();
-        }
-        root.setModified(true);
-    }
-    */
-
-    /**
-     * Determines if undo is possible.
-     *
-     * @return true if undo action is possible otherwise false
-     */
-    /*
-    public boolean isUndoable() {
-        return currentCommandIndex != -1;
-    }
-    */
-
-    /**
-     * Determines if redo is possible.
-     *
-     * @return true if redo action is possible otherwise false
-     */
-    /*
-    public boolean isRedoable() {
-        return currentCommandIndex < executedCommands.size() - 1;
-    }
-    */
 
     
-    public void playMacro(boolean fast) {
+    public void playMacro() {
     	for (Command command : recordedCommands) {
     		command.execute();
     		refresh();
-    		if (!fast) {
-    			try {
-    				TimeUnit.MILLISECONDS.sleep(500);
-    			}
-    			catch (InterruptedException e) {}
-    		}
     	}
     	
     }
@@ -216,11 +133,11 @@ public class MacroManager {
      * Erases all commands from the buffer.
      */
     public void eraseBuffer() {
-        buffer = new ArrayList<Command>();
+        buffer = new ArrayList<RecordableCommand>();
     }
     
     public void copyBufferToRecordedCommands() {
-    	recordedCommands = new ArrayList<Command>(buffer);
+    	recordedCommands = new ArrayList<RecordableCommand>(buffer);
     }
     
     public int getRecordedCommandsNumber() {
@@ -234,30 +151,17 @@ public class MacroManager {
     public boolean getPlaying() {
     	return playing;
     }
-    
-    public void setPlaying(boolean set) {
-    	playing = set;
-    }
-    
-    public void setRecording(boolean set) {
-    	recording  = set;
-    }
-    
+
     private void refresh() {
         root.refreshAll();
-        /*
-        if (isUndoable()) {
-         
-            undoAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Undo: " + executedCommands.get(currentCommandIndex).toString());
+    }
+    
+    public void refreshPlayIcon() {
+        if (macroUnaffected()) {
+        	playMacroAction.putValue(AbstractAction.SMALL_ICON, GraphicsTools.getIcon("pneditor/macroPlay.gif"));
         } else {
-            undoAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Undo");
+        	playMacroAction.putValue(AbstractAction.SMALL_ICON, GraphicsTools.getIcon("pneditor/macroPlayUncertain.gif"));
         }
-        if (isRedoable()) {
-            redoAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Redo: " + executedCommands.get(currentCommandIndex + 1).toString());
-        } else {
-            redoAction.putValue(AbstractAction.SHORT_DESCRIPTION, "Redo");
-        }
-        */
     }
 
 }

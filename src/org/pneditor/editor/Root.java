@@ -122,8 +122,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
     // Macro manager - per tab
     protected RecordMacroAction recordMacro = new RecordMacroAction(this);
     protected PlayMacroAction playMacro = new PlayMacroAction(this);
-    protected FastPlayMacroAction fastPlayMacro = new FastPlayMacroAction(this);
-    private MacroManager macroManager = new MacroManager(this, recordMacro, playMacro,fastPlayMacro); 
+    private MacroManager macroManager = new MacroManager(this, recordMacro,playMacro); 
     
     public MacroManager getMacroManager() {
         return macroManager;
@@ -320,6 +319,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         canvas.repaint();
         enableOnlyPossibleActions();
         getRoleEditor().refreshSelected();
+        getMacroManager().refreshPlayIcon();
     }
 
     public void repaintCanvas() {
@@ -350,7 +350,8 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean isPtoT = false;
         boolean macroCurrentlyPlaying = false;
         boolean macroExists = (getMacroManager().getRecordedCommandsNumber()!=0 );
-        boolean notRecording = (!getMacroManager().getRecording());
+        //boolean notRecording = (!getMacroManager().getRecording());
+        boolean macroComplete = getMacroManager().macroUnaffected();
         
         
         if (isArc) {
@@ -381,8 +382,8 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         setPlaceStatic.setEnabled(isPlaceNode);
         
         recordMacro.setEnabled(!macroCurrentlyPlaying);
+        //playMacro.setEnabled(macroComplete);
         playMacro.setEnabled(macroExists&(!macroCurrentlyPlaying));
-        fastPlayMacro.setEnabled(macroExists&(!macroCurrentlyPlaying));
     }
 
     @Override
@@ -546,7 +547,6 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         
         toolBar.add(recordMacro);
         toolBar.add(playMacro);
-        toolBar.add(fastPlayMacro);
         
         JMenuBar menuBar = new JMenuBar();
         mainFrame.setJMenuBar(menuBar);

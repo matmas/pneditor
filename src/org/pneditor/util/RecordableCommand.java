@@ -14,46 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.pneditor.editor.commands;
+package org.pneditor.util;
 
 import org.pneditor.petrinet.Element;
-import org.pneditor.petrinet.Marking;
-import org.pneditor.petrinet.PlaceNode;
-import org.pneditor.util.RecordableCommand;
-
 /**
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class AddTokenCommand implements RecordableCommand {
+public interface RecordableCommand extends Command{
 
-    private PlaceNode placeNode;
-    private Marking marking;
-
-    public AddTokenCommand(PlaceNode placeNode, Marking marking) {
-        this.placeNode = placeNode;
-        this.marking = marking;
-    }
-
-    public void execute() {
-        marking.setTokens(placeNode, marking.getTokens(placeNode) + 1);
-    }
-
-    public void undo() {
-        new RemoveTokenCommand(placeNode, marking).execute();
-    }
-
-    public void redo() {
-        execute();
-    }
-
-    @Override
-    public String toString() {
-        return "Add token";
-    }
-
-	public Element getRecordedElement() {
-		return placeNode;
-	}
-
+	public Element getRecordedElement();
+	
 }

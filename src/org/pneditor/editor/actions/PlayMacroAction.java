@@ -23,7 +23,7 @@ import java.util.Set;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import org.pneditor.editor.Root;
-//import org.pneditor.editor.commands.DeleteElementsCommand;
+import org.pneditor.editor.commands.PlayMacroCommand;
 import org.pneditor.petrinet.Element;
 import org.pneditor.util.GraphicsTools;
 
@@ -45,7 +45,6 @@ public class PlayMacroAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-    	root.getMacroManager().playMacro(false);
-
+    	root.getUndoManager().executeCommand(new PlayMacroCommand(root.getMacroManager()));
     }
 }

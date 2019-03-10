@@ -49,7 +49,7 @@ public class RecordMacroAction extends AbstractAction {
     		if(root.getMacroManager().getRecording()) { //currently recording
     			root.getMacroManager().endRecording();
     	        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroRecord.gif"));
-    	        String name = "Record macro";
+    	        String name = "Record macro of the 'Edit tokens / Fire transitions' tool";
     	        putValue(NAME, name);
     	        putValue(SHORT_DESCRIPTION, name);
 

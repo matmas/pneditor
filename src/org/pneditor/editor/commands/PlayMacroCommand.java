@@ -23,16 +23,16 @@ import org.pneditor.editor.MacroManager;
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class FastPlayMacroCommand implements Command {
+public class PlayMacroCommand implements Command {
 
 	private MacroManager macroManager;
 	
-    public FastPlayMacroCommand(MacroManager macroManager) {
+    public PlayMacroCommand(MacroManager macroManager) {
     	this.macroManager = macroManager;
     }
 
     public void execute() {
-    	macroManager.playMacro(true);
+    	macroManager.playMacro();
     }
 
     public void undo() {

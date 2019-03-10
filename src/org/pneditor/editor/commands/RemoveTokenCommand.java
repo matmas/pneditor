@@ -16,15 +16,16 @@
  */
 package org.pneditor.editor.commands;
 
+import org.pneditor.petrinet.Element;
 import org.pneditor.petrinet.Marking;
 import org.pneditor.petrinet.PlaceNode;
-import org.pneditor.util.Command;
+import org.pneditor.util.RecordableCommand;
 
 /**
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class RemoveTokenCommand implements Command {
+public class RemoveTokenCommand implements RecordableCommand {
 
     private PlaceNode placeNode;
     private Marking marking;
@@ -52,5 +53,9 @@ public class RemoveTokenCommand implements Command {
     public String toString() {
         return "Remove token";
     }
+
+	public Element getRecordedElement() {
+		return placeNode;
+	}
 
 }
