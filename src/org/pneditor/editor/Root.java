@@ -122,7 +122,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
     // Macro manager - per tab
     protected RecordMacroAction recordMacro = new RecordMacroAction(this);
     protected PlayMacroAction playMacro = new PlayMacroAction(this);
-    private MacroManager macroManager = new MacroManager(this, recordMacro,playMacro); 
+    private MacroManager macroManager = new MacroManager(this, playMacro); 
     
     public MacroManager getMacroManager() {
         return macroManager;
@@ -348,10 +348,8 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean roleSelected = !roleEditor.getSelectedElements().isEmpty();
         boolean isParent = !document.petriNet.isCurrentSubnetRoot();
         boolean isPtoT = false;
-        boolean macroCurrentlyPlaying = false;
+        boolean macroCurrentlyRecording = getMacroManager().getRecording();
         boolean macroExists = (getMacroManager().getRecordedCommandsNumber()!=0 );
-        //boolean notRecording = (!getMacroManager().getRecording());
-        boolean macroComplete = getMacroManager().macroUnaffected();
         
         
         if (isArc) {
@@ -359,7 +357,6 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
             test = (Arc) clickedElement;
             isPtoT = test.isPlaceToTransition();
         }
-        // && notRecording ?
         cutAction.setEnabled(isCutable);
         copyAction.setEnabled(isCopyable);
         pasteAction.setEnabled(isPastable);
@@ -381,9 +378,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         redo.setEnabled(getUndoManager().isRedoable());
         setPlaceStatic.setEnabled(isPlaceNode);
         
-        recordMacro.setEnabled(!macroCurrentlyPlaying);
-        //playMacro.setEnabled(macroComplete);
-        playMacro.setEnabled(macroExists&(!macroCurrentlyPlaying));
+        playMacro.setEnabled(macroExists&(!macroCurrentlyRecording));
     }
 
     @Override

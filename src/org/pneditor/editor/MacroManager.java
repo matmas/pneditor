@@ -30,7 +30,7 @@ import org.pneditor.util.RecordableCommand;
 /**
  * MacroManager manages macro, and rely on UndoManager
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
 public class MacroManager {
 
@@ -45,7 +45,6 @@ public class MacroManager {
      */
     
     private Root root;
-    private RecordMacroAction recordMacroAction; // useful only to modify them form here
     private PlayMacroAction playMacroAction;
     private boolean recording;
     private boolean playing;
@@ -54,50 +53,64 @@ public class MacroManager {
      * Constructs a new MacroManager
      *
      * @param root Root object
-     * @param undoAction action for undo button
-     * @param redoAction action for redo button
+     * @param playMacroAction action for play macro button
      */
-    public MacroManager(Root root, RecordMacroAction recordMacroAction, PlayMacroAction playMacroAction) {
+    public MacroManager(Root root, PlayMacroAction playMacroAction) {
         this.root = root;
-        this.recordMacroAction = recordMacroAction;
         this.playMacroAction = playMacroAction;
         this.recording = false;
         this.playing = false;
     }
     
+    /**
+     * Records a command in the buffer if it implements the RecordableCommand
+     * interface
+     * 
+     * @param command the command to be recorded
+     */
     public void recordCommand(Command command) {
-    	/*
-        List<Command> nonRedoedCommands = new ArrayList<Command>(buffer.subList(currentCommandIndex + 1, buffer.size()));
-        buffer.removeAll(nonRedoedCommands);
-        */
     	//Do we want macro to be sensitive to undo/redo during recording ?
     	// Currently they are not
     	if(isRecordableCommand(command) ) {
 	        buffer.add((RecordableCommand) command);
 	        //currentCommandIndex = buffer.size() - 1;
     	}
-        //command.execute();
-        //refresh();
-        //root.setModified(true);
     }
 
-    
+    /**
+     * Returns true if a commands implements the RecordableCommand interface
+     * 
+     * @param command the command to be tested
+     * @return
+     */
     public boolean isRecordableCommand(Command command) {
     	return (command instanceof RecordableCommand);
     }
     
+    /**
+     * Puts the macroManager in recording mode and prepares everything
+     */
     public void beginRecording() {
     	this.recording = true;
     	eraseBuffer();
     	refresh();	
     }
     
+    /**
+     * Puts the macroManager out of recording mode and saves the buffer
+     */
     public void endRecording() {
     	this.recording = false;
     	copyBufferToRecordedCommands();
     	refresh();
     }
     
+    
+    /**
+     * Identifies if all elements of the macro (places/nodes) are still existing
+     * 
+     * @return false if at least one element is missing, true otherwise
+     */
     public boolean macroUnaffected() {
     	boolean unaffected = true;
     	for (RecordableCommand command : recordedCommands) {
@@ -109,6 +122,9 @@ public class MacroManager {
     	return unaffected;
     }
     
+    /**
+     * Undo a played macro. Called by the undo method of the PlayMacro command 
+     */
     public void undoMacro() {
     	System.out.println(recordedCommands.size());
     	for (int i = recordedCommands.size() - 1 ; i >= 0 ; i --) {
@@ -120,7 +136,9 @@ public class MacroManager {
     }
     
 
-    
+    /**
+     * Execute a macro. Called by the execute method of the PlayMacro command
+     */
     public void playMacro() {
     	for (Command command : recordedCommands) {
     		command.execute();
@@ -136,13 +154,22 @@ public class MacroManager {
         buffer = new ArrayList<RecordableCommand>();
     }
     
+    /**
+     * Copy the buffer to the recorded commands
+     */
     public void copyBufferToRecordedCommands() {
     	recordedCommands = new ArrayList<RecordableCommand>(buffer);
     }
     
+    /**
+     * Return the number of commands saved
+     * 
+     * @return the size of recordedCommands
+     */
     public int getRecordedCommandsNumber() {
     	return recordedCommands.size();
     }
+    
     
     public boolean getRecording() {
     	return recording;
