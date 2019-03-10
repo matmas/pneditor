@@ -16,9 +16,8 @@
  */
 package org.pneditor.editor.commands;
 
-import org.pneditor.petrinet.Marking;
-import org.pneditor.petrinet.Transition;
 import org.pneditor.util.Command;
+import org.pneditor.editor.MacroManager;
 
 /**
  *
@@ -26,24 +25,18 @@ import org.pneditor.util.Command;
  */
 public class FastPlayMacroCommand implements Command {
 
-    private Transition transition;
-    private Marking marking;
-
-    public FastPlayMacroCommand(Transition transition, Marking marking) {
-        this.transition = transition;
-        this.marking = marking;
+	private MacroManager macroManager;
+	
+    public FastPlayMacroCommand(MacroManager macroManager) {
+    	this.macroManager = macroManager;
     }
 
     public void execute() {
-        if (marking.isEnabled(transition)) {
-            marking.fire(transition);
-        }
+    	macroManager.playMacro(true);
     }
 
     public void undo() {
-        if (marking.canBeUnfired(transition)) {
-            marking.undoFire(transition);
-        }
+        macroManager.undoMacro();
     }
 
     public void redo() {
@@ -52,7 +45,7 @@ public class FastPlayMacroCommand implements Command {
 
     @Override
     public String toString() {
-        return "Fire transition";
+        return "Play Macro";
     }
 
 }

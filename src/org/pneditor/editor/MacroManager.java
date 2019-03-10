@@ -87,6 +87,27 @@ public class MacroManager {
         //root.setModified(true);
     }
     
+    
+    /*
+    public boolean macroAvailable() {
+    	boolean available = true;
+    	for (Command command : recordedCommands) {
+        	if(command instanceof AddTokenCommand) { 
+        		if (command.) {
+        			
+        		}
+        	}else if (command instanceof FireTransitionCommand) {
+        		return true;
+        	}else if (command instanceof RemoveTokenCommand) {
+        		return true;
+        	} else {
+        		return false;
+        	}
+    	}
+    	return available;
+    }
+    */
+    
     public boolean recordableCommand(Command command) {
     	if(command instanceof AddTokenCommand) { 
     		return true;
@@ -111,7 +132,71 @@ public class MacroManager {
     	refresh();
     }
     
+    /**
+     * Performs the undo action.
+     */
+    /*
+    public void undoCommand() {
+        if (isUndoable()) {
+            Command command = executedCommands.get(currentCommandIndex);
+            command.undo();
+            currentCommandIndex--;
+            refresh();
+        }
+        root.setModified(true);
+    }
+    */
     
+
+    public void undoMacro() {
+    	System.out.println(recordedCommands.size());
+    	for (int i = recordedCommands.size() - 1 ; i >= 0 ; i --) {
+    		Command command  = recordedCommands.get(i);
+    		System.out.println(command);
+    		command.undo();
+    		refresh();
+    	}
+    }
+    
+    
+    
+    /**
+     * Performs the redo action.
+     */
+    /*
+    public void redoNextCommand() {
+        if (isRedoable()) {
+            Command command = executedCommands.get(currentCommandIndex + 1);
+            command.redo();
+            currentCommandIndex++;
+            refresh();
+        }
+        root.setModified(true);
+    }
+    */
+
+    /**
+     * Determines if undo is possible.
+     *
+     * @return true if undo action is possible otherwise false
+     */
+    /*
+    public boolean isUndoable() {
+        return currentCommandIndex != -1;
+    }
+    */
+
+    /**
+     * Determines if redo is possible.
+     *
+     * @return true if redo action is possible otherwise false
+     */
+    /*
+    public boolean isRedoable() {
+        return currentCommandIndex < executedCommands.size() - 1;
+    }
+    */
+
     
     public void playMacro(boolean fast) {
     	for (Command command : recordedCommands) {

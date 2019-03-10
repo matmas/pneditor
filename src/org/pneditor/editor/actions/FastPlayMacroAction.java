@@ -23,7 +23,7 @@ import java.util.Set;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 import org.pneditor.editor.Root;
-//import org.pneditor.editor.commands.DeleteElementsCommand;
+import org.pneditor.editor.commands.FastPlayMacroCommand;
 import org.pneditor.petrinet.Element;
 import org.pneditor.util.GraphicsTools;
 
@@ -45,6 +45,6 @@ public class FastPlayMacroAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-    	root.getMacroManager().playMacro(true);
+    	root.getUndoManager().executeCommand(new FastPlayMacroCommand(root.getMacroManager()));
     }
 }
