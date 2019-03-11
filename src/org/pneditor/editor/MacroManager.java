@@ -47,7 +47,6 @@ public class MacroManager {
     private Root root;
     private PlayMacroAction playMacroAction;
     private boolean recording;
-    private boolean playing;
 
     /**
      * Constructs a new MacroManager
@@ -59,7 +58,6 @@ public class MacroManager {
         this.root = root;
         this.playMacroAction = playMacroAction;
         this.recording = false;
-        this.playing = false;
     }
     
     /**
@@ -175,9 +173,6 @@ public class MacroManager {
     	return recording;
     }
     
-    public boolean getPlaying() {
-    	return playing;
-    }
 
     private void refresh() {
         root.refreshAll();

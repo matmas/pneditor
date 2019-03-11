@@ -45,24 +45,20 @@ public class RecordMacroAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-    	if(!root.getMacroManager().getPlaying()) {
-    		if(root.getMacroManager().getRecording()) { //currently recording
-    			root.getMacroManager().endRecording();
-    	        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroRecord.gif"));
-    	        String name = "Record macro of the 'Edit tokens / Fire transitions' tool";
-    	        putValue(NAME, name);
-    	        putValue(SHORT_DESCRIPTION, name);
+		if(root.getMacroManager().getRecording()) { //currently recording
+			root.getMacroManager().endRecording();
+	        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroRecord.gif"));
+	        String name = "Record macro of the 'Edit tokens / Fire transitions' tool";
+	        putValue(NAME, name);
+	        putValue(SHORT_DESCRIPTION, name);
 
-    		}else { //currently not recording
-    			root.getMacroManager().beginRecording();
-    	        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroStop.gif"));
-    	        String name = "Stop macro recording";
-    	        putValue(NAME, name);
-    	        putValue(SHORT_DESCRIPTION, name);
+		}else { //currently not recording
+			root.getMacroManager().beginRecording();
+	        putValue(SMALL_ICON, GraphicsTools.getIcon("pneditor/macroStop.gif"));
+	        String name = "Stop macro recording";
+	        putValue(NAME, name);
+	        putValue(SHORT_DESCRIPTION, name);
 
-    		}
-    		
-    	}
-
+		}		
     }
 }
