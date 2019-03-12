@@ -124,10 +124,8 @@ public class MacroManager {
      * Undo a played macro. Called by the undo method of the PlayMacro command 
      */
     public void undoMacro() {
-    	System.out.println(recordedCommands.size());
     	for (int i = recordedCommands.size() - 1 ; i >= 0 ; i --) {
     		Command command  = recordedCommands.get(i);
-    		System.out.println(command);
     		command.undo();
     		refresh();
     	}
