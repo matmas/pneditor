@@ -167,7 +167,36 @@ public class Marking {
         }
         return isEnabled;
     }
-
+//Overload method
+    
+    public boolean isEnabled(Transition transition,int i) {
+        boolean isEnabled = true;
+        lock.readLock().lock();
+        try {
+            for (Arc arc : transition.getConnectedArcs()) {
+                if (arc.isPlaceToTransition()) {
+                    if (arc.getType().equals(Arc.RESET)) {//reset arc is always fireable
+                        continue;      //but can be blocked by other arcs 
+                    } else {
+                        if (!arc.getType().equals(Arc.INHIBITOR)) {
+                            if (getTokens(arc.getPlaceNode()) < i*arc.getMultiplicity()) {  //normal arc
+                                isEnabled = false;
+                                break;
+                            }
+                        } else {
+                            if (getTokens(arc.getPlaceNode()) >= i*arc.getMultiplicity()) {//inhibitory arc
+                                isEnabled = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+        return isEnabled;
+    }
     /**
      * Fires a transition in this marking. Changes this marking.
      *
@@ -225,6 +254,24 @@ public class Marking {
         return canBeUnfired;
     }
     
+    //Overload unfire
+    public boolean canBeUnfired(Transition transition,int i) {
+        boolean canBeUnfired = true;
+        lock.readLock().lock();
+        try {
+            for (Arc arc : transition.getConnectedArcs()) {
+                if (!arc.isPlaceToTransition()) {
+                    if (getTokens(arc.getPlaceNode()) < i*arc.getMultiplicity()) {
+                        canBeUnfired = false;
+                        break;
+                    }
+                }
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+        return canBeUnfired;
+    }
 
     public void undoFire(Transition transition) {
         lock.writeLock().lock();
@@ -560,12 +607,7 @@ public class Marking {
                       }
                   }
                  }
-                 else if(i>tokens) {
-              	   if (arc.isPlaceToTransition()) {
-              		   setTokens(arc.getPlaceNode(), 0);
-              	   }
-              	   
-                 }
+
               }
           }
                 success = true;
