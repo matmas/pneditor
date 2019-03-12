@@ -26,10 +26,7 @@ public class FireAction extends AbstractAction {
 		// TODO Auto-generated constructor stub
 		this.root = root2;
 
-		switch(i)
-		{
-		
-		case 0:
+	
 			
 				String nameO = "click here to activate fire N token(s)";
 				putValue(NAME , nameO);
@@ -38,9 +35,7 @@ public class FireAction extends AbstractAction {
 				putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 				setEnabled(false);
 				_i=i;
-				break;
-		}	
-		
+				
 	}
 	
 	@Override

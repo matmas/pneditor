@@ -47,7 +47,7 @@ public class FireTransitionCommand implements Command {
     }
 
     public void execute() {
-        if (marking.isEnabled(transition,_i)) {
+        if (marking.isEnabled(transition)) {
             marking.fire(transition,_i);
         }
     }
@@ -56,7 +56,7 @@ public class FireTransitionCommand implements Command {
  * Marking receiver Call and UNDO management.
  */
     public void undo() {
-        if (marking.canBeUnfired(transition,_i)) {
+        if (marking.canBeUnfired(transition)) {
             marking.undoFire(transition,_i);
         }
     }
