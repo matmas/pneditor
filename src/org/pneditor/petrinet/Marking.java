@@ -175,11 +175,9 @@ public class Marking {
             for(Arc arc : transition.getConnectedArcs()) { // then it iterates over outcoming arcs
                 if(!arc.isPlaceToTransition()) { // arc is from transition to place
                 	place = arc.getPlaceNode(); 
-                	System.out.println(place);
                 	//we can now use the list to see if the node will consume token with the firing
                 	tokens = getTokens(place);
                 	index = originPlaces.indexOf(place);
-                	System.out.println(index);
                 	if(index>=0) {
                 		arcMul = originPlacesArcMultiplicity.get(index);
                 		tokens = tokens - arcMul; 
