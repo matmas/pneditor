@@ -179,13 +179,17 @@ public class Marking {
                         continue;      //but can be blocked by other arcs 
                     } else {
                         if (!arc.getType().equals(Arc.INHIBITOR)) {
-                            if (getTokens(arc.getPlaceNode()) < i*arc.getMultiplicity()) {  //normal arc
+                            if (getTokens(arc.getPlaceNode()) < i*arc.getMultiplicity()) {  //normal arc 
+                            	                                                            //The i value contributes to the prohibition to send 
+                            	                                                            //Token(s) located upstream place(s)
                                 isEnabled = false;
                                 break;
                             }
                         } else {
-                            if (getTokens(arc.getPlaceNode()) >= i*arc.getMultiplicity()) {//inhibitory arc
-                                isEnabled = false;
+                            if (getTokens(arc.getPlaceNode()) >= i*arc.getMultiplicity()) {//inhibitory arc and allow tokens not to be sent 
+                                                                          //when the value of arc multiplied by the number of toKens are numerous
+                            	                                          // the number of tokens on the place
+                            	isEnabled = false;
                                 break;
                             }
                         }
@@ -254,7 +258,12 @@ public class Marking {
         return canBeUnfired;
     }
     
-    //Overload unfire
+    /**
+     * @author goudiaby
+     * Overload to not allow transition to be activated when :
+     * The value of arc multiplied by the number of token is numerous than the number of tokens on the place(line 269):we do nothing 
+     * (the token(s) are not sent).
+     */
     public boolean canBeUnfired(Transition transition,int i) {
         boolean canBeUnfired = true;
         lock.readLock().lock();
