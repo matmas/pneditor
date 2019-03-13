@@ -167,7 +167,7 @@ public class Marking {
         }
         return isEnabled;
     }
-//Overload method  isenabled
+//Overload method  isenabled .
     
     public boolean isEnabled(Transition transition,int i) {
         boolean isEnabled = true;
