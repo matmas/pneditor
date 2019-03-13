@@ -258,29 +258,7 @@ public class Marking {
         return canBeUnfired;
     }
     
-    /**
-     * @author goudiaby
-     * Overload to not allow transition to be activated when :
-     * The value of arc multiplied by the number of token is numerous than the number of tokens on the place(line 269):we do nothing 
-     * (the token(s) are not sent).
-     */
-    public boolean canBeUnfired(Transition transition,int i) {
-        boolean canBeUnfired = true;
-        lock.readLock().lock();
-        try {
-            for (Arc arc : transition.getConnectedArcs()) {
-                if (!arc.isPlaceToTransition()) {
-                    if (getTokens(arc.getPlaceNode()) < i*arc.getMultiplicity()) {
-                        canBeUnfired = false;
-                        break;
-                    }
-                }
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-        return canBeUnfired;
-    }
+
 
     public void undoFire(Transition transition) {
         lock.writeLock().lock();

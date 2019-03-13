@@ -53,10 +53,10 @@ public class FireTransitionCommand implements Command {
     }
 /**
  * 
- * Marking receiver Call and UNDO management.
+ * Marking.java receiver Call and UNDO management .
  */
     public void undo() {
-        if (marking.canBeUnfired(transition,_i)) {
+        if (marking.canBeUnfired(transition)) {
             marking.undoFire(transition,_i);
         }
     }
