@@ -186,7 +186,7 @@ public class Marking {
                                 break;
                             }
                         } else {
-                            if (getTokens(arc.getPlaceNode()) >= i*arc.getMultiplicity()) {//inhibitory arc and allow tokens not to be sent 
+                            if (getTokens(arc.getPlaceNode()) >= arc.getMultiplicity()) {//inhibitory arc and allow tokens not to be sent 
                                                                           //when the value of arc multiplied by the number of toKens are numerous
                             	                                          // the number of tokens on the place
                             	isEnabled = false;
