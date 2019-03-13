@@ -44,6 +44,7 @@ public class MacroManager {
      * recording, so the new one can be composed of the old one
      */
     
+    
     private Root root;
     private PlayMacroAction playMacroAction;
     private boolean recording;
