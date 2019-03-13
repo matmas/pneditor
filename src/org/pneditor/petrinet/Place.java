@@ -16,6 +16,8 @@
  */
 package org.pneditor.petrinet;
 
+import org.pneditor.editor.PNEditor;
+
 /**
  * Represents place in Petri net
  *
@@ -24,7 +26,9 @@ package org.pneditor.petrinet;
 public class Place extends PlaceNode implements Cloneable {
 
     private boolean isStatic = false;
-
+    
+    private int tokenLimit = 0;
+    
     @Override
     public boolean isStatic() {
         return isStatic;
@@ -32,6 +36,34 @@ public class Place extends PlaceNode implements Cloneable {
 
     @Override
     public void setStatic(boolean isStatic) {
-        this.isStatic = isStatic;
+    	if (this.getTokenLimit()==0) {
+    		this.isStatic = isStatic;
+    	}
     }
+    
+    @Override
+    public int getTokenLimit() {
+    	return tokenLimit;
+    }
+    
+    @Override
+    public void setTokenLimit (int tokenLimit) {
+    	//if there are already some tokens on the place, and they are in greater amount 
+    	// than the wanted invariant, the number of tokens will be set to the invariant
+    	if (isStatic == false) {
+	    	if (tokenLimit != 0) {
+		    	int currentTokens = PNEditor.getRoot().getCurrentMarking().getTokens(this);
+		    	if (currentTokens> tokenLimit) {
+		    		PNEditor.getRoot().getCurrentMarking().setTokens(this,  tokenLimit);
+		    	}
+		    	this.tokenLimit = tokenLimit;
+	    	}
+	    	else if (tokenLimit == 0) {
+	    		this.tokenLimit = tokenLimit;
+	    	}
+	    	
+    	}
+    }
+    
+    
 }

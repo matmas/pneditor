@@ -61,9 +61,9 @@ public class BoundednessAction extends AbstractAction {
         }
 
         if (isUnboundedness) {
-            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is NOT bounded ", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is NOT bounded \n(This ignore token limits)", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is bounded", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(root.getParentFrame(), "PetriNet is bounded \n(This ignore token limits)", "Algorithm output", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -112,7 +112,7 @@ public class BoundednessAction extends AbstractAction {
 
             Place oldMarkingPlace = null;
             for (Place place : oldMarkingPlaces) {
-                if (place.equals(newMarkingPlace)) {
+            	if (place.equals(newMarkingPlace)) {
                     oldMarkingPlace = place;
                     break;
                 }
@@ -123,10 +123,9 @@ public class BoundednessAction extends AbstractAction {
             if (!(newTokens >= oldTokens)) {
                 return false;
             } else if (newTokens > oldTokens) {
-                isOneSharplyHigher = true;
+            	isOneSharplyHigher = true;
             }
-
-        }
+    	}
 
         if (isOneSharplyHigher) {
             return true;

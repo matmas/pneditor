@@ -131,6 +131,7 @@ public class DocumentExporter {
         xmlPlace.x = place.getCenter().x;
         xmlPlace.y = place.getCenter().y;
         xmlPlace.isStatic = place.isStatic();
+        xmlPlace.tokenLimit = place.getTokenLimit();
         xmlPlace.label = place.getLabel();
         xmlPlace.tokens = initialMarking.getTokens(place);
         return xmlPlace;

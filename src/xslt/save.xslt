@@ -39,7 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <label><xsl:value-of select="label"/></label>
                 <tokens><xsl:value-of select="tokens"/></tokens>
                 <isStatic><xsl:value-of select="isStatic"/></isStatic>
-            </place>
+                <tokenLimit><xsl:value-of select="tokenLimit"/></tokenLimit>
+			</place>
         </xsl:for-each>
         <xsl:for-each select="transition">
             <transition>

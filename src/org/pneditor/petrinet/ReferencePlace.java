@@ -105,6 +105,19 @@ public class ReferencePlace extends PlaceNode {
     }
 
     @Override
+    public int getTokenLimit() {
+    	if (connectedPlaceNode == null) {
+    		return 0;
+    	}
+    	return connectedPlaceNode.getTokenLimit();
+    }
+    
+    @Override
+    public void setTokenLimit(int tokenLimit) {
+    	connectedPlaceNode.setTokenLimit(tokenLimit);
+    }
+    
+    @Override
     protected void drawPlaceBorder(Graphics g) {
         GraphicsTools.setDashedStroke(g);
         super.drawPlaceBorder(g);

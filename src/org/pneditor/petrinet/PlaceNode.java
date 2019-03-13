@@ -61,11 +61,18 @@ public abstract class PlaceNode extends Node implements Cloneable {
     abstract public boolean isStatic();
 
     abstract public void setStatic(boolean isStatic);
+    
+    abstract public int getTokenLimit();
+    
+    abstract public void setTokenLimit(int tokenLimit);
 
     @Override
     public void draw(Graphics g, DrawingOptions drawingOptions) {
         if (isStatic()) {
             drawStaticShadow(g);
+        }
+        if (getTokenLimit()!=0) {
+        	drawTokenLimit(g);
         }
         drawPlaceBackground(g);
         drawPlaceBorder(g);
@@ -77,6 +84,12 @@ public abstract class PlaceNode extends Node implements Cloneable {
         g.setColor(color);
         final int phase = 4;
         g.fillOval(getStart().x + phase, getStart().y + phase, getWidth() - 1, getHeight() - 1);
+    }
+    
+    protected void drawTokenLimit(Graphics g) {
+        if (getTokenLimit()!=0) {
+            GraphicsTools.drawString(g, Integer.toString(getTokenLimit()), getCenter().x, getStart().y ,  HorizontalAlignment.center, VerticalAlignment.bottom);
+        }
     }
 
     protected void drawPlaceBackground(Graphics g) {
