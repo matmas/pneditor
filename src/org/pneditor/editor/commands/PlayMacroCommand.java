@@ -16,33 +16,27 @@
  */
 package org.pneditor.editor.commands;
 
-import org.pneditor.petrinet.Element;
-import org.pneditor.petrinet.Marking;
-import org.pneditor.petrinet.PlaceNode;
-import org.pneditor.util.RecordableCommand;
+import org.pneditor.util.Command;
+import org.pneditor.editor.MacroManager;
 
 /**
  *
- * @author Martin Riesz <riesz.martin at gmail.com>
+ * @author Ladislas Ducerf <ladislas.ducerf at gmail.com>
  */
-public class RemoveTokenCommand implements RecordableCommand {
+public class PlayMacroCommand implements Command {
 
-    private PlaceNode placeNode;
-    private Marking marking;
-
-    public RemoveTokenCommand(PlaceNode placeNode, Marking marking) {
-        this.placeNode = placeNode;
-        this.marking = marking;
+	private MacroManager macroManager;
+	
+    public PlayMacroCommand(MacroManager macroManager) {
+    	this.macroManager = macroManager;
     }
 
     public void execute() {
-        if (marking.getTokens(placeNode) >= 1) {
-            marking.setTokens(placeNode, marking.getTokens(placeNode) - 1);
-        }
+    	macroManager.playMacro();
     }
 
     public void undo() {
-        new AddTokenCommand(placeNode, marking).execute();
+        macroManager.undoMacro();
     }
 
     public void redo() {
@@ -51,11 +45,7 @@ public class RemoveTokenCommand implements RecordableCommand {
 
     @Override
     public String toString() {
-        return "Remove token";
+        return "Play Macro";
     }
-
-	public Element getRecordedElement() {
-		return placeNode;
-	}
 
 }
