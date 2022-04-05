@@ -1,7 +1,7 @@
 PNEditor (Petri Net editor)
 ========
 
-You can download PNEditor from [www.pneditor.org](http://www.pneditor.org/)
+You can download PNEditor from [pneditor-org-hrd.appspot.com](https://pneditor-org-hrd.appspot.com/)
 
 Features:
 
