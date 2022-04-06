@@ -285,7 +285,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
 
     //per application
     private JToggleButton select, place, transition, arc, token;
-    private Action setLabel, setTokens, setArcMultiplicity, setArcInhibitory, setArcReset, delete;
+    private Action setLabel, setTokens, setArcMultiplicity, setArcInhibitory, setArcReset, delete, setTokenLimit;
     private Action setPlaceStatic;
     private Action addSelectedTransitionsToSelectedRoles;
     private Action removeSelectedTransitionsFromSelectedRoles;
@@ -335,6 +335,15 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         boolean roleSelected = !roleEditor.getSelectedElements().isEmpty();
         boolean isParent = !document.petriNet.isCurrentSubnetRoot();
         boolean isPtoT = false;
+        boolean isStaticPlaceNode = false;
+        boolean isLimitedPlaceNode = false;
+        
+        if (isPlaceNode) {
+        	isStaticPlaceNode = ((PlaceNode) clickedElement).isStatic();
+        	isLimitedPlaceNode = ((PlaceNode) clickedElement).getTokenLimit()!=0;
+        }
+        
+
 
         if (isArc) {
             Arc test;
@@ -352,6 +361,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         setArcReset.setEnabled(isPtoT);
         setTokens.setEnabled(isPlaceNode);
         setLabel.setEnabled(isPlaceNode || isTransitionNode);
+        setTokenLimit.setEnabled(!isStaticPlaceNode);
         addSelectedTransitionsToSelectedRoles.setEnabled((isTransitionNode || areTransitionNodes) && roleSelected);
         removeSelectedTransitionsFromSelectedRoles.setEnabled((isTransitionNode || areTransitionNodes) && roleSelected);
         convertTransitionToSubnet.setEnabled(isTransition || areTransitions || isSubnet || areSubnets);
@@ -361,7 +371,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         closeSubnet.setEnabled(isParent);
         undo.setEnabled(getUndoManager().isUndoable());
         redo.setEnabled(getUndoManager().isRedoable());
-        setPlaceStatic.setEnabled(isPlaceNode);
+        setPlaceStatic.setEnabled(!isLimitedPlaceNode);
     }
 
     @Override
@@ -450,6 +460,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         Action quit = new QuitAction(this);
         setLabel = new SetLabelAction(this);
         setTokens = new SetTokensAction(this);
+        setTokenLimit = new SetTokenLimitAction(this);
         setPlaceStatic = new SetPlaceStaticAction(this);
         setArcMultiplicity = new SetArcMultiplicityAction(this);
         setArcInhibitory = new SetArcInhibitoryAction(this);
@@ -582,6 +593,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         elementMenu.add(setLabel);
         elementMenu.addSeparator();
         elementMenu.add(setTokens);
+        elementMenu.add(setTokenLimit);
         elementMenu.add(setPlaceStatic);
         elementMenu.addSeparator();
         elementMenu.add(setArcMultiplicity);
@@ -606,6 +618,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
 
         placePopup = new JPopupMenu();
         placePopup.add(setLabel);
+        placePopup.add(setTokenLimit);
         placePopup.add(setTokens);
         placePopup.add(setPlaceStatic);
         placePopup.addSeparator();
@@ -613,8 +626,10 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         placePopup.add(copyAction);
         placePopup.add(delete);
 
+
         transitionPopup = new JPopupMenu();
         transitionPopup.add(setLabel);
+        
         transitionPopup.add(convertTransitionToSubnet);
         transitionPopup.add(addSelectedTransitionsToSelectedRoles);
         transitionPopup.add(removeSelectedTransitionsFromSelectedRoles);
@@ -632,6 +647,7 @@ public class Root implements WindowListener, ListSelectionListener, SelectionCha
         subnetPopup = new JPopupMenu();
         subnetPopup.add(openSubnet).setFont(boldFont);
         subnetPopup.add(setLabel);
+        //subnetPopup.add(setTokenLimit);
         subnetPopup.add(replaceSubnet);
         subnetPopup.add(saveSubnetAs);
         subnetPopup.add(convertTransitionToSubnet);

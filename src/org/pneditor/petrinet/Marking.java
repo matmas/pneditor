@@ -127,7 +127,9 @@ public class Marking {
         if (place.isStatic()) {
             petriNet.getInitialMarking().map.put(place, tokens);
         } else {
-            this.map.put(place, tokens);
+        	if (tokenLimitCompliant(placeNode, tokens)) {
+        		this.map.put(place, tokens);
+        	}
         }
     }
 
@@ -139,9 +141,15 @@ public class Marking {
      */
     public boolean isEnabled(Transition transition) {
         boolean isEnabled = true;
+        ArrayList<PlaceNode> originPlaces = new ArrayList<PlaceNode>();
+        ArrayList<Integer> originPlacesArcMultiplicity = new ArrayList<Integer>();
+        int tokens  = 0;
+        int index = -6;
+        PlaceNode place = null;
+        int arcMul = 0;
         lock.readLock().lock();
         try {
-            for (Arc arc : transition.getConnectedArcs()) {
+            for (Arc arc : transition.getConnectedArcs()) {// first it iterates over incoming arcs
                 if (arc.isPlaceToTransition()) {
                     if (arc.getType().equals(Arc.RESET)) {//reset arc is always fireable
                         continue;      //but can be blocked by other arcs 
@@ -150,6 +158,10 @@ public class Marking {
                             if (getTokens(arc.getPlaceNode()) < arc.getMultiplicity()) {  //normal arc
                                 isEnabled = false;
                                 break;
+                            } else {
+                            	originPlaces.add(arc.getPlaceNode());
+                            	originPlacesArcMultiplicity.add(arc.getMultiplicity());
+                            	//this construct a list of the places that will lose tokens and how many
                             }
                         } else {
                             if (getTokens(arc.getPlaceNode()) >= arc.getMultiplicity()) {//inhibitory arc
@@ -158,12 +170,48 @@ public class Marking {
                             }
                         }
                     }
+                } 
+            }
+            for(Arc arc : transition.getConnectedArcs()) { // then it iterates over outcoming arcs
+                if(!arc.isPlaceToTransition()) { // arc is from transition to place
+                	place = arc.getPlaceNode(); 
+                	//we can now use the list to see if the node will consume token with the firing
+                	tokens = getTokens(place);
+                	index = originPlaces.indexOf(place);
+                	if(index>=0) {
+                		arcMul = originPlacesArcMultiplicity.get(index);
+                		tokens = tokens - arcMul; 
+                		//thus, is this transition will be fired, it will consume arcMul tokens so we update that number
+                		// it is always a non-negative integer ; otherwise, this would have detected the transition as
+                		// not enabled in the previous for loop
+                	}
+                	if (!tokenLimitCompliant(arc.getPlaceNode(), tokens + arc.getMultiplicity())) {
+                		isEnabled = false;
+                		break;
+                	}
                 }
             }
         } finally {
             lock.readLock().unlock();
         }
         return isEnabled;
+    }
+    
+    /**
+     * Check that a given token number is valid on a given place
+     *
+     * @param placeNode placeNode to do the check on
+     * @param requestedTokens number of tokens wanted to be checked
+     * @return false if the given numbers of token is invalid, otherwise true
+     */
+    public boolean tokenLimitCompliant(PlaceNode placeNode, int requestedTokens) {
+    	boolean compliant = true;
+    	if (placeNode.getTokenLimit()> 0) {
+    		if (requestedTokens > placeNode.getTokenLimit()) {
+    			compliant = false;
+    		}
+    	}
+    	return compliant;
     }
 
     /**
@@ -204,7 +252,7 @@ public class Marking {
         }
         return success;
     }
-
+    
     public boolean canBeUnfired(Transition transition) {
         boolean canBeUnfired = true;
         lock.readLock().lock();
