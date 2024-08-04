@@ -16,15 +16,17 @@
  */
 package org.pneditor.editor.commands;
 
+import org.pneditor.petrinet.Element;
 import org.pneditor.petrinet.Marking;
 import org.pneditor.petrinet.Transition;
-import org.pneditor.util.Command;
+import org.pneditor.util.RecordableCommand;
+
 
 /**
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class FireTransitionCommand implements Command {
+public class FireTransitionCommand implements RecordableCommand {
 
     private Transition transition;
     private Marking marking;
@@ -50,9 +52,14 @@ public class FireTransitionCommand implements Command {
         execute();
     }
 
+	public Element getRecordedElement() {
+		return transition;
+	}
+    
     @Override
     public String toString() {
         return "Fire transition";
     }
+
 
 }

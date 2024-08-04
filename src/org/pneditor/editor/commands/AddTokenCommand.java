@@ -16,15 +16,16 @@
  */
 package org.pneditor.editor.commands;
 
+import org.pneditor.petrinet.Element;
 import org.pneditor.petrinet.Marking;
 import org.pneditor.petrinet.PlaceNode;
-import org.pneditor.util.Command;
+import org.pneditor.util.RecordableCommand;
 
 /**
  *
  * @author Martin Riesz <riesz.martin at gmail.com>
  */
-public class AddTokenCommand implements Command {
+public class AddTokenCommand implements RecordableCommand {
 
     private PlaceNode placeNode;
     private Marking marking;
@@ -50,5 +51,9 @@ public class AddTokenCommand implements Command {
     public String toString() {
         return "Add token";
     }
+
+	public Element getRecordedElement() {
+		return placeNode;
+	}
 
 }
