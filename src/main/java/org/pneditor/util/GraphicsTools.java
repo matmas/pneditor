@@ -41,7 +41,7 @@ import javax.swing.ImageIcon;
  */
 public class GraphicsTools {
 
-    private final static String resourcesDir = "/resources/";
+    private final static String resourcesDir = "/";
 
     public static ImageIcon getIcon(String fileName) {
         return new ImageIcon(GraphicsTools.class.getResource(resourcesDir + fileName));
